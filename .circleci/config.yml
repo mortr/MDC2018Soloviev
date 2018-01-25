@@ -42,6 +42,6 @@ jobs:
           name: Deploy APK.
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
-            # ./gradlew crashlyticsUploadDistributionRelease
+             ./gradlew crashlyticsUploadDistributionRelease
              
             fi
