@@ -1,4 +1,4 @@
-package com.cmd2018.sol.hw1;
+package com.mortr.soloviev.mdc2018soloviev;
 
 import org.junit.Test;
 

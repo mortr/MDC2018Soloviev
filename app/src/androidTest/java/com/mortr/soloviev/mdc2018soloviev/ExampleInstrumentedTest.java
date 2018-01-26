@@ -1,4 +1,4 @@
-package com.cmd2018.sol.hw1;
+package com.mortr.soloviev.mdc2018soloviev;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

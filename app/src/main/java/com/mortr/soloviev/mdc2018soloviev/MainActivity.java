@@ -1,4 +1,4 @@
-package com.cmd2018.sol.hw1;
+package com.mortr.soloviev.mdc2018soloviev;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
