@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">MDC2018_Soloviev</string>
     <string name="action_settings">Settings</string>
+    <string name="dev_name">SolovievMikchael</string>
+    <string name="github_account_name">mortr</string>
+    <string name="github_project_address">https://github.com/mortr/MDC2018Soloviev</string>
 </resources>
