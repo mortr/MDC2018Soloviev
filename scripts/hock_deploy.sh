@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 curl \
 -F "status=2" \
 -F "notify=0" \
