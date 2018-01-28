@@ -5,7 +5,7 @@ defaults: &defaults
 
 version: 2
 jobs:
-  prepare_dependencies:
+  build:
     <<: *defaults
     steps:
       - checkout
@@ -31,38 +31,8 @@ jobs:
           root: .
           paths:
             - ./*
- 
-  run_tests:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: .
-      - run:
-          name: Run Tests
-          command: ./gradlew lint test
-      - run:
-          name: Run Unit Tests
-          command: ./gradlew test
-      - store_artifacts:
-          path: app/build/reports
-          destination: reports
-      - store_test_results:
-          path: app/build/test-results
-  build_app:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: .
-      - run:
-          name: Build
-          command: ./gradlew assembleRelease
-      - store_artifacts:
-          path: app/build/outputs/apk/
-      - persist_to_workspace:
-          root: .
-          paths:
-            - ./*
-  deploy_release:
+
+  deploy:
     <<: *defaults
     steps:
       - attach_workspace:
@@ -70,22 +40,15 @@ jobs:
       - deploy:
           name: Deploy APK.
           command: |
-            if [ "${CIRCLE_BRANCH}" == "add-workspaces-for-workflows" ]; then
+            if [ "${CIRCLE_BRANCH}" == "add-workspaces" ]; then
              ./gradlew crashlyticsUploadDistributionRelease
              bash ./scripts/hock_deploy.sh
             fi
 workflows:
   version: 2
-  build:
+  build_and_test:
     jobs:
-      - prepare_dependencies      
-      - run_tests:
+      - build
+      - deploy:
           requires:
-            - prepare_dependencies
-      - build_app:
-          requires:
-            - prepare_dependencies
-      - deploy_release:
-          requires:
-            - build_app
-            - run_tests
+            - build
