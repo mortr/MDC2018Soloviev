@@ -29,7 +29,8 @@ jobs:
       - deploy:
           name: Deploy APK.
           command: |
-            if [ "${CIRCLE_BRANCH}" == "develop" ]; then             
+            if [ "${CIRCLE_BRANCH}" == "develop" ]; then
+             ./gradlew crashlyticsUploadDistributionRelease
              bash ./scripts/hock_deploy.sh
             fi
   test:
