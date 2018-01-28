@@ -1,4 +1,4 @@
-defaults: &temp_workspace
+defaults: &defaults
   working_directory: ~/code
   docker:
     - image: circleci/android:api-25-alpha
@@ -6,7 +6,7 @@ defaults: &temp_workspace
 version: 2
 jobs:
   build:
-     <<: *temp_workspace
+     <<: *defaults
     steps:
       - checkout
       - restore_cache:
@@ -31,42 +31,7 @@ jobs:
           root: .
           paths:
             - ./*      
-  test:
-    docker:
-      - image: circleci/android:api-25-alpha
-    environment:
-      JVM_OPTS: -Xmx3200m
-    steps:
-      - checkout
-      - run:
-          name: Chmod permissions
-          command: sudo chmod +x ./gradlew
-      - run:
-          name: Run Tests
-          command: ./gradlew lint test
-      - store_artifacts:
-          path: app/build/reports
-          destination: reports
-      - store_test_results:
-          path: app/build/test-results
-  unit-test:
-    docker:
-      - image: circleci/android:api-25-alpha
-    environment:
-      JVM_OPTS: -Xmx3200m
-    steps:
-      - checkout
-      - run:
-          name: Chmod permissions
-          command: sudo chmod +x ./gradlew
-      - run:
-          name: Run Unit Tests
-          command: ./gradlew test
-      - store_artifacts:
-          path: app/build/reports
-          destination: unit-test-reports
-      - store_test_results:
-          path: app/build/unit-test-results
+ 
   deploy:
     <<: *defaults
     steps:
@@ -84,10 +49,6 @@ workflows:
   build_and_test:
     jobs:
       - build
-      - test
-      - unit-test
       - deploy:
           requires:
             - build
-            - test
-            - unit-test
