@@ -34,6 +34,9 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Chmod permissions
+          command: sudo chmod +x ./gradlew
+      - run:
           name: Run Tests
           command: ./gradlew lint test
       - store_artifacts:
@@ -48,6 +51,9 @@ jobs:
       JVM_OPTS: -Xmx3200m
     steps:
       - checkout
+      - run:
+          name: Chmod permissions
+          command: sudo chmod +x ./gradlew
       - run:
           name: Run Unit Tests
           command: ./gradlew test
