@@ -68,6 +68,13 @@ jobs:
     environment:
       JVM_OPTS: -Xmx3200m
     steps:
+      - checkout
+      - run:
+          name: Chmod permissions
+          command: sudo chmod +x ./gradlew
+      - run:
+          name: Download Dependencies
+          command: ./gradlew androidDependencies
       - deploy:
           name: Deploy APK.
           command: |
