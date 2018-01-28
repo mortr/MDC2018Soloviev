@@ -1,3 +1,1 @@
 # MDC2018Soloviev
-
-
