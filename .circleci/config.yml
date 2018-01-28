@@ -5,15 +5,15 @@ defaults: &defaults
 
 version: 2
 jobs:
-  build:
-     <<: *defaults
+  prepare_dependencies:
+    <<: *defaults
     steps:
       - checkout
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
-          name: Chmod permissions
-          command: sudo chmod +x ./gradlew
+          name: Decipher keystore.properties
+          command: openssl enc -d -aes256 -base64 -in app/keystore.properties.enc -out app/keystore.properties -k $KEYSTORE_KEY -md md5
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
@@ -21,18 +21,42 @@ jobs:
           paths:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+      - persist_to_workspace:
+          root: .
+          paths:
+            - ./*
+ 
+  run_tests:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Run Tests
+          command: ./gradlew lint test
+      - run:
+          name: Run Unit Tests
+          command: ./gradlew test
+      - store_artifacts:
+          path: app/build/reports
+          destination: reports
+      - store_test_results:
+          path: app/build/test-results
+  build_app:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: .
       - run:
           name: Build
           command: ./gradlew assembleRelease
       - store_artifacts:
           path: app/build/outputs/apk/
-          destination: apks
       - persist_to_workspace:
           root: .
           paths:
-            - ./*      
- 
-  deploy:
+            - ./*
+  deploy_release:
     <<: *defaults
     steps:
       - attach_workspace:
@@ -43,12 +67,19 @@ jobs:
             if [ "${CIRCLE_BRANCH}" == "add-workspaces-for-workflows" ]; then
              ./gradlew crashlyticsUploadDistributionRelease
              bash ./scripts/hock_deploy.sh
-            fi      
+            fi
 workflows:
   version: 2
-  build_and_test:
+  build:
     jobs:
-      - build
-      - deploy:
+      - prepare_dependencies      
+      - run_tests:
           requires:
-            - build
+            - prepare_dependencies
+      - build_app:
+          requires:
+            - prepare_dependencies
+      - deploy_release:
+          requires:
+            - build_app
+            - run_tests
