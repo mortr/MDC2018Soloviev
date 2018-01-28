@@ -29,10 +29,10 @@ jobs:
       - deploy:
           name: Deploy APK.
           command: |
-            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+#            if [ "${CIRCLE_BRANCH}" == "master" ]; then
              ./gradlew crashlyticsUploadDistributionRelease
-             
-            fi
+             bash ./scripts/hock_deploy.sh
+#            fi
   test:
     docker:
       - image: circleci/android:api-25-alpha
