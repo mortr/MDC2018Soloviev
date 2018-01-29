@@ -14,7 +14,7 @@ public class MainScreenActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Fabric.with(this, new Crashlytics());//TODO move to application
+//        Fabric.with(this, new Crashlytics());//TODO move to application
         setContentView(R.layout.activity_main_screen);
     }
 }

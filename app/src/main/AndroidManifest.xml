@@ -9,8 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
-            android:name=".ui.mainScreen.MainScreenActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -19,13 +20,30 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".ui.mainScreen.MainScreenActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity android:name=".ui.welcomePages.DescriptionActivity" />
+        <activity android:name=".ui.welcomePages.LayoutSettingsActivity" />
+        <activity android:name=".ui.welcomePages.ThemeChooserActivity" />
+        <activity android:name=".ui.welcomePages.WelcomeActivity" />
+        <activity android:name=".ui.launcher.LauncherActivity">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.HOME" />
+            </intent-filter>
+        </activity>
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="ece16c684d37a795f2015c511008d20a73e36f80" />
         <!--<meta-data-->
-            <!--android:name="net.hockeyapp.android.appIdentifier"-->
-            <!--android:value="${HOCKEYAPP_APP_ID}" />-->
+        <!--android:name="net.hockeyapp.android.appIdentifier"-->
+        <!--android:value="${HOCKEYAPP_APP_ID}" />-->
     </application>
-<!---->
+    <!---->
     <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

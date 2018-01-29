@@ -4,4 +4,10 @@
     <string name="dev_name">SolovievMikchael</string>
     <string name="github_account_name">mortr</string>
     <string name="github_project_address">https://github.com/mortr/MDC2018Soloviev</string>
+    <string name="next_button_name">Next</string>
+    <string name="standard_layout_choose_text">Standard layout</string>
+    <string name="standard_layout_description_text">Port: 4 icon\nLand: 6 icon</string><!--TODO move numbers-->
+
+    <string name="compact_layout_choose_text">Compact layout</string>
+    <string name="compact_layout_description_text">Port: 5 icon\nLand: 7 icon</string><!--TODO move numbers-->
 </resources>

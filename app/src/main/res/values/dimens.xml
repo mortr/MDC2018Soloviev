@@ -1,3 +1,13 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+    <!--scale factor for x x hdpi == 3-->
+    <!--TODO it is needed to create mains text sizes -->
+    <dimen name="welcome_page_margin">16dp</dimen>
+    <!--<dimen name="welcome_page_icon">228dp</dimen>-->
+    <dimen name="welcome_page_app_name_text_size">20sp</dimen>
+    <dimen name="welcome_page_welcome_text_size">16sp</dimen>
+    <dimen name="welcome_page_description_text_size">16sp</dimen>
+    <dimen name="welcome_page_choose_theme_text_size">24sp</dimen>
+    <dimen name="welcome_page_choose_layout_text_size">20sp</dimen>
+    <dimen name="welcome_page_layout_description_text_size">13sp</dimen>
 </resources>
