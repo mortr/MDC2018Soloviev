@@ -9,5 +9,7 @@
     <string name="standard_layout_description_text">Port: 4 icon\nLand: 6 icon</string><!--TODO move numbers-->
 
     <string name="compact_layout_choose_text">Compact layout</string>
-    <string name="compact_layout_description_text">Port: 5 icon\nLand: 7 icon</string><!--TODO move numbers-->
+    <string name="compact_layout_description_text">Port: 5 icon\nLand: 7 icon</string>
+    <string name="black_theme_text">Black Theme</string>
+    <string name="white_theme_text">White theme</string><!--TODO move numbers-->
 </resources>

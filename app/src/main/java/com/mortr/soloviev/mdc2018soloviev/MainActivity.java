@@ -2,28 +2,20 @@ package com.mortr.soloviev.mdc2018soloviev;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
-import com.crashlytics.android.Crashlytics;
+
 import com.mortr.soloviev.mdc2018soloviev.ui.launcher.LauncherActivity;
 import com.mortr.soloviev.mdc2018soloviev.ui.welcomePages.WelcomeActivity;
-
-import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Fabric.with(this, new Crashlytics());
-        if (true){
+
+        if (true) {
             startActivity(new Intent(this, WelcomeActivity.class));
-        }else{
+        } else {
             startActivity(new Intent(this, LauncherActivity.class));
         }
 //        setContentView(R.layout.activity_main);
