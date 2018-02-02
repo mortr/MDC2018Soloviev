@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.mortr.soloviev.mdc2018soloviev.ui.launcher.LauncherActivity;
 import com.mortr.soloviev.mdc2018soloviev.ui.welcomePages.WelcomeActivity;
+import com.mortr.soloviev.mdc2018soloviev.utils.Utils;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -13,10 +14,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (true) {
-            startActivity(new Intent(this, WelcomeActivity.class));
-        } else {
+        if (Utils.isWelcomePageShowed(this)) {
             startActivity(new Intent(this, LauncherActivity.class));
+        } else {
+            startActivity(new Intent(this, WelcomeActivity.class));
         }
 //        setContentView(R.layout.activity_main);
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

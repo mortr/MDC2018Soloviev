@@ -1,0 +1,34 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:showIn="@layout/activity_launcher">
+    <item android:title="Activities">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/menu_launcher_activity_point"
+                    android:icon="@null"
+                    android:title="launcherActivity" />
+                <item
+                    android:id="@+id/menu_list_activity_point"
+                    android:title="ListActivity" />
+
+
+            </group>
+        </menu>
+    </item>
+    <item android:title="@string/action_settings">
+        <menu>
+            <item
+                android:id="@+id/menu_settings_point"
+                android:title="@string/action_settings" />
+
+            <item
+                
+                android:checked="true"
+                android:checkable="true"
+                android:id="@+id/menu_welcome_page_point"
+                android:title="Show welcome page next time" />
+        </menu>
+    </item>
+</menu>

@@ -49,6 +49,7 @@ public class LayoutSettingsActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             LayoutSettingsActivity.this.saveSettings();
+            Utils.saveWelcomePageShowingState(LayoutSettingsActivity.this,true);
             final Intent intent = new Intent(LayoutSettingsActivity.this, LauncherActivity.class);
             LayoutSettingsActivity.this.startActivity(intent);
         }

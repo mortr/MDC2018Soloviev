@@ -15,7 +15,20 @@ public class Utils {
     private static final String PREFS_FILE = "Shared_Pref";
     private static final String PREFS_LAYOUT_IS_STANDARD = "PREFS_LAYOUT_IS_STANDARD";
     private static final String PREFS_APP_THEME = "PREFS_APP_THEME";
+    private static final String PREFS_WELCOME_PAGE_WAS_SHOWED="PREFS_WELCOME_PAGE_WAS_SHOWED";
 
+
+    public static void saveWelcomePageShowingState(Context context, boolean isShow) {
+        SharedPreferences sharedPreferences = context.getApplicationContext().getSharedPreferences(Utils.PREFS_FILE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(PREFS_WELCOME_PAGE_WAS_SHOWED, isShow);
+        editor.apply();
+    }
+
+    public static boolean isWelcomePageShowed(Context context){
+        SharedPreferences sharedPreferences = context.getApplicationContext().getSharedPreferences(PREFS_FILE, Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean(PREFS_WELCOME_PAGE_WAS_SHOWED, false);
+    }
     public static void saveLayoutSettings(Context context, boolean isStandard) {
         SharedPreferences sharedPreferences = context.getApplicationContext().getSharedPreferences(Utils.PREFS_FILE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
