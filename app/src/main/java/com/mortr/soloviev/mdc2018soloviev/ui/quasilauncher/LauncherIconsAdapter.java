@@ -1,4 +1,4 @@
-package com.mortr.soloviev.mdc2018soloviev.ui.launcher;
+package com.mortr.soloviev.mdc2018soloviev.ui.quasilauncher;
 
 
 import android.graphics.drawable.ColorDrawable;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LauncherIconsAdapter extends RecyclerView.Adapter<LauncherIconsAdapter.Holder> {
-    public static final String TAG = "LauncherIconsAdapter";
+    public static final String TAG = "LauncherApplicationsAdapter";
     @Nullable
     private RecyclerView recycler;
 

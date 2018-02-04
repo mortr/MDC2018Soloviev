@@ -10,6 +10,10 @@
                     android:icon="@null"
                     android:title="launcherActivity" />
                 <item
+                    android:id="@+id/menu_quasi_launcher_activity_point"
+                    android:icon="@null"
+                    android:title="quasiLauncherActivity" />
+                <item
                     android:id="@+id/menu_list_activity_point"
                     android:title="ListActivity" />
 
@@ -21,8 +25,12 @@
         <menu>
             <item
                 android:id="@+id/menu_settings_point"
-                android:title="@string/action_settings" />
-
+                android:title="Application Settings" />
+            <item
+                android:checked="true"
+                android:checkable="true"
+                android:id="@+id/menu_device_settings_point"
+                android:title="Device settings" />
             <item
                 
                 android:checked="true"

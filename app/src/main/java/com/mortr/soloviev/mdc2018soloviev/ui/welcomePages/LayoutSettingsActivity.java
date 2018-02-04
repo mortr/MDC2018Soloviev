@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.RadioButton;
 
 import com.mortr.soloviev.mdc2018soloviev.R;
-import com.mortr.soloviev.mdc2018soloviev.ui.launcher.LauncherActivity;
+import com.mortr.soloviev.mdc2018soloviev.ui.quasilauncher.LauncherActivity;
 import com.mortr.soloviev.mdc2018soloviev.utils.Utils;
 
 
@@ -49,8 +49,8 @@ public class LayoutSettingsActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             LayoutSettingsActivity.this.saveSettings();
-            Utils.saveWelcomePageShowingState(LayoutSettingsActivity.this,true);
-            final Intent intent = new Intent(LayoutSettingsActivity.this, LauncherActivity.class);
+            Utils.saveWelcomePageShowingState(LayoutSettingsActivity.this, true);
+            final Intent intent = new Intent(LayoutSettingsActivity.this, com.mortr.soloviev.mdc2018soloviev.ui.launcher.LauncherActivity.class);
             LayoutSettingsActivity.this.startActivity(intent);
         }
     };

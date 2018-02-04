@@ -1,9 +1,7 @@
-package com.mortr.soloviev.mdc2018soloviev.ui.launcher;
+package com.mortr.soloviev.mdc2018soloviev.ui.quasilauncher;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.view.View;
-import android.widget.TextView;
 
 public class SquareTextView extends android.support.v7.widget.AppCompatTextView {
     public SquareTextView(final Context context) {
