@@ -1,29 +1,30 @@
 package com.mortr.soloviev.mdc2018soloviev.ui.launcher;
 
-import android.graphics.Color;
-import android.graphics.Rect;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.mortr.soloviev.mdc2018soloviev.R;
-import com.mortr.soloviev.mdc2018soloviev.utils.Utils;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import com.mortr.soloviev.mdc2018soloviev.ui.mainScreen.MainScreenActivity;
+import com.mortr.soloviev.mdc2018soloviev.ui.settings.SettingsFragment;
 
 
-public class LauncherActivity extends AppCompatActivity {
+public class LauncherActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
     public static final String TAG_LAUNCHER_FRAGMENT = "TagLauncherFragment";
+    public static final String TAG_QUASI_LAUNCHER_FRAGMENT = "TAG_QUASI_LAUNCHER_FRAGMENT";
+    public static final String TAG_LAUNCHER_LIST_FRAGMENT="TAG_LAUNCHER_LIST_FRAGMENT";
+    private DrawerLayout drawer;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,10 +36,53 @@ public class LauncherActivity extends AppCompatActivity {
             Fragment launcherFragment = LauncherFragment.newInstance();
             fragmentManager.beginTransaction().add(R.id.fragments_container, launcherFragment, TAG_LAUNCHER_FRAGMENT).commit();
         }
-
-
-
+        final NavigationView navigationView = findViewById(R.id.nd_menu);
+        navigationView.setNavigationItemSelectedListener(this);
+        drawer = findViewById(R.id.n_drawer);
+        final View navigationHeaderView = navigationView.getHeaderView(0);
+        final View profileAvatar = navigationHeaderView.findViewById(R.id.navigation_header_avatar);
+        profileAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                startActivity(new Intent(v.getContext(), MainScreenActivity.class));
+            }
+        });
     }
 
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment startingFragment = null;
+        String startingFragmentTag = null;
+        switch (id) {
+//            case R.id.menu_device_settings_point:
+//                return true;
+            case R.id.app_menu_settings_point:
+                startingFragment=new SettingsFragment();
+                startingFragmentTag="TAG_SETTINGS_FRAGMENT";
+                break;
+            case R.id.menu_launcher_activity_point:
+                startingFragment= LauncherFragment.newInstance();
+                startingFragmentTag= TAG_LAUNCHER_FRAGMENT;
+
+                break;
+
+            case R.id.menu_quasi_launcher_activity_point:
+                startingFragment= com.mortr.soloviev.mdc2018soloviev.ui.quasilauncher.LauncherFragment.newInstance();
+                startingFragmentTag= TAG_QUASI_LAUNCHER_FRAGMENT;
+                break;
+
+            case R.id.menu_list_activity_point:
+                startingFragment= LauncherListFragment.newInstance();
+                startingFragmentTag= TAG_LAUNCHER_LIST_FRAGMENT;
+                break;
+        }
+        if (startingFragment != null) {
+            fragmentManager.beginTransaction().replace(R.id.fragments_container, startingFragment, startingFragmentTag)/*.addToBackStack(null)*/.commit();
+        }
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
 }

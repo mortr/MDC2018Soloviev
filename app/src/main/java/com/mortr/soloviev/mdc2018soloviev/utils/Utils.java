@@ -52,7 +52,7 @@ public class Utils {
         return sharedPreferences.getBoolean(Utils.PREFS_APP_THEME, true);
     }
 
-    private static void restartCurrentActivity(Activity currentActivity) {
+    public static void restartCurrentActivity(Activity currentActivity) {
         currentActivity.finish();
         final Intent intent = currentActivity.getIntent();
 //        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);

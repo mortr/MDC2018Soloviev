@@ -82,7 +82,6 @@ public class LauncherFragment extends Fragment {
         }
         recyclerView.setAdapter(adapter);
 
-        view.findViewById(R.id.fab).setOnClickListener(fabClickListener);
 
     }
 
@@ -95,12 +94,5 @@ public class LauncherFragment extends Fragment {
 
     }
 
-    private View.OnClickListener fabClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            final Random rnd = new Random();
-            adapter.setNewIcon(Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256)), 0);
-        }
-    };
 
 }

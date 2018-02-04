@@ -2,7 +2,9 @@ package com.mortr.soloviev.mdc2018soloviev.ui.launcher;
 
 
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
@@ -22,11 +24,15 @@ import java.util.List;
 public class LauncherApplicationsAdapter extends RecyclerView.Adapter<LauncherApplicationsAdapter.Holder> {
     private static final String TAG = "LauncherAppsAdapter";
     @Nullable
+    @LayoutRes
+    private int itemLayoutRes;
+    @Nullable
     private RecyclerView recycler;
-
+    private List<ApplicationInfo> applicationInfos = new ArrayList<>();
     class Holder extends RecyclerView.ViewHolder {
         ImageView appIcon;
         TextView appName;
+        TextView appPackageName;
 
         public Holder(View itemView) {
             super(itemView);
@@ -35,12 +41,18 @@ public class LauncherApplicationsAdapter extends RecyclerView.Adapter<LauncherAp
             itemView.setOnLongClickListener(onLongClickListener);
             appIcon = itemView.findViewById(R.id.app_icon);
             appName = itemView.findViewById(R.id.app_name);
+            appPackageName=itemView.findViewById(R.id.app_package_name);
+
         }
 
         void setApp(ApplicationInfo app, int position) {
 //            ((TextView) itemView).setText(position + "\n" + Integer.toHexString(app));
-            appName.setText(app.name);
-            appIcon.setImageDrawable(app.loadIcon(itemView.getContext().getPackageManager()));
+            PackageManager packageManager=itemView.getContext().getPackageManager();
+            appName.setText(app.loadLabel(packageManager));
+            appIcon.setImageDrawable(app.loadIcon(packageManager));
+            if (appPackageName!=null){
+                appPackageName.setText(app.packageName);
+            }
         }
 
     }
@@ -51,12 +63,16 @@ public class LauncherApplicationsAdapter extends RecyclerView.Adapter<LauncherAp
         this.recycler = recyclerView;
     }
 
-    private List<ApplicationInfo> applicationInfos = new ArrayList<>();
+
 
     public LauncherApplicationsAdapter() {
-
+        this.itemLayoutRes=R.layout.application_list_item;
     }
 
+    public LauncherApplicationsAdapter(@LayoutRes int itemLayoutRes) {
+        this.itemLayoutRes = itemLayoutRes;
+
+    }
 
     public void setNewIconsList(List<ApplicationInfo> icons) {
         this.applicationInfos.clear();
@@ -65,12 +81,6 @@ public class LauncherApplicationsAdapter extends RecyclerView.Adapter<LauncherAp
         Log.v(TAG, "setNewIconsList");
     }
 
-    public void setNewIcon(Integer icon, int insertPosition) {
-
-//        applicationInfos.add(insertPosition, icon);
-        notifyItemInserted(insertPosition);
-        Log.v(TAG, "setNewIcon " + insertPosition);
-    }
 
     public void deleteIcon(int iconPosition) {
         applicationInfos.remove(iconPosition);
@@ -81,7 +91,7 @@ public class LauncherApplicationsAdapter extends RecyclerView.Adapter<LauncherAp
     @Override
     public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.application_list_item, parent, false);
+        final View view = LayoutInflater.from(parent.getContext()).inflate(itemLayoutRes, parent, false);
         return new Holder(view);
     }
 
@@ -100,7 +110,7 @@ public class LauncherApplicationsAdapter extends RecyclerView.Adapter<LauncherAp
     final private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Toast.makeText(v.getContext(), "onclick",Toast.LENGTH_LONG).show();
+            Toast.makeText(v.getContext(), "onclick", Toast.LENGTH_LONG).show();
         }
 
     };
