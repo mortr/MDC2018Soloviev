@@ -13,6 +13,7 @@ import android.view.View;
 
 import com.mortr.soloviev.mdc2018soloviev.R;
 import com.mortr.soloviev.mdc2018soloviev.ui.launcher.LauncherActivity;
+import com.mortr.soloviev.mdc2018soloviev.utils.Utils;
 
 
 public class WelcomePages extends AppCompatActivity {
@@ -36,6 +37,7 @@ public class WelcomePages extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             final Intent intent = new Intent(WelcomePages.this, LauncherActivity.class);
+            Utils.saveWelcomePageShowingState(WelcomePages.this, true);
             WelcomePages.this.startActivity(intent);
         }
     };

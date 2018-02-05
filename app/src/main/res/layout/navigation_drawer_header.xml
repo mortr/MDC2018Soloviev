@@ -2,8 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="176dp"
-    android:orientation="vertical">
+    android:layout_height="@dimen/nd_header_height"
+    android:orientation="vertical"
+    android:background="?colorPrimary"
+    >
 
     <com.mortr.soloviev.mdc2018soloviev.ui.mainScreen.CircleCropPhoto
         android:id="@+id/navigation_header_avatar"

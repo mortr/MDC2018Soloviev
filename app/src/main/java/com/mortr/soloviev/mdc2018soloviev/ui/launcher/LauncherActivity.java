@@ -15,6 +15,7 @@ import android.view.View;
 
 import com.mortr.soloviev.mdc2018soloviev.R;
 import com.mortr.soloviev.mdc2018soloviev.ui.mainScreen.MainScreenActivity;
+import com.mortr.soloviev.mdc2018soloviev.ui.profile.ProfileActivity;
 import com.mortr.soloviev.mdc2018soloviev.ui.settings.SettingsFragment;
 
 
@@ -44,7 +45,7 @@ public class LauncherActivity extends AppCompatActivity implements NavigationVie
         profileAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                startActivity(new Intent(v.getContext(), MainScreenActivity.class));
+                startActivity(new Intent(v.getContext(), ProfileActivity.class));
             }
         });
     }

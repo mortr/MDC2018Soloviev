@@ -21,6 +21,7 @@
         </activity>
         <activity android:name=".ui.mainScreen.MainScreenActivity" />
         <activity android:name=".ui.welcomePages.WelcomePages" />
+        <activity android:name=".ui.profile.ProfileActivity"/>
         <activity
             android:name=".ui.launcher.LauncherActivity"
             android:parentActivityName=".ui.mainScreen.MainScreenActivity"
