@@ -4,6 +4,7 @@
     android:layout_height="match_parent">
 
     <android.support.v7.widget.CardView
+        android:id="@+id/standard_layout_frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="@dimen/welcome_page_margin"
@@ -24,13 +25,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@+id/standard_layout_radio"
+                android:layout_marginBottom="@dimen/welcome_page_margin"
                 android:layout_toEndOf="@+id/standard_layout_radio"
+                android:layout_toRightOf="@+id/standard_layout_radio"
                 android:text="@string/standard_layout_choose_text"
                 android:textSize="@dimen/welcome_page_choose_layout_text_size" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/standard_layout_radio"
                 android:layout_alignStart="@id/standard_layout_radio"
                 android:layout_below="@+id/chooser_stand_tv"
                 android:ellipsize="marquee"
@@ -40,6 +44,7 @@
     </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.CardView
+        android:id="@+id/compact_layout_frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="@dimen/welcome_page_margin"
@@ -53,6 +58,7 @@
                 android:id="@+id/compact_layout_radio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_margin="@dimen/welcome_page_margin" />
@@ -62,7 +68,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@+id/compact_layout_radio"
+                android:layout_marginBottom="@dimen/welcome_page_margin"
                 android:layout_toEndOf="@+id/compact_layout_radio"
+                android:layout_toRightOf="@+id/compact_layout_radio"
                 android:ellipsize="marquee"
                 android:singleLine="true"
                 android:text="@string/compact_layout_choose_text"
@@ -71,6 +79,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/compact_layout_radio"
                 android:layout_alignStart="@id/compact_layout_radio"
                 android:layout_below="@+id/chooser_compact_tv"
                 android:ellipsize="marquee"

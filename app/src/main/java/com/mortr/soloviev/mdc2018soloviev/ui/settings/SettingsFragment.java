@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.util.Log;
 
@@ -23,26 +22,26 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
             Log.v(TAG, "onSharedPChanged " + key);
-            Activity context=getActivity();
-            if(context==null){
+            Activity context = getActivity();
+            if (context == null) {
                 return;
             }
-            switch (key){
-                case KEY_THEME_SWITCH:{
-                    Utils.applyTheme(context,!Utils.isWhiteTheme(context));
+            switch (key) {
+                case KEY_THEME_SWITCH: {
+                    Utils.applyTheme(context, !Utils.isWhiteTheme(context));
                     break;
                 }
-                case KEY_WELCOME_PAGES_SWITCH:{
-                    Utils.saveWelcomePageShowingState(context,!Utils.isWelcomePageShowed(context));
+                case KEY_WELCOME_PAGES_SWITCH: {
+                    Utils.saveWelcomePageShowingState(context, !Utils.isWelcomePageShowed(context));
                     break;
                 }
-                case KEY_LAYOUTS_LIST:{
-                    Utils.saveLayoutSettings(context,getResources().getString(R.string.standard_layout_choose_text)
-                            .equals(sharedPreferences.getString(key,null)));
+                case KEY_LAYOUTS_LIST: {
+                    Utils.saveLayoutSettings(context, getResources().getString(R.string.standard_layout_choose_text)
+                            .equals(sharedPreferences.getString(key, null)));
                     Utils.restartCurrentActivity(context);
                     break;
                 }
-                case KEY_SORT_TYPE_LIST:{
+                case KEY_SORT_TYPE_LIST: {
                     break;
                 }
             }
@@ -69,8 +68,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         sharedPreferences.registerOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
         Log.v(TAG, "onCreatePreferences " + rootKey);
     }
-
-
 
 
 }
