@@ -63,7 +63,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                     Utils.isStandardLayoutsWasSaved(context)
                             ? getResources().getString(R.string.standard_layout_choose_text)
                             : getResources().getString(R.string.compact_layout_choose_text));
-            editor.commit();//exactly commit()
+            editor.apply();
         }
         addPreferencesFromResource(R.xml.pref_general);
         sharedPreferences.registerOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
