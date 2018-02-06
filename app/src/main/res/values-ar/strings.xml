@@ -25,35 +25,35 @@
     <string name="pref_title_chose_layout">اختر التخطيط</string>
 
 
-    <string name="pref_title_sort_type" >Choose sorting type</string>
+    <string name="pref_title_sort_type" >اختر نوع الفرز</string>
 
 
 
-    <string name="type_sort_date_title">date</string>
-    <string name="type_sort_name_az_title">name (a-Z)</string>
-    <string name="type_sort_name_za_title">name (Z-a)</string>
-    <string name="type_sort_using_count_title">starting count</string>
-    <string name="type_sort_none_title">default</string>
+    <string name="type_sort_date_title">تاريخ</string>
+    <string name="type_sort_name_az_title">الاسم (أ - ي)</string>
+    <string name="type_sort_name_za_title">الاسم (أ - ي)</string>
+    <string name="type_sort_using_count_title">بدءا العد</string>
+    <string name="type_sort_none_title">الافتراضي</string>
 
-    <string name="nd_other_settings">Other settings</string>
-    <string name="nd_application_settings">Application Settings</string>
-    <string name="nd_app_list">List</string>
-    <string name="nd_app_grid">Grid</string>
-    <string name="nd_layouts_type">Layouts type</string>
-
-
-    <string name="welcome_pages_welcome_title">welcome</string>
-    <string name="welcome_pages_description_title">description</string>
-    <string name="welcome_pages_theme_chooser_title">theme choosing</string>
-    <string name="welcome_pages_layout_settings_title">launcher density</string>
-    <string name="welcome_pages_welcome_text">Welcome</string>
-    <string name="welcome_pages_description_text">this app is partly Launcher and partly something else</string>
+    <string name="nd_other_settings">اعدادات اخرى</string>
+    <string name="nd_application_settings">إعدادات التطبيق</string>
+    <string name="nd_app_list">قائمة</string>
+    <string name="nd_app_grid">شبكة</string>
+    <string name="nd_layouts_type">نوع التنسيقات</string>
 
 
-    <string name="mobile_header_text">mobile</string>
-    <string name="home_phone_header">home</string>
-    <string name="main_email_header">main email</string>
-    <string name="additional_mail_header">additional mail</string>
-    <string name="home_address_header">home address</string>
+    <string name="welcome_pages_welcome_title">أهلا بك</string>
+    <string name="welcome_pages_description_title">وصف</string>
+    <string name="welcome_pages_theme_chooser_title">اختيار موضوع</string>
+    <string name="welcome_pages_layout_settings_title">كثافة قاذفة</string>
+    <string name="welcome_pages_welcome_text">أهلا بك</string>
+    <string name="welcome_pages_description_text">هذا التطبيق هو قاذفة جزئيا وجزئيا شيء آخر</string>
+
+
+    <string name="mobile_header_text">التليفون المحمول</string>
+    <string name="home_phone_header">الصفحة الرئيسية</string>
+    <string name="main_email_header">البريد الإلكتروني الرئيسي</string>
+    <string name="additional_mail_header">بريد إضافي</string>
+    <string name="home_address_header">عنوان المنزل</string>
 
 </resources>
