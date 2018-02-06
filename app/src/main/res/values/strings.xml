@@ -22,8 +22,9 @@
 
 
     <string name="pref_title_show_welcome_pages">Show welcome pages</string>
-    <string name="pref_description_show_welcome_pages">Show welcome pages next time
-    </string>
+    <string name="pref_description_show_welcome_pages">Show welcome pages next time</string>
+    <string name="pref_title_show_prefs_app">Show preference apps </string>
+
 
 
     <string name="pref_title_chose_layout">Choose layout </string>
@@ -40,35 +41,50 @@
     <string name="pref_title_sort_type" >Choose sorting type</string>
     <string-array name="pref_pref_sort_type_list_values" >
         <item>@string/type_sort_date</item>
-        <item>@string/type_sort_name</item>
+        <item>@string/type_sort_name_az</item>
+        <item>@string/type_sort_name_za</item>
         <item>@string/type_sort_using_count</item>
         <item>@string/type_sort_none</item>
     </string-array>
+
     <string-array name="pref_sort_type_list_titles" >
-        <item>@string/type_sort_date</item>
-        <item>@string/type_sort_name</item>
-        <item>@string/type_sort_using_count</item>
-        <item>@string/type_sort_none</item>
+        <item>@string/type_sort_date_title</item>
+        <item>@string/type_sort_name_az_title</item>
+        <item>@string/type_sort_name_za_title</item>
+        <item>@string/type_sort_using_count_title</item>
+        <item>@string/type_sort_none_title</item>
 
     </string-array>
 
 
     <string name="type_sort_date">date</string>
-    <string name="type_sort_name">name</string>
+    <string name="type_sort_name_az">name (a-Z)</string>
+    <string name="type_sort_name_za">name (Z-a)</string>
     <string name="type_sort_using_count">using count</string>
     <string name="type_sort_none">default</string>
+
+    <string name="type_sort_date_title">date</string>
+    <string name="type_sort_name_az_title">name (a-Z)</string>
+    <string name="type_sort_name_za_title">name (Z-a)</string>
+    <string name="type_sort_using_count_title">using count</string>
+    <string name="type_sort_none_title">default</string>
+
     <string name="nd_other_settings">Other settings</string>
     <string name="nd_application_settings">Application Settings</string>
     <string name="nd_colors_grid">Colors Grid</string>
     <string name="nd_app_list">List</string>
     <string name="nd_app_grid">Grid</string>
     <string name="nd_layouts_type">Layouts type</string>
+
+
     <string name="welcome_pages_welcome_title">welcome</string>
     <string name="welcome_pages_description_title">description</string>
     <string name="welcome_pages_theme_chooser_title">theme choosing</string>
     <string name="welcome_pages_layout_settings_title">launcher density</string>
     <string name="welcome_pages_welcome_text">Welcome</string>
     <string name="welcome_pages_description_text">this app is partly Launcher and partly something else</string>
+
+
     <string name="mobile_phone_value">+375 29 542 13 92</string>
     <string name="mobile_header_text">mobile</string>
     <string name="home_phone_value">+8 888 8888 888</string>

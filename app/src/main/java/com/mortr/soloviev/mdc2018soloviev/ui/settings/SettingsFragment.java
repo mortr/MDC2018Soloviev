@@ -18,11 +18,12 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     public static final String KEY_WELCOME_PAGES_SWITCH = "welcome_pages_switch";
     public static final String KEY_LAYOUTS_LIST = "layouts_list";
     public static final String KEY_SORT_TYPE_LIST = "sort_type_list";
+    public static final String KEY_PREFERENCE_APP = "preference_apps_switch";
     SharedPreferences.OnSharedPreferenceChangeListener onSharedPreferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
             Log.v(TAG, "onSharedPChanged " + key);
-            Activity context = getActivity();
+            final Activity context = getActivity();
             if (context == null) {
                 return;
             }
@@ -41,7 +42,42 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                     Utils.restartCurrentActivity(context);
                     break;
                 }
+                case KEY_PREFERENCE_APP: {
+                    Utils.savePreferenceAppShowingState(context, sharedPreferences.getBoolean(key, false));
+//                    Utils.restartCurrentActivity(context);
+                    break;
+                }
                 case KEY_SORT_TYPE_LIST: {
+//                    final String  sortData=getResources().getString(R.string.type_sort_date);
+//                    String sortAZ=getResources().getString(R.string.type_sort_name_az);
+//                    String sortZA=getResources().getString(R.string.type_sort_name_za);
+//                    String sortStartCount=getResources().getString(R.string.type_sort_using_count);
+//                    String sortDef=getResources().getString(R.string.type_sort_none);
+                    Utils.SortType sortType;
+                    switch (sharedPreferences.getString(key, "default")) {
+                        case "date": {
+                            sortType = Utils.SortType.SORT_DATA;
+                            break;
+                        }
+                        case "name (a-Z)": {
+                            sortType = Utils.SortType.SORT_AZ;
+                            break;
+                        }
+                        case "name (Z-a)": {
+                            sortType = Utils.SortType.SORT_ZA;
+                            break;
+                        }
+                        case "using count": {
+                            sortType = Utils.SortType.SORT_START_COUNT;
+                            break;
+                        }
+                        default: {
+                            sortType = Utils.SortType.DEFAULT;
+                        }
+
+                    }
+                    Utils.saveSortSettings(context, sortType);
+//                    Utils.restartCurrentActivity(context);
                     break;
                 }
             }

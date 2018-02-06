@@ -1,9 +1,7 @@
 package com.mortr.soloviev.mdc2018soloviev.ui.launcher;
 
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.graphics.Color;
+import android.content.pm.ResolveInfo;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,22 +17,27 @@ import com.mortr.soloviev.mdc2018soloviev.R;
 import com.mortr.soloviev.mdc2018soloviev.utils.Utils;
 
 import java.util.List;
-import java.util.Random;
+
+import static com.mortr.soloviev.mdc2018soloviev.utils.Utils.getListApplications;
+import static com.mortr.soloviev.mdc2018soloviev.utils.Utils.getSortedApps;
 
 
-public class LauncherFragment extends Fragment {
+public class LauncherFragment extends Fragment implements AppsChangeObservable.AppsChangeObserver {
     public static final String TAG = "LauncherFragment";
     public static final int OFFSET_WAS_NOT_RESSIVED = -1;
     private int columnCount;
     private int offset = OFFSET_WAS_NOT_RESSIVED;
     private LauncherApplicationsAdapter adapter;
+    private Utils.SortType sortType = Utils.SortType.DEFAULT;
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         adapter = new LauncherApplicationsAdapter();
-        adapter.setNewIconsList(getListApplications());
+        Context context = getContext();
+        sortType = Utils.getTypeSort(context);
+        refreshAppsToAdapter(sortType, getSortedApps(getListApplications(context), sortType, context));
         setRetainInstance(true);
     }
 
@@ -47,19 +50,46 @@ public class LauncherFragment extends Fragment {
         } else {
             columnCount = getResources().getInteger(R.integer.compact_icon_counts);
         }
+        if (context instanceof AppsChangeObservable) {
+            ((AppsChangeObservable) context).addAppsChangeObserver(this);
+        }
+
+    }
+
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        Context context = getContext();
+        if (context instanceof AppsChangeObservable) {
+            ((AppsChangeObservable) context).addAppsChangeObserver(this);
+        }
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.launcher_content_layout, container, false);
+        View view = inflater.inflate(R.layout.launcher_content_layout, container, false);
+        Context context = getContext();
+        Utils.SortType newSortType = Utils.getTypeSort(context);
+        if (!sortType.equals(newSortType)) {
+            refreshAppsToAdapter(newSortType, getSortedApps(getListApplications(context), newSortType, context));
+        }
+        if (Utils.isPreferenceAppShowed(context)) {
+            addPreferenseApps();
+        }
+        return view;
     }
 
-    private List<ApplicationInfo> getListApplications() {
-        PackageManager packageManager = getContext().getPackageManager();
-        return packageManager.getInstalledApplications(0);
+    private void addPreferenseApps() {
+
     }
 
+
+    private void refreshAppsToAdapter(Utils.SortType newSortType, List<ResolveInfo> sortedApps) {
+        sortType = newSortType;
+        adapter.setNewAppList(sortedApps);
+    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -95,4 +125,12 @@ public class LauncherFragment extends Fragment {
     }
 
 
+    @Override
+    public void onListApplicationsWasChanged() {
+        if (adapter != null) {
+            Context context = getContext();
+            sortType = Utils.getTypeSort(context);
+            refreshAppsToAdapter(sortType, getSortedApps(getListApplications(context), sortType, context));
+        }
+    }
 }
