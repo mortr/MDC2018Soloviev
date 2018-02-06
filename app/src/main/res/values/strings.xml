@@ -89,5 +89,11 @@
     <string name="mobile_header_text">mobile</string>
     <string name="home_phone_value">+8 888 8888 888</string>
     <string name="home_phone_header">home</string>
+    <string name="main_mail_value">mortr@yandex.ru</string>
+    <string name="main_email_header">main email</string>
+    <string name="additional_mail_value">mortr@tut.by</string>
+    <string name="additional_mail_header">additional mail</string>
+    <string name="address_value_do_not_translate">601 University Dr street San Marcos, TX 78666</string>
+    <string name="home_address_header">home address</string>
 
 </resources>
