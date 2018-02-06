@@ -1,7 +1,99 @@
 <resources>
-    <string name="app_name">MDC2018_Soloviev</string>
+    <string name="app_name">Soloviev_MDC2018</string>
     <string name="action_settings">Settings</string>
     <string name="dev_name">SolovievMikchael</string>
     <string name="github_account_name">mortr</string>
     <string name="github_project_address">https://github.com/mortr/MDC2018Soloviev</string>
+    <string name="next_button_name">Go to Launcher</string>
+    <string name="standard_layout_choose_text">Standard layout</string>
+    <string name="standard_layout_description_text">Port: 4 icon\nLand: 6 icon</string><!--TODO move numbers-->
+
+    <string name="compact_layout_choose_text">Compact layout</string>
+    <string name="compact_layout_description_text">Port: 5 icon\nLand: 7 icon</string>
+    <string name="black_theme_text">Black Theme</string>
+    <string name="white_theme_text">White theme</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <string name="pref_header_general">General</string>
+
+    <string name="pref_title_theme_choose">Choose dark side</string>
+    <string name="pref_description_theme_choose">Choose dark theme
+    </string>
+
+
+    <string name="pref_title_show_welcome_pages">Show welcome pages</string>
+    <string name="pref_description_show_welcome_pages">Show welcome pages next time</string>
+    <string name="pref_title_show_prefs_app">Show preference apps </string>
+
+
+
+    <string name="pref_title_chose_layout">Choose layout </string>
+    <string-array name="pref_layout_list_titles">
+        <item>@string/standard_layout_description_text</item>
+        <item>@string/compact_layout_description_text</item>
+    </string-array>
+
+    <string-array name="pref_chose_layout_list_values">
+        <item>@string/standard_layout_choose_text</item>
+        <item>@string/compact_layout_choose_text</item>
+    </string-array>
+
+    <string name="pref_title_sort_type" >Choose sorting type</string>
+    <string-array name="pref_pref_sort_type_list_values" >
+        <item>@string/type_sort_date</item>
+        <item>@string/type_sort_name_az</item>
+        <item>@string/type_sort_name_za</item>
+        <item>@string/type_sort_using_count</item>
+        <item>@string/type_sort_none</item>
+    </string-array>
+
+    <string-array name="pref_sort_type_list_titles" >
+        <item>@string/type_sort_date_title</item>
+        <item>@string/type_sort_name_az_title</item>
+        <item>@string/type_sort_name_za_title</item>
+        <item>@string/type_sort_using_count_title</item>
+        <item>@string/type_sort_none_title</item>
+
+    </string-array>
+
+
+    <string name="type_sort_date">date</string>
+    <string name="type_sort_name_az">name (a-Z)</string>
+    <string name="type_sort_name_za">name (Z-a)</string>
+    <string name="type_sort_using_count">using count</string>
+    <string name="type_sort_none">default</string>
+
+    <string name="type_sort_date_title">date</string>
+    <string name="type_sort_name_az_title">name (a-Z)</string>
+    <string name="type_sort_name_za_title">name (Z-a)</string>
+    <string name="type_sort_using_count_title">using count</string>
+    <string name="type_sort_none_title">default</string>
+
+    <string name="nd_other_settings">Other settings</string>
+    <string name="nd_application_settings">Application Settings</string>
+    <string name="nd_colors_grid">Colors Grid</string>
+    <string name="nd_app_list">List</string>
+    <string name="nd_app_grid">Grid</string>
+    <string name="nd_layouts_type">Layouts type</string>
+
+
+    <string name="welcome_pages_welcome_title">welcome</string>
+    <string name="welcome_pages_description_title">description</string>
+    <string name="welcome_pages_theme_chooser_title">theme choosing</string>
+    <string name="welcome_pages_layout_settings_title">launcher density</string>
+    <string name="welcome_pages_welcome_text">Welcome</string>
+    <string name="welcome_pages_description_text">this app is partly Launcher and partly something else</string>
+
+
+    <string name="mobile_phone_value">+375 29 542 13 92</string>
+    <string name="mobile_header_text">mobile</string>
+    <string name="home_phone_value">+8 888 8888 888</string>
+    <string name="home_phone_header">home</string>
+    <string name="main_mail_value">mortr@yandex.ru</string>
+    <string name="main_email_header">main email</string>
+    <string name="additional_mail_value">mortr@tut.by</string>
+    <string name="additional_mail_header">additional mail</string>
+    <string name="address_value_do_not_translate">601 University Dr street San Marcos, TX 78666</string>
+    <string name="home_address_header">home address</string>
+
 </resources>

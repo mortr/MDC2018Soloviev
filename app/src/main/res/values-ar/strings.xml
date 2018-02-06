@@ -1,0 +1,59 @@
+<resources>
+    <string name="action_settings">إعدادات</string>
+    <string name="dev_name">سولوفيف ميكايل</string>
+    <string name="next_button_name">انتقل إلى قاذفة</string>
+    <string name="standard_layout_choose_text">تخطيط قياسي</string>
+    <string name="standard_layout_description_text">بورت: 4 إيكون \ n رمز: 6 رمز</string><!--TODO move numbers-->
+
+    <string name="compact_layout_choose_text">تخطيط مدمج</string>
+    <string name="compact_layout_description_text">بورت: 5 إيكون \ n رمز: 7 رمز</string>
+    <string name="black_theme_text">أسود الموضوع</string>
+    <string name="white_theme_text">موضوع أبيض</string>
+    <string name="title_activity_settings">إعدادات</string>
+
+
+    <string name="pref_title_theme_choose">اختيار الجانب المظلم</string>
+    <string name="pref_description_theme_choose">اختر مظهر مظلم</string>
+
+
+    <string name="pref_title_show_welcome_pages">عرض صفحات الترحيب</string>
+    <string name="pref_description_show_welcome_pages">عرض صفحات الترحيب في المرة القادمة</string>
+    <string name="pref_title_show_prefs_app">عرض تطبيقات التفضيل</string>
+
+
+
+    <string name="pref_title_chose_layout">اختر التخطيط</string>
+
+
+    <string name="pref_title_sort_type" >اختر نوع الفرز</string>
+
+
+
+    <string name="type_sort_date_title">تاريخ</string>
+    <string name="type_sort_name_az_title">الاسم (أ - ي)</string>
+    <string name="type_sort_name_za_title">الاسم (أ - ي)</string>
+    <string name="type_sort_using_count_title">بدءا العد</string>
+    <string name="type_sort_none_title">الافتراضي</string>
+
+    <string name="nd_other_settings">اعدادات اخرى</string>
+    <string name="nd_application_settings">إعدادات التطبيق</string>
+    <string name="nd_app_list">قائمة</string>
+    <string name="nd_app_grid">شبكة</string>
+    <string name="nd_layouts_type">نوع التنسيقات</string>
+
+
+    <string name="welcome_pages_welcome_title">أهلا بك</string>
+    <string name="welcome_pages_description_title">وصف</string>
+    <string name="welcome_pages_theme_chooser_title">اختيار موضوع</string>
+    <string name="welcome_pages_layout_settings_title">كثافة قاذفة</string>
+    <string name="welcome_pages_welcome_text">أهلا بك</string>
+    <string name="welcome_pages_description_text">هذا التطبيق هو قاذفة جزئيا وجزئيا شيء آخر</string>
+
+
+    <string name="mobile_header_text">التليفون المحمول</string>
+    <string name="home_phone_header">الصفحة الرئيسية</string>
+    <string name="main_email_header">البريد الإلكتروني الرئيسي</string>
+    <string name="additional_mail_header">بريد إضافي</string>
+    <string name="home_address_header">عنوان المنزل</string>
+
+</resources>

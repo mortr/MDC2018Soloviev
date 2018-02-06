@@ -1,17 +1,34 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/colorPrimaryWhite</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkWhite</item>
+        <item name="colorAccent">@color/colorAccentWhite</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowShowWallpaper">true</item>
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@android:color/transparent
+        </item>
+        <item name="android:navigationBarColor" tools:targetApi="lollipop">
+            @android:color/transparent
+        </item>
+        <item name="android:windowTranslucentStatus" tools:targetApi="lollipop">true</item>
+        <item name="android:windowTranslucentNavigation" tools:targetApi="lollipop">true</item>
+        <item name="android:fitsSystemWindows">true</item>
     </style>
 
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+    <style name="AppTheme.WhiteTheme" parent="AppTheme"></style>
+
+    <style name="AppTheme.BlackTheme" parent="AppTheme">
+        <item name="colorPrimary">@color/colorPrimaryBlack</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkBlack</item>
+        <item name="colorAccent">@color/colorAccentBlack</item>
+        <item name="android:windowBackground">@android:color/darker_gray</item>
+        <!--<item name="android:colorBackground">@color/white_opaque</item>-->
     </style>
+
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
@@ -19,8 +36,12 @@
 
     <style name="MainScreenTextViews">
         <item name="android:layout_centerHorizontal">true</item>
-        <item name="android:layout_marginEnd">8dp</item>
-        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:layout_marginEnd" tools:targetApi="jelly_bean_mr1">8dp</item>
+        <item name="android:layout_marginRight">8dp</item>
+        <item name="android:layout_marginLeft">8dp</item>
+        <item name="android:layout_marginStart" tools:targetApi="jelly_bean_mr1">8dp</item>
         <item name="android:layout_marginTop">8dp</item>
     </style>
+
+
 </resources>
