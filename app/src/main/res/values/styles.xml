@@ -24,7 +24,9 @@
     </style>
 
     <style name="AppTheme.BlackTheme" parent="AppTheme">
-
+        <item name="colorPrimary">@color/colorPrimaryBlack</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkBlack</item>
+        <item name="colorAccent">@color/colorAccentBlack</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

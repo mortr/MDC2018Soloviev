@@ -44,7 +44,7 @@ public class LauncherActivity extends AppCompatActivity implements NavigationVie
         if (savedInstanceState == null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             Fragment launcherFragment = LauncherFragment.newInstance();
-            fragmentManager.beginTransaction().add(R.id.fragments_container, launcherFragment, TAG_LAUNCHER_FRAGMENT).commit();
+            fragmentManager.beginTransaction().add(R.id.fragments_container, launcherFragment, TAG_LAUNCHER_FRAGMENT)/*.addToBackStack(null)*/.commit();
         }
         final NavigationView navigationView = findViewById(R.id.nd_menu);
         navigationView.setNavigationItemSelectedListener(this);
@@ -86,10 +86,10 @@ public class LauncherActivity extends AppCompatActivity implements NavigationVie
 
                 break;
 
-            case R.id.menu_quasi_launcher_activity_point:
-                startingFragment = com.mortr.soloviev.mdc2018soloviev.ui.quasilauncher.LauncherFragment.newInstance();
-                startingFragmentTag = TAG_QUASI_LAUNCHER_FRAGMENT;
-                break;
+//            case R.id.menu_quasi_launcher_activity_point:
+//                startingFragment = com.mortr.soloviev.mdc2018soloviev.ui.quasilauncher.LauncherFragment.newInstance();
+//                startingFragmentTag = TAG_QUASI_LAUNCHER_FRAGMENT;
+//                break;
 
             case R.id.menu_list_activity_point:
                 startingFragment = LauncherListFragment.newInstance();
@@ -97,10 +97,17 @@ public class LauncherActivity extends AppCompatActivity implements NavigationVie
                 break;
         }
         if (startingFragment != null) {
-            fragmentManager.beginTransaction().replace(R.id.fragments_container, startingFragment, startingFragmentTag)/*.addToBackStack(null)*/.commit();
+            fragmentManager.popBackStack();
+            fragmentManager.beginTransaction().replace(R.id.fragments_container, startingFragment, startingFragmentTag).addToBackStack(null).commit();
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        super.onBackPressed();
     }
 
     @Override

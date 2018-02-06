@@ -14,10 +14,10 @@
                 <item
                     android:id="@+id/menu_list_activity_point"
                     android:title="@string/nd_app_list" />
-                <item
-                    android:id="@+id/menu_quasi_launcher_activity_point"
-                    android:icon="@null"
-                    android:title="@string/nd_colors_grid" />
+                <!--<item-->
+                    <!--android:id="@+id/menu_quasi_launcher_activity_point"-->
+                    <!--android:icon="@null"-->
+                    <!--android:title="@string/nd_colors_grid" />-->
 
 
             </menu>

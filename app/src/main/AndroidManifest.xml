@@ -15,19 +15,21 @@
             android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.HOME" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".ui.mainScreen.MainScreenActivity" />
-        <activity android:name=".ui.welcomePages.WelcomePages" />
-        <activity android:name=".ui.profile.ProfileActivity"/>
+        <activity
+            android:name=".ui.welcomePages.WelcomePages"
+            android:noHistory="true" />
+        <activity android:name=".ui.profile.ProfileActivity" />
         <activity
             android:name=".ui.launcher.LauncherActivity"
             android:parentActivityName=".ui.mainScreen.MainScreenActivity"
-            android:theme="@style/AppTheme"
-            >
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.HOME" />
