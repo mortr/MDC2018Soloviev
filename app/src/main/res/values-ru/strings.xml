@@ -1,60 +1,59 @@
 <resources>
-    <string name="action_settings">Settings</string>
-    <string name="dev_name">SolovievMikchael</string>
-    <string name="next_button_name">Go to Launcher</string>
-    <string name="standard_layout_choose_text">Standard layout</string>
-    <string name="standard_layout_description_text">Port: 4 icon\nLand: 6 icon</string><!--TODO move numbers-->
+    <string name="action_settings">Настройки</string>
+    <string name="dev_name">Михаил Соловьев</string>
+    <string name="next_button_name">Перейти к панели запуска</string>
+    <string name="standard_layout_choose_text">Стандартный макет</string>
+    <string name="standard_layout_description_text">Портретная ориентация: 4 иконки\nанорамная ориентация: 6 иконок</string><!--TODO move numbers-->
 
-    <string name="compact_layout_choose_text">Compact layout</string>
-    <string name="compact_layout_description_text">Port: 5 icon\nLand: 7 icon</string>
-    <string name="black_theme_text">Black Theme</string>
-    <string name="white_theme_text">White theme</string>
-    <string name="title_activity_settings">Settings</string>
-
-
-    <string name="pref_title_theme_choose">Choose dark side</string>
-    <string name="pref_description_theme_choose">Choose dark theme
-    </string>
+    <string name="compact_layout_choose_text">Компактное размещение</string>
+    <string name="compact_layout_description_text">Портретная ориентация: 5 иконок\nПанорамная ориентация: 7 иконок</string>
+    <string name="black_theme_text">Черная тема</string>
+    <string name="white_theme_text">Белая тема</string>
+    <string name="title_activity_settings">Настройки</string>
 
 
-    <string name="pref_title_show_welcome_pages">Show welcome pages</string>
-    <string name="pref_description_show_welcome_pages">Show welcome pages next time</string>
-    <string name="pref_title_show_prefs_app">Show preference apps </string>
+    <string name="pref_title_theme_choose">Выбрать темную сторону</string>
+    <string name="pref_description_theme_choose">Выбрать темную тему</string>
 
 
-
-    <string name="pref_title_chose_layout">Choose layout </string>
-
-
-    <string name="pref_title_sort_type" >Choose sorting type</string>
+    <string name="pref_title_show_welcome_pages">Показывать экраны приветствия</string>
+    <string name="pref_description_show_welcome_pages">Показать экран приветствия в следующий раз</string>
+    <string name="pref_title_show_prefs_app">Показать предпочтительные приложения</string>
 
 
 
-    <string name="type_sort_date_title">date</string>
-    <string name="type_sort_name_az_title">name (a-Z)</string>
-    <string name="type_sort_name_za_title">name (Z-a)</string>
-    <string name="type_sort_using_count_title">starting count</string>
-    <string name="type_sort_none_title">default</string>
-
-    <string name="nd_other_settings">Other settings</string>
-    <string name="nd_application_settings">Application Settings</string>
-    <string name="nd_app_list">List</string>
-    <string name="nd_app_grid">Grid</string>
-    <string name="nd_layouts_type">Layouts type</string>
+    <string name="pref_title_chose_layout">Выбрать макет</string>
 
 
-    <string name="welcome_pages_welcome_title">welcome</string>
-    <string name="welcome_pages_description_title">description</string>
-    <string name="welcome_pages_theme_chooser_title">theme choosing</string>
-    <string name="welcome_pages_layout_settings_title">launcher density</string>
-    <string name="welcome_pages_welcome_text">Welcome</string>
-    <string name="welcome_pages_description_text">this app is partly Launcher and partly something else</string>
+    <string name="pref_title_sort_type">Вабрать тип сортировки</string>
 
 
-    <string name="mobile_header_text">mobile</string>
-    <string name="home_phone_header">home</string>
-    <string name="main_email_header">main email</string>
-    <string name="additional_mail_header">additional mail</string>
-    <string name="home_address_header">home address</string>
+
+    <string name="type_sort_date_title">дата</string>
+    <string name="type_sort_name_az_title">имя (а-Я)</string>
+    <string name="type_sort_name_za_title">name (Я-а)</string>
+    <string name="type_sort_using_count_title">количество запусков</string>
+    <string name="type_sort_none_title">по умолчанию</string>
+
+    <string name="nd_other_settings">Прочие настройки</string>
+    <string name="nd_application_settings">Настройки приложения</string>
+    <string name="nd_app_list">Список</string>
+    <string name="nd_app_grid">Таблица</string>
+    <string name="nd_layouts_type">Тип макета</string>
+
+
+    <string name="welcome_pages_welcome_title">Добро пожаловать</string>
+    <string name="welcome_pages_description_title">Описание</string>
+    <string name="welcome_pages_theme_chooser_title">Выбор темы</string>
+    <string name="welcome_pages_layout_settings_title">Плотность панели запуска</string>
+    <string name="welcome_pages_welcome_text">Добро пожаловать</string>
+    <string name="welcome_pages_description_text">Это приложение частично панель запуска, частично что-то иное...</string>
+
+
+    <string name="mobile_header_text">мобильный</string>
+    <string name="home_phone_header">домашний</string>
+    <string name="main_email_header">Основной адрес электронной почты</string>
+    <string name="additional_mail_header">Дополнительный адрес электронной почты</string>
+    <string name="home_address_header">Домашний адрес</string>
 
 </resources>
