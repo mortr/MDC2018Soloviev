@@ -76,7 +76,7 @@ public class ThemeChooserFragment extends WelcomePagesFragment {
         if (activity == null) {
             return;
         }
-        Utils.applyTheme(activity, !blackRadio.isChecked());
+        Utils.saveThemeAndActivityRestart(activity, !blackRadio.isChecked());
 
     }
 

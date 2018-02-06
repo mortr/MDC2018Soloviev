@@ -29,7 +29,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             }
             switch (key) {
                 case KEY_THEME_SWITCH: {
-                    Utils.applyTheme(context, !Utils.isWhiteTheme(context));
+                    Utils.saveThemeAndActivityRestart(context, !Utils.isWhiteTheme(context));
                     break;
                 }
                 case KEY_WELCOME_PAGES_SWITCH: {

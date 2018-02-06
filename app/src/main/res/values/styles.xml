@@ -3,9 +3,9 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/colorPrimaryWhite</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkWhite</item>
+        <item name="colorAccent">@color/colorAccentWhite</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:windowShowWallpaper">true</item>
@@ -19,20 +19,16 @@
         <item name="android:fitsSystemWindows">true</item>
     </style>
 
-    <style name="AppTheme.WhiteTheme" parent="AppTheme">
-
-    </style>
+    <style name="AppTheme.WhiteTheme" parent="AppTheme"></style>
 
     <style name="AppTheme.BlackTheme" parent="AppTheme">
         <item name="colorPrimary">@color/colorPrimaryBlack</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkBlack</item>
         <item name="colorAccent">@color/colorAccentBlack</item>
+        <item name="android:windowBackground">@android:color/darker_gray</item>
+        <!--<item name="android:colorBackground">@color/white_opaque</item>-->
     </style>
 
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 

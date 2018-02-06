@@ -8,12 +8,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.mortr.soloviev.mdc2018soloviev.R;
+import com.mortr.soloviev.mdc2018soloviev.utils.Utils;
 
 
 public class ProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        setTheme(Utils.isWhiteTheme(this)?R.style.AppTheme_WhiteTheme:R.style.AppTheme_BlackTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         final Toolbar toolbar = findViewById(R.id.profile_toolbar_id);

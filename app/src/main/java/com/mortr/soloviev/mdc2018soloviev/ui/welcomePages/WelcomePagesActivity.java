@@ -16,13 +16,14 @@ import com.mortr.soloviev.mdc2018soloviev.ui.launcher.LauncherActivity;
 import com.mortr.soloviev.mdc2018soloviev.utils.Utils;
 
 
-public class WelcomePages extends AppCompatActivity {
+public class WelcomePagesActivity extends AppCompatActivity {
 
     public static final int WELCOME_PAGES_COUNT = 4;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(Utils.isWhiteTheme(this)?R.style.AppTheme_WhiteTheme:R.style.AppTheme_BlackTheme);
         setContentView(R.layout.activity_welcome_pages);
         final FragmentManager fragmentManager = getSupportFragmentManager();
         ViewPagerAdapter pagerAdapter = new ViewPagerAdapter(fragmentManager);
@@ -36,9 +37,9 @@ public class WelcomePages extends AppCompatActivity {
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            final Intent intent = new Intent(WelcomePages.this, LauncherActivity.class);
-            Utils.saveWelcomePageShowingState(WelcomePages.this, true);
-            WelcomePages.this.startActivity(intent);
+            final Intent intent = new Intent(WelcomePagesActivity.this, LauncherActivity.class);
+            Utils.saveWelcomePageShowingState(WelcomePagesActivity.this, true);
+            WelcomePagesActivity.this.startActivity(intent);
         }
     };
 

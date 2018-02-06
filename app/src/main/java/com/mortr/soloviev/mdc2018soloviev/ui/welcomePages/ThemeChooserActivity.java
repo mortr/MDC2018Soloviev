@@ -46,7 +46,7 @@ public class ThemeChooserActivity extends AppCompatActivity {
     }
 
     private void saveSettings() {
-        Utils.applyTheme(this, !blackRadio.isChecked());
+        Utils.saveThemeAndActivityRestart(this, !blackRadio.isChecked());
 
 
     }

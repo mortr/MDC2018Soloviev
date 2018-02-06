@@ -89,25 +89,31 @@ public class Utils {
         currentActivity.startActivity(intent);
     }
 
-    public static void applyTheme(Activity currentActivity, boolean isWhiteTheme) {
+    public static void saveThemeAndActivityRestart(Activity currentActivity, boolean isWhiteTheme) {
         currentActivity.finish();
         Utils.saveAppTheme(currentActivity.getApplicationContext(), isWhiteTheme);
-        refreshTheme(currentActivity.getApplication(), isWhiteTheme);
+//        refreshTheme(currentActivity.getApplication(), isWhiteTheme);
         restartCurrentActivity(currentActivity);
     }
 
 
-    private static void refreshTheme(Application application, boolean isWhiteTheme) {
-        if (isWhiteTheme) {
-            application.setTheme(R.style.AppTheme_WhiteTheme);
-        } else {
-            application.setTheme(R.style.AppTheme_BlackTheme);
-        }
-    }
+//    public static void applyTheme(Activity currentActivity, boolean isWhiteTheme) {
+//        currentActivity.finish();
+//        Utils.saveAppTheme(currentActivity.getApplicationContext(), isWhiteTheme);
+//        refreshTheme(currentActivity.getApplication(), isWhiteTheme);
+//        restartCurrentActivity(currentActivity);
+//    }
+//    private static void refreshTheme(Application application, boolean isWhiteTheme) {
+//        if (isWhiteTheme) {
+//            application.setTheme(R.style.AppTheme_WhiteTheme);
+//        } else {
+//            application.getApplicationContext().setTheme(R.style.AppTheme_BlackTheme);
+//        }
+//    }
 
-    public static void refreshTheme(Application application) {
-        refreshTheme(application, Utils.isWhiteTheme(application.getApplicationContext()));
-    }
+//    public static void refreshTheme(Application application) {
+//        refreshTheme(application, Utils.isWhiteTheme(application.getApplicationContext()));
+//    }
 
     @Nullable
     public static List<ResolveInfo> getListApplications(Context context) {

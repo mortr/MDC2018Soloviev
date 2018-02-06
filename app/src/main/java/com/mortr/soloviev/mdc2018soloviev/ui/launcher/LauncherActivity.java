@@ -20,6 +20,7 @@ import android.view.View;
 import com.mortr.soloviev.mdc2018soloviev.R;
 import com.mortr.soloviev.mdc2018soloviev.ui.profile.ProfileActivity;
 import com.mortr.soloviev.mdc2018soloviev.ui.settings.SettingsFragment;
+import com.mortr.soloviev.mdc2018soloviev.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +40,7 @@ public class LauncherActivity extends AppCompatActivity implements NavigationVie
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(Utils.isWhiteTheme(this)?R.style.AppTheme_WhiteTheme:R.style.AppTheme_BlackTheme);
         setContentView(R.layout.activity_launcher);
 //        ViewGroup container=findViewById(R.id.fragments_container);
         if (savedInstanceState == null) {
