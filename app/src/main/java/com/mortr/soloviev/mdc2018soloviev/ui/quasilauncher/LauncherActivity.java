@@ -1,5 +1,6 @@
 package com.mortr.soloviev.mdc2018soloviev.ui.quasilauncher;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Random;
 
 
+@SuppressLint("Registered")
 public class LauncherActivity extends AppCompatActivity {
 
 
@@ -54,6 +56,7 @@ public class LauncherActivity extends AppCompatActivity {
         });
     }
 
+    @SuppressWarnings("SameParameterValue")
     private List<Integer> generateListIcon(int count) {
         final List<Integer> icons = new ArrayList<>();
         final Random rnd = new Random();

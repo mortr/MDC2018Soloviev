@@ -15,21 +15,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LauncherIconsAdapter extends RecyclerView.Adapter<LauncherIconsAdapter.Holder> {
-    public static final String TAG = "LauncherApplicationsAdapter";
+    private static final String TAG = "LauIcAdapter";
     @Nullable
     private RecyclerView recycler;
 
     class Holder extends RecyclerView.ViewHolder {
 
-        public Holder(View itemView) {
+        Holder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(onClickListener);
 
             itemView.setOnLongClickListener(onLongClickListener);
         }
 
-        void setIcons(Integer icons, int position) {
-            ((TextView) itemView).setText(position + "\n" + Integer.toHexString(icons));
+        void setIcons(Integer icons, @SuppressWarnings("unused") int position) {
+            ((TextView) itemView).setText(Integer.toHexString(icons));
             (itemView).setBackgroundColor(icons);
         }
 
@@ -43,26 +43,26 @@ public class LauncherIconsAdapter extends RecyclerView.Adapter<LauncherIconsAdap
 
     private List<Integer> icons = new ArrayList<>();
 
-    public LauncherIconsAdapter() {
+    LauncherIconsAdapter() {
 
     }
 
 
-    public void setNewIconsList(List<Integer> icons) {
+    void setNewIconsList(List<Integer> icons) {
         this.icons.clear();
         this.icons.addAll(icons);
         notifyDataSetChanged();
         Log.v(TAG, "setNewIconsList");
     }
 
-    public void setNewIcon(Integer icon, int insertPosition) {
+    void setNewIcon(Integer icon, @SuppressWarnings("SameParameterValue") int insertPosition) {
 
         icons.add(insertPosition, icon);
         notifyItemInserted(insertPosition);
         Log.v(TAG, "setNewIcon " + insertPosition);
     }
 
-    public void deleteIcon(int iconPosition) {
+    private void deleteIcon(int iconPosition) {
         icons.remove(iconPosition);
         notifyItemRemoved(iconPosition);
         Log.v(TAG, " deleteIcon " + iconPosition);

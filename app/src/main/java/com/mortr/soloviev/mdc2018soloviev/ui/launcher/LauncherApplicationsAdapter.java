@@ -34,7 +34,7 @@ public class LauncherApplicationsAdapter extends RecyclerView.Adapter<LauncherAp
     private int itemLayoutRes;
     @Nullable
     private RecyclerView recycler;
-    List<ResolveInfo> applicationInfos = new ArrayList<>();
+    private List<ResolveInfo> applicationInfos = new ArrayList<>();
 
     class Holder extends RecyclerView.ViewHolder {
         ImageView appIcon;
@@ -52,6 +52,7 @@ public class LauncherApplicationsAdapter extends RecyclerView.Adapter<LauncherAp
 
         }
 
+        @SuppressWarnings("unused")
         void setApp(ResolveInfo app, int position) {
 //            ((TextView) itemView).setText(position + "\n" + Integer.toHexString(app));
             PackageManager packageManager = itemView.getContext().getPackageManager();

@@ -4,11 +4,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import com.crashlytics.android.Crashlytics;
 import com.mortr.soloviev.mdc2018soloviev.R;
 import com.mortr.soloviev.mdc2018soloviev.utils.Utils;
 
-import io.fabric.sdk.android.Fabric;
 
 
 public class MainScreenActivity extends AppCompatActivity {

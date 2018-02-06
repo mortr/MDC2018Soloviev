@@ -1,5 +1,6 @@
 package com.mortr.soloviev.mdc2018soloviev.ui.welcomePages;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,6 +9,7 @@ import android.view.View;
 
 import com.mortr.soloviev.mdc2018soloviev.R;
 
+@SuppressLint("Registered")
 public class WelcomeActivity extends AppCompatActivity {
 
     @Override

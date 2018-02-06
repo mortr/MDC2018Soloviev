@@ -1,5 +1,6 @@
 package com.mortr.soloviev.mdc2018soloviev.ui.welcomePages;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,6 +12,7 @@ import com.mortr.soloviev.mdc2018soloviev.R;
 import com.mortr.soloviev.mdc2018soloviev.utils.Utils;
 
 
+@SuppressLint("Registered")
 public class ThemeChooserActivity extends AppCompatActivity {
 
     private RadioButton blackRadio;

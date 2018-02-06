@@ -30,7 +30,7 @@ public class LauncherActivity extends AppCompatActivity implements NavigationVie
 
 
     public static final String TAG_LAUNCHER_FRAGMENT = "TagLauncherFragment";
-    public static final String TAG_QUASI_LAUNCHER_FRAGMENT = "TAG_QUASI_LAUNCHER_FRAGMENT";
+//    public static final String TAG_QUASI_LAUNCHER_FRAGMENT = "TAG_QUASI_LAUNCHER_FRAGMENT";
     public static final String TAG_LAUNCHER_LIST_FRAGMENT = "TAG_LAUNCHER_LIST_FRAGMENT";
     private DrawerLayout drawer;
     private List<AppsChangeObserver> observerList = new ArrayList<>();

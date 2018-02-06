@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Random;
 
 
+@SuppressWarnings("unused")
 public class LauncherFragment extends Fragment {
     public static final String TAG = "LauncherFragment";
     public static final int OFFSET_WAS_NOT_RESSIVED = -1;

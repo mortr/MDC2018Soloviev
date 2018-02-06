@@ -28,7 +28,7 @@ public class WelcomePagesActivity extends AppCompatActivity {
         final FragmentManager fragmentManager = getSupportFragmentManager();
         ViewPagerAdapter pagerAdapter = new ViewPagerAdapter(fragmentManager);
 
-        ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
+        ViewPager viewPager =  findViewById(R.id.view_pager);
         viewPager.setAdapter(pagerAdapter);
         findViewById(R.id.nextButton).setOnClickListener(onClickListener);
     }
@@ -76,7 +76,7 @@ public class WelcomePagesActivity extends AppCompatActivity {
 
         @Override
         public CharSequence getPageTitle(final int position) {
-            WelcomePagesFragment fragment = null;// (WelcomePagesFragment) getSupportFragmentManager().getFragments().get(position);
+//            WelcomePagesFragment fragment = null;// (WelcomePagesFragment) getSupportFragmentManager().getFragments().get(position);
 //            return fragment != null ? fragment.getTitle() : "page "+position+1+ " from "+WELCOME_PAGES_COUNT;
             return "page " + (position + 1) + " from " + WELCOME_PAGES_COUNT;
         }
