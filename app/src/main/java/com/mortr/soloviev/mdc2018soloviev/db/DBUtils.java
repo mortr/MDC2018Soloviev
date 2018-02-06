@@ -24,21 +24,21 @@ import static com.mortr.soloviev.mdc2018soloviev.db.DBUtils.MyDatabase.TABLE_NAM
 public class DBUtils {
 
     public interface MyDatabase {
-        static final String DB_NAME = "launcher.app";
-        static final String TABLE_NAME = "apps";
+        String DB_NAME = "launcher.app";
+        String TABLE_NAME = "apps";
 
-        static final String DB_SQL_SELECT_APP_WITH_NAME = "SELECT * FROM " + TABLE_NAME +
+        String DB_SQL_SELECT_APP_WITH_NAME = "SELECT * FROM " + TABLE_NAME +
                 " WHERE " + PACKAGE_NAME + " = ?";
-        static final String DB_SQL_SELECT_APPS = "SELECT * FROM " + TABLE_NAME;
+        String DB_SQL_SELECT_APPS = "SELECT * FROM " + TABLE_NAME;
 
-        static interface Columns extends BaseColumns {
+        interface Columns extends BaseColumns {
             String PACKAGE_NAME = "PACKAGE_NAME";
             String DATE_INSTALLED = "DATE_INSTALLED";
             String IS_SYSTEM = "IS_SYSTEM";
             String STARTS_COUNT = "STARTS_COUNT";
         }
 
-        static final String CREATE_TABLE =
+        String CREATE_TABLE =
                 "CREATE TABLE IF NOT EXISTS " + TABLE_NAME +
                         "(" +
                         Columns._ID + " INTEGER PRIMARY KEY," +
@@ -47,7 +47,8 @@ public class DBUtils {
                         Columns.IS_SYSTEM + " INTEGER, " +
                         Columns.PACKAGE_NAME + " TEXT )";
 
-        static final String DROP_TABLE_SCRIPT =
+        @SuppressWarnings("unused")
+        String DROP_TABLE_SCRIPT =
                 "DROP TABLE IF EXISTS " + TABLE_NAME;
     }
 
@@ -85,6 +86,7 @@ public class DBUtils {
         return startCount;
     }
 
+    @SuppressWarnings("unused")
     public static DBApplicationItem getDBApplicationItemFromDB(ResolveInfo info, SQLiteDatabase db) {
         String[] args = {info.activityInfo.packageName};
         DBApplicationItem dbApplicationItem = null;
@@ -114,10 +116,11 @@ public class DBUtils {
         }
     }
 
-    public static void onRemoveApp(ResolveInfo info, SQLiteDatabase db) {
-        db.delete(TABLE_NAME, PACKAGE_NAME + " = ?", new String[]{info.activityInfo.packageName});
-    }
+//    public static void onRemoveApp(ResolveInfo info, SQLiteDatabase db) {
+//        db.delete(TABLE_NAME, PACKAGE_NAME + " = ?", new String[]{info.activityInfo.packageName});
+//    }
 
+    @SuppressWarnings("unused")
     public static List<DBApplicationItem> getDBApplications(Context context, SQLiteDatabase db) {
         Cursor cursor = db.rawQuery(DB_SQL_SELECT_APPS, null);
         List<DBApplicationItem> applicationItems = new ArrayList<>();
@@ -129,7 +132,7 @@ public class DBUtils {
     }
 
 
-    public static boolean isSystemApp(Context context, String packageName) {
+    private static boolean isSystemApp(Context context, String packageName) {
         final ApplicationInfo info;
         try {
             info = context.getPackageManager().getApplicationInfo(packageName, 0);

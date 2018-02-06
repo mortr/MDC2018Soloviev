@@ -6,25 +6,26 @@ public class DBApplicationItem {
     private boolean isSystem;
     private int startsCount;
 
-    public DBApplicationItem(String packageName, long dateInstalled, boolean isSystem, int startsCount) {
+    DBApplicationItem(String packageName, long dateInstalled, boolean isSystem, int startsCount) {
         this.packageName = packageName;
         this.dateInstalled = dateInstalled;
         this.isSystem = isSystem;
         this.startsCount = startsCount;
     }
-
+    @SuppressWarnings("unused")
     public String getPackageName() {
         return packageName;
     }
 
+    @SuppressWarnings("unused")
     public long getDateInstalled() {
         return dateInstalled;
     }
-
+    @SuppressWarnings("unused")
     public boolean isSystem() {
         return isSystem;
     }
-
+    @SuppressWarnings("unused")
     public int getStartsCount() {
         return startsCount;
     }

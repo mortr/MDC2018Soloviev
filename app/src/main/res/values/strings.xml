@@ -71,7 +71,7 @@
 
     <string name="nd_other_settings">Other settings</string>
     <string name="nd_application_settings">Application Settings</string>
-    <string name="nd_colors_grid">Colors Grid</string>
+    <string name="nd_colors_grid" translatable="false">Colors Grid</string>
     <string name="nd_app_list">List</string>
     <string name="nd_app_grid">Grid</string>
     <string name="nd_layouts_type">Layouts type</string>

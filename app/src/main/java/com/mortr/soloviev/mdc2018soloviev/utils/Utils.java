@@ -2,7 +2,6 @@ package com.mortr.soloviev.mdc2018soloviev.utils;
 
 
 import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,7 +10,6 @@ import android.content.pm.ResolveInfo;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.Nullable;
 
-import com.mortr.soloviev.mdc2018soloviev.R;
 import com.mortr.soloviev.mdc2018soloviev.db.DBHelper;
 import com.mortr.soloviev.mdc2018soloviev.db.DBUtils;
 
@@ -42,7 +40,7 @@ public class Utils {
     }
 
     public enum SortType {
-        SORT_AZ(), SORT_ZA(), SORT_DATA(), DEFAULT(), SORT_START_COUNT();
+        SORT_AZ(), SORT_ZA(), SORT_DATA(), DEFAULT(), SORT_START_COUNT()
     }
 
 
