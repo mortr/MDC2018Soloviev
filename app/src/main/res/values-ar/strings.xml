@@ -1,29 +1,28 @@
 <resources>
-    <string name="action_settings">Settings</string>
-    <string name="dev_name">SolovievMikchael</string>
-    <string name="next_button_name">Go to Launcher</string>
-    <string name="standard_layout_choose_text">Standard layout</string>
-    <string name="standard_layout_description_text">Port: 4 icon\nLand: 6 icon</string><!--TODO move numbers-->
+    <string name="action_settings">إعدادات</string>
+    <string name="dev_name">سولوفيف ميكايل</string>
+    <string name="next_button_name">انتقل إلى قاذفة</string>
+    <string name="standard_layout_choose_text">تخطيط قياسي</string>
+    <string name="standard_layout_description_text">بورت: 4 إيكون \ n رمز: 6 رمز</string><!--TODO move numbers-->
 
-    <string name="compact_layout_choose_text">Compact layout</string>
-    <string name="compact_layout_description_text">Port: 5 icon\nLand: 7 icon</string>
-    <string name="black_theme_text">Black Theme</string>
-    <string name="white_theme_text">White theme</string>
-    <string name="title_activity_settings">Settings</string>
-
-
-    <string name="pref_title_theme_choose">Choose dark side</string>
-    <string name="pref_description_theme_choose">Choose dark theme
-    </string>
+    <string name="compact_layout_choose_text">تخطيط مدمج</string>
+    <string name="compact_layout_description_text">بورت: 5 إيكون \ n رمز: 7 رمز</string>
+    <string name="black_theme_text">أسود الموضوع</string>
+    <string name="white_theme_text">موضوع أبيض</string>
+    <string name="title_activity_settings">إعدادات</string>
 
 
-    <string name="pref_title_show_welcome_pages">Show welcome pages</string>
-    <string name="pref_description_show_welcome_pages">Show welcome pages next time</string>
-    <string name="pref_title_show_prefs_app">Show preference apps </string>
+    <string name="pref_title_theme_choose">اختيار الجانب المظلم</string>
+    <string name="pref_description_theme_choose">اختر مظهر مظلم</string>
+
+
+    <string name="pref_title_show_welcome_pages">عرض صفحات الترحيب</string>
+    <string name="pref_description_show_welcome_pages">عرض صفحات الترحيب في المرة القادمة</string>
+    <string name="pref_title_show_prefs_app">عرض تطبيقات التفضيل</string>
 
 
 
-    <string name="pref_title_chose_layout">Choose layout </string>
+    <string name="pref_title_chose_layout">اختر التخطيط</string>
 
 
     <string name="pref_title_sort_type" >Choose sorting type</string>
