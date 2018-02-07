@@ -5,8 +5,8 @@
     <string name="standard_layout_choose_text">Standardentwurf</string>
     <string name="standard_layout_description_text">Port: 4 Symbol \ nLand: 6 Symbol</string><!--TODO move numbers-->
 
-    <string name="delete">delete</string>
-    <string name="info">info</string>
+    <string name="delete">Verwijder</string>
+    <string name="info">informatie</string>
 
     <string name="compact_layout_choose_text">Kompaktes Layout</string>
     <string name="compact_layout_description_text">Port: 5 Symbol \ nLand: 7 Symbol</string>

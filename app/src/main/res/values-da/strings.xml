@@ -4,8 +4,8 @@
     <string name="next_button_name">Gå til Launcher</string>
     <string name="standard_layout_choose_text">Standard layout</string>
     <string name="standard_layout_description_text">Port: 4 ikon \ nLand: 6 ikon</string><!--TODO move numbers-->
-    <string name="delete">delete</string>
-    <string name="info">info</string>
+    <string name="delete">slette</string>
+    <string name="info">information</string>
     <string name="compact_layout_choose_text">Kompakt layout</string>
     <string name="compact_layout_description_text">Port: 5 ikon \ nLand: 7 ikon</string>
     <string name="black_theme_text">Sort tema</string>

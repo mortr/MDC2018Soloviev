@@ -11,8 +11,8 @@
     <string name="white_theme_text">Tema blanco</string>
     <string name="title_activity_settings">Configuraciones</string>
 
-    <string name="delete">delete</string>
-    <string name="info">info</string>
+    <string name="delete">borrar</string>
+    <string name="info">información</string>
 
     <string name="pref_title_theme_choose">Elija el lado oscuro</string>
     <string name="pref_description_theme_choose">Elige el tema oscuro</string>

@@ -11,8 +11,8 @@
     <string name="white_theme_text">सफेद विषय</string>
     <string name="title_activity_settings">सेटिंग्स</string>
 
-    <string name="delete">delete</string>
-    <string name="info">info</string>
+    <string name="delete">हटाना</string>
+    <string name="info">जानकारी</string>
 
     <string name="pref_title_theme_choose">अंधेरे पक्ष चुनें</string>
     <string name="pref_description_theme_choose">गहरा विषय चुनें</string>

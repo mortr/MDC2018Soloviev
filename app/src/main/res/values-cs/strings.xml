@@ -5,8 +5,8 @@
     <string name="standard_layout_choose_text">Standardní uspořádání</string>
     <string name="standard_layout_description_text">Port: 4 ikona \ nOdkaz: 6 ikona</string><!--TODO move numbers-->
 
-    <string name="delete">delete</string>
-    <string name="info">info</string>
+    <string name="delete">vymazat</string>
+    <string name="info">informace</string>
 
     <string name="compact_layout_choose_text">Kompaktní rozložení</string>
     <string name="compact_layout_description_text">Port: 5 ikona \ nOdkaz: 7 ikona</string>
