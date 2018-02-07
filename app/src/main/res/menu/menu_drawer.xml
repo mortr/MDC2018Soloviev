@@ -1,0 +1,38 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="@layout/activity_launcher">
+    <group android:checkableBehavior="single">
+        <item android:title="@string/nd_layouts_type">
+            <menu>
+
+                <item
+                    android:id="@+id/menu_launcher_activity_point"
+                    android:icon="@null"
+                    android:title="@string/nd_app_grid" />
+
+                <item
+                    android:id="@+id/menu_list_activity_point"
+                    android:title="@string/nd_app_list" />
+                <!--<item-->
+                    <!--android:id="@+id/menu_quasi_launcher_activity_point"-->
+                    <!--android:icon="@null"-->
+                    <!--android:title="@string/nd_colors_grid" />-->
+
+
+            </menu>
+        </item>
+        <item android:title="@string/nd_other_settings">
+            <menu>
+                <item
+                    android:id="@+id/app_menu_settings_point"
+                    android:title="@string/nd_application_settings" />
+                <!--<item-->
+                    <!--android:id="@+id/menu_device_settings_point"-->
+                    <!--android:checkable="true"-->
+                    <!--android:checked="true"-->
+                    <!--android:title="Device settings" />-->
+            </menu>
+        </item>
+    </group>
+</menu>

@@ -1,0 +1,60 @@
+<resources>
+    <string name="action_settings">Indstillinger</string>
+    <string name="dev_name">SolovievMikchael</string>
+    <string name="next_button_name">Gå til Launcher</string>
+    <string name="standard_layout_choose_text">Standard layout</string>
+    <string name="standard_layout_description_text">Port: 4 ikon \ nLand: 6 ikon</string><!--TODO move numbers-->
+    <string name="delete">slette</string>
+    <string name="info">information</string>
+    <string name="compact_layout_choose_text">Kompakt layout</string>
+    <string name="compact_layout_description_text">Port: 5 ikon \ nLand: 7 ikon</string>
+    <string name="black_theme_text">Sort tema</string>
+    <string name="white_theme_text">Hvidt tema</string>
+    <string name="title_activity_settings">Indstillinger</string>
+
+
+    <string name="pref_title_theme_choose">Vælg den mørke side</string>
+    <string name="pref_description_theme_choose">Vælg mørkt tema</string>
+
+
+    <string name="pref_title_show_welcome_pages">Vis velkomstsider</string>
+    <string name="pref_description_show_welcome_pages">Vis velkommen sider næste gang</string>
+    <string name="pref_title_show_prefs_app">Vis foretrukne apps</string>
+
+
+
+    <string name="pref_title_chose_layout">Vælg layout</string>
+
+
+    <string name="pref_title_sort_type" >Vælg sorteringstype</string>
+
+
+
+    <string name="type_sort_date_title">dato</string>
+    <string name="type_sort_name_az_title">navn (a-z)</string>
+    <string name="type_sort_name_za_title">navn (Z-a)</string>
+    <string name="type_sort_using_count_title">starttælling</string>
+    <string name="type_sort_none_title">standard</string>
+
+    <string name="nd_other_settings">Andre indstillinger</string>
+    <string name="nd_application_settings">Applikationsindstillinger</string>
+    <string name="nd_app_list">Liste</string>
+    <string name="nd_app_grid">Grid</string>
+    <string name="nd_layouts_type">Layout type</string>
+
+
+    <string name="welcome_pages_welcome_title">velkommen</string>
+    <string name="welcome_pages_description_title">beskrivelse</string>
+    <string name="welcome_pages_theme_chooser_title">tema valg</string>
+    <string name="welcome_pages_layout_settings_title">launcher density</string>
+    <string name="welcome_pages_welcome_text">Velkommen</string>
+    <string name="welcome_pages_description_text">Denne app er delvist Launcher og delvist noget andet</string>
+
+
+    <string name="mobile_header_text">mobil</string>
+    <string name="home_phone_header">hjem</string>
+    <string name="main_email_header">hoved email</string>
+    <string name="additional_mail_header">yderligere mail</string>
+    <string name="home_address_header">hjemme adresse</string>
+
+</resources>

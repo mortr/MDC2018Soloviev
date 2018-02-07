@@ -1,0 +1,61 @@
+<resources>
+    <string name="action_settings">Beállítások</string>
+    <string name="dev_name">Soloviev Mikchael</string>
+    <string name="next_button_name">Menjen a Launcher programba</string>
+    <string name="standard_layout_choose_text">Standard elrendezés</string>
+    <string name="standard_layout_description_text">Port: 4 ikon \ nLand: 6 ikon</string><!--TODO move numbers-->
+
+    <string name="compact_layout_choose_text">Kompakt kialakítás</string>
+    <string name="compact_layout_description_text">Port: 5 ikon \ nLand: 7 ikon</string>
+    <string name="black_theme_text">Fekete téma</string>
+    <string name="white_theme_text">Fehér téma</string>
+    <string name="title_activity_settings">Beállítások</string>
+
+    <string name="delete">töröl</string>
+    <string name="info">információ</string>
+
+    <string name="pref_title_theme_choose">Válassza a sötét oldalt</string>
+    <string name="pref_description_theme_choose">Válasszon sötét témát</string>
+
+
+    <string name="pref_title_show_welcome_pages">Üdvözlő oldalak megjelenítése</string>
+    <string name="pref_description_show_welcome_pages">Következő oldalak megjelenítése</string>
+    <string name="pref_title_show_prefs_app">A preferenciaalkalmazások megjelenítése</string>
+
+
+
+    <string name="pref_title_chose_layout">Válasszon elrendezést</string>
+
+
+    <string name="pref_title_sort_type">Válasszon rendezési típust</string>
+
+
+
+    <string name="type_sort_date_title">dátum</string>
+    <string name="type_sort_name_az_title">név (a-Z)</string>
+    <string name="type_sort_name_za_title">név (Z-a)</string>
+    <string name="type_sort_using_count_title">kezdőszám</string>
+    <string name="type_sort_none_title">alapértelmezett</string>
+
+    <string name="nd_other_settings">Egyéb beállitások</string>
+    <string name="nd_application_settings">Alkalmazás beállítások</string>
+    <string name="nd_app_list">Lista</string>
+    <string name="nd_app_grid">Rács</string>
+    <string name="nd_layouts_type">Elrendezések típusa</string>
+
+
+    <string name="welcome_pages_welcome_title">Üdvözöljük</string>
+    <string name="welcome_pages_description_title">leírás</string>
+    <string name="welcome_pages_theme_chooser_title">téma kiválasztása</string>
+    <string name="welcome_pages_layout_settings_title">indítósűrűség</string>
+    <string name="welcome_pages_welcome_text">Üdvözöljük</string>
+    <string name="welcome_pages_description_text">ez az alkalmazás részben Launcher és részben valami más</string>
+
+
+    <string name="mobile_header_text">mobil</string>
+    <string name="home_phone_header">itthon</string>
+    <string name="main_email_header">fő e-mail</string>
+    <string name="additional_mail_header">további levél</string>
+    <string name="home_address_header">lakcím</string>
+
+</resources>

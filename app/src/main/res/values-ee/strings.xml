@@ -1,0 +1,61 @@
+<resources>
+    <string name="action_settings">הגדרות</string>
+    <string name="dev_name">סולוביייב מיקל</string>
+    <string name="next_button_name">עבור למפעיל</string>
+    <string name="standard_layout_choose_text">פריסה רגילה</string>
+    <string name="standard_layout_description_text">יציאה: 4 סמל \ nLand: 6 סמל</string><!--TODO move numbers-->
+
+    <string name="compact_layout_choose_text">פריסה קומפקטית</string>
+    <string name="compact_layout_description_text">יציאה: 5 סמל \ nLand: 7 סמל</string>
+    <string name="black_theme_text">נושא שחור</string>
+    <string name="white_theme_text">נושא לבן</string>
+    <string name="title_activity_settings">הגדרות</string>
+
+    <string name="delete">אינפֿאָרמאַציע</string>
+    <string name="info">ויסמעקן</string>
+
+    <string name="pref_title_theme_choose">בחר צד אפל</string>
+    <string name="pref_description_theme_choose">בחר נושא כהה</string>
+
+
+    <string name="pref_title_show_welcome_pages">הצג דפי פתיחה</string>
+    <string name="pref_description_show_welcome_pages">הצג את דפי הפתיחה בפעם הבאה</string>
+    <string name="pref_title_show_prefs_app">הצג אפליקציות מועדפות</string>
+
+
+
+    <string name="pref_title_chose_layout">בחר פריסה</string>
+
+
+    <string name="pref_title_sort_type">בחר סוג מיון</string>
+
+
+
+    <string name="type_sort_date_title">תַאֲרִיך</string>
+    <string name="type_sort_name_az_title">שם (א-ת)</string>
+    <string name="type_sort_name_za_title">שם (א-ת)</string>
+    <string name="type_sort_using_count_title">מתחיל לספור</string>
+    <string name="type_sort_none_title">בְּרִירַת מֶחדָל</string>
+
+    <string name="nd_other_settings">הגדרות אחרות</string>
+    <string name="nd_application_settings">הגדרות אפליקציה</string>
+    <string name="nd_app_list">רשימה</string>
+    <string name="nd_app_grid">רֶשֶׁת</string>
+    <string name="nd_layouts_type">סוג פריסות</string>
+
+
+    <string name="welcome_pages_welcome_title">ברוך הבא</string>
+    <string name="welcome_pages_description_title">תיאור</string>
+    <string name="welcome_pages_theme_chooser_title">בחירת נושא</string>
+    <string name="welcome_pages_layout_settings_title">צפיפות משגר</string>
+    <string name="welcome_pages_welcome_text">ברוך הבא</string>
+    <string name="welcome_pages_description_text">יישום זה הוא בחלקו משגר ובחלקו משהו אחר</string>
+
+
+    <string name="mobile_header_text">נייד</string>
+    <string name="home_phone_header">בית</string>
+    <string name="main_email_header">דוא"ל ראשי</string>
+    <string name="additional_mail_header">דואר נוסף</string>
+    <string name="home_address_header">כתובת בית</string>
+
+</resources>

@@ -1,31 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.mortr.soloviev.mdc2018soloviev">
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_launcher_custom"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme.WhiteTheme"
+        tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <activity
-            android:name=".ui.mainScreen.MainScreenActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.HOME" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.mainScreen.MainScreenActivity" />
+        <activity
+            android:name=".ui.welcomePages.WelcomePagesActivity"
+            android:noHistory="true" />
+        <activity android:name=".ui.profile.ProfileActivity" />
+        <activity
+            android:theme="@style/AppTheme"
+            android:name=".ui.launcher.LauncherActivity"
+            android:parentActivityName=".ui.mainScreen.MainScreenActivity"
+            >
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.HOME" />
+            </intent-filter>
+        </activity>
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="ece16c684d37a795f2015c511008d20a73e36f80" />
-        <!--<meta-data-->
-            <!--android:name="net.hockeyapp.android.appIdentifier"-->
-            <!--android:value="${HOCKEYAPP_APP_ID}" />-->
+        <!-- <meta-data -->
+        <!-- android:name="net.hockeyapp.android.appIdentifier" -->
+        <!-- android:value="${HOCKEYAPP_APP_ID}" /> -->
     </application>
-<!---->
-    <uses-permission android:name="android.permission.INTERNET" />
+
 </manifest>

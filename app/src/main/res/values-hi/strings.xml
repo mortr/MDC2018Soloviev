@@ -1,0 +1,61 @@
+<resources>
+    <string name="action_settings">सेटिंग्स</string>
+    <string name="dev_name">सोलोविव मीकाचल</string>
+    <string name="next_button_name">लॉन्चर पर जाएं</string>
+    <string name="standard_layout_choose_text">मानक लेआउट</string>
+    <string name="standard_layout_description_text">पोर्ट: 4 आइकन \ n लैंड: 6 आइकन</string><!--TODO move numbers-->
+
+    <string name="compact_layout_choose_text">कॉम्पैक्ट लेआउट</string>
+    <string name="compact_layout_description_text">पोर्ट: 5 आइकन \ n लैंड: 7 आइकन</string>
+    <string name="black_theme_text">ब्लैक थीम</string>
+    <string name="white_theme_text">सफेद विषय</string>
+    <string name="title_activity_settings">सेटिंग्स</string>
+
+    <string name="delete">हटाना</string>
+    <string name="info">जानकारी</string>
+
+    <string name="pref_title_theme_choose">अंधेरे पक्ष चुनें</string>
+    <string name="pref_description_theme_choose">गहरा विषय चुनें</string>
+
+
+    <string name="pref_title_show_welcome_pages">स्वागत पेज दिखाएं</string>
+    <string name="pref_description_show_welcome_pages">अगली बार स्वागत पृष्ठों को दिखाएं</string>
+    <string name="pref_title_show_prefs_app">प्राथमिकता ऐप्स दिखाएं</string>
+
+
+
+    <string name="pref_title_chose_layout">लेआउट चुनें</string>
+
+
+    <string name="pref_title_sort_type">सॉर्टिंग प्रकार चुनें</string>
+
+
+
+    <string name="type_sort_date_title">तारीख</string>
+    <string name="type_sort_name_az_title">नाम (ए-जेड)</string>
+    <string name="type_sort_name_za_title">नाम (जेड-ए)</string>
+    <string name="type_sort_using_count_title">गिनती शुरू</string>
+    <string name="type_sort_none_title">चूक</string>
+
+    <string name="nd_other_settings">अन्य सेटिंग</string>
+    <string name="nd_application_settings">अनुप्रयोग सेटिंग</string>
+    <string name="nd_app_list">सूची</string>
+    <string name="nd_app_grid">ग्रिड</string>
+    <string name="nd_layouts_type">लेआउट टाइप करें</string>
+
+
+    <string name="welcome_pages_welcome_title">स्वागत </string>
+    <string name="welcome_pages_description_title">विवरण</string>
+    <string name="welcome_pages_theme_chooser_title">थीम चुनना</string>
+    <string name="welcome_pages_layout_settings_title">लांचर घनत्व</string>
+    <string name="welcome_pages_welcome_text">स्वागत </string>
+    <string name="welcome_pages_description_text">यह ऐप आंशिक रूप से लांचर और आंशिक रूप से कुछ और है</string>
+
+
+    <string name="mobile_header_text">मोबाइल</string>
+    <string name="home_phone_header">होम</string>
+    <string name="main_email_header">मुख्य ईमेल</string>
+    <string name="additional_mail_header">अतिरिक्त मेल</string>
+    <string name="home_address_header">घर का पता</string>
+
+</resources>
