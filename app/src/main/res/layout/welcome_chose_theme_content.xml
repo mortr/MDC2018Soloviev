@@ -29,7 +29,7 @@
                 android:layout_toEndOf="@+id/white_theme_radio"
                 android:layout_toRightOf="@+id/white_theme_radio"
                 android:text="@string/white_theme_text"
-                android:textSize="@dimen/welcome_page_choose_layout_text_size" />
+                android:textSize="@dimen/welcome_page_choose_theme_text_size" />
 
         </RelativeLayout>
     </android.support.v7.widget.CardView>
@@ -65,7 +65,7 @@
                 android:ellipsize="marquee"
                 android:singleLine="true"
                 android:text="@string/black_theme_text"
-                android:textSize="@dimen/welcome_page_choose_layout_text_size" />
+                android:textSize="@dimen/welcome_page_choose_theme_text_size" />
 
 
         </RelativeLayout>

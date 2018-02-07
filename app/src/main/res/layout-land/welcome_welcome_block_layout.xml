@@ -18,7 +18,6 @@
         android:layout_marginRight="@dimen/welcome_page_margin"
         android:layout_marginStart="@dimen/welcome_page_margin"
         android:adjustViewBounds="true"
-        android:background="@drawable/circle"
         app:photo="@mipmap/ic_launcher_custom" />
 
     <LinearLayout

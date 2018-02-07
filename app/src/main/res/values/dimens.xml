@@ -1,5 +1,4 @@
 <resources>
-    <dimen name="fab_margin">16dp</dimen>
     <!--scale factor for x x hdpi == 3-->
     <!--TODO it is needed to create mains text sizes -->
     <dimen name="welcome_page_margin">16dp</dimen>

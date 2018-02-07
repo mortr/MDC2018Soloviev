@@ -56,6 +56,8 @@
 
     </string-array>
 
+    <string name="delete" translatable="false">delete</string>
+    <string name="info" translatable="false">info</string>
 
     <string name="type_sort_date" translatable="false">date</string>
     <string name="type_sort_name_az" translatable="false">name (a-Z)</string>
@@ -66,7 +68,7 @@
     <string name="type_sort_date_title">date</string>
     <string name="type_sort_name_az_title">name (a-Z)</string>
     <string name="type_sort_name_za_title">name (Z-a)</string>
-    <string name="type_sort_using_count_title">using count</string>
+    <string name="type_sort_using_count_title">starting count</string>
     <string name="type_sort_none_title">default</string>
 
     <string name="nd_other_settings">Other settings</string>
@@ -95,5 +97,6 @@
     <string name="additional_mail_header">additional mail</string>
     <string name="address_value_do_not_translate" translatable="false">601 University Dr street San Marcos, TX 78666</string>
     <string name="home_address_header">home address</string>
+
 
 </resources>

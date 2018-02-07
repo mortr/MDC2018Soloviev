@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="action_settings">Настройки</string>
     <string name="dev_name">Михаил Соловьев</string>
     <string name="next_button_name">Перейти к панели запуска</string>
@@ -47,7 +47,7 @@
     <string name="welcome_pages_theme_chooser_title">Выбор темы</string>
     <string name="welcome_pages_layout_settings_title">Плотность панели запуска</string>
     <string name="welcome_pages_welcome_text">Добро пожаловать</string>
-    <string name="welcome_pages_description_text">Это приложение частично панель запуска, частично что-то иное...</string>
+    <string name="welcome_pages_description_text" tools:ignore="TypographyEllipsis">Это приложение частично панель запуска, частично что-то иное...</string>
 
 
     <string name="mobile_header_text">мобильный</string>
