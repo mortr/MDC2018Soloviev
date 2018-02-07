@@ -56,8 +56,8 @@
 
     </string-array>
 
-    <string name="delete" translatable="false">delete</string>
-    <string name="info" translatable="false">info</string>
+    <string name="delete">delete</string>
+    <string name="info">info</string>
 
     <string name="type_sort_date" translatable="false">date</string>
     <string name="type_sort_name_az" translatable="false">name (a-Z)</string>

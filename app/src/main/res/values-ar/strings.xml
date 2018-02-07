@@ -11,6 +11,8 @@
     <string name="white_theme_text">موضوع أبيض</string>
     <string name="title_activity_settings">إعدادات</string>
 
+    <string name="delete">delete</string>
+    <string name="info">info</string>
 
     <string name="pref_title_theme_choose">اختيار الجانب المظلم</string>
     <string name="pref_description_theme_choose">اختر مظهر مظلم</string>

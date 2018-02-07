@@ -11,6 +11,8 @@
     <string name="white_theme_text">Fehér téma</string>
     <string name="title_activity_settings">Beállítások</string>
 
+    <string name="delete">delete</string>
+    <string name="info">info</string>
 
     <string name="pref_title_theme_choose">Válassza a sötét oldalt</string>
     <string name="pref_description_theme_choose">Válasszon sötét témát</string>

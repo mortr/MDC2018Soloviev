@@ -41,6 +41,8 @@
     <string name="nd_app_grid">Таблица</string>
     <string name="nd_layouts_type">Тип макета</string>
 
+    <string name="delete">удалить</string>
+    <string name="info">инфо</string>
 
     <string name="welcome_pages_welcome_title">Добро пожаловать</string>
     <string name="welcome_pages_description_title">Описание</string>
