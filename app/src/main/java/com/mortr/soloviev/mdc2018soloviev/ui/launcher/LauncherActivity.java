@@ -66,6 +66,7 @@ public class LauncherActivity extends AppCompatActivity implements NavigationVie
         intentFilter.addAction(Intent.ACTION_PACKAGE_ADDED);
         intentFilter.addAction(Intent.ACTION_PACKAGE_REMOVED);
         intentFilter.addDataScheme("package");
+        registerReceiver(broadcastReceiver,intentFilter);
     }
 
 
@@ -132,7 +133,7 @@ public class LauncherActivity extends AppCompatActivity implements NavigationVie
     @Override
     protected void onStart() {
         super.onStart();
-        registerReceiver(broadcastReceiver,intentFilter);
+
     }
 
     @Override
@@ -150,6 +151,12 @@ public class LauncherActivity extends AppCompatActivity implements NavigationVie
     @Override
     protected void onStop() {
         super.onStop();
+//        unregisterReceiver(broadcastReceiver);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
         unregisterReceiver(broadcastReceiver);
     }
 
@@ -162,7 +169,6 @@ public class LauncherActivity extends AppCompatActivity implements NavigationVie
 
         @Override
         public void onReceive(Context context, Intent intent) {
-
             Log.v("AppsReceiver", "onReceive: " + intent.getAction());
             // This condition will be called when package removed
             if (Intent.ACTION_PACKAGE_REMOVED.equals(intent.getAction()) ||
