@@ -10,7 +10,9 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -20,6 +22,12 @@ import android.view.View;
 import com.mortr.soloviev.mdc2018soloviev.R;
 import com.mortr.soloviev.mdc2018soloviev.ui.profile.ProfileActivity;
 import com.mortr.soloviev.mdc2018soloviev.ui.settings.SettingsFragment;
+import com.mortr.soloviev.mdc2018soloviev.ui.welcomePages.DescriptionFragment;
+import com.mortr.soloviev.mdc2018soloviev.ui.welcomePages.LayoutSettingsFragment;
+import com.mortr.soloviev.mdc2018soloviev.ui.welcomePages.ThemeChooserFragment;
+import com.mortr.soloviev.mdc2018soloviev.ui.welcomePages.WelcomeFragment;
+import com.mortr.soloviev.mdc2018soloviev.ui.welcomePages.WelcomePagesActivity;
+import com.mortr.soloviev.mdc2018soloviev.ui.welcomePages.WelcomePagesFragment;
 import com.mortr.soloviev.mdc2018soloviev.utils.Utils;
 
 
@@ -44,12 +52,35 @@ public class LauncherActivity extends AppCompatActivity implements NavigationVie
         setTheme(Utils.isWhiteTheme(this) ? R.style.AppTheme_WhiteTheme : R.style.AppTheme_BlackTheme);
         setContentView(R.layout.activity_launcher);
         Utils.sendYAPPMEvent(Utils.YAPPEventName.LAUNCH_SCREANS_CREATE, "");
-//        ViewGroup container=findViewById(R.id.fragments_container);
         if (savedInstanceState == null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             Fragment launcherFragment = LauncherFragment.newInstance();
             fragmentManager.beginTransaction().add(R.id.fragments_container, launcherFragment, TAG_LAUNCHER_FRAGMENT)/*.addToBackStack(null)*/.commit();
         }
+//
+//        final FragmentManager fragmentManager = getSupportFragmentManager();
+//        final ViewPagerAdapter pagerAdapter = new ViewPagerAdapter(fragmentManager);
+//
+//        final ViewPager viewPager = findViewById(R.id.view_pager);
+//        viewPager.setAdapter(pagerAdapter);
+//        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+//            @Override
+//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//
+//            }
+//
+//            @Override
+//            public void onPageSelected(int position) {
+//                ((WelcomePagesFragment) pagerAdapter.getItem(position)).onFrontPagerScreen();
+//            }
+//
+//            @Override
+//            public void onPageScrollStateChanged(int state) {
+//
+//            }
+//        });
+//
+//
         final NavigationView navigationView = findViewById(R.id.nd_menu);
         navigationView.setNavigationItemSelectedListener(this);
         drawer = findViewById(R.id.n_drawer);
@@ -190,6 +221,38 @@ public class LauncherActivity extends AppCompatActivity implements NavigationVie
         unregisterReceiver(broadcastReceiver);
     }
 
+//    public class ViewPagerAdapter extends FragmentStatePagerAdapter { //TODO move to package
+//
+//
+//        ViewPagerAdapter(@NonNull final FragmentManager fm) {
+//            super(fm);
+//        }
+//
+//        @Override
+//        public Fragment getItem(int position) {
+//            switch (position) {
+//                case 0: {
+//                }
+//                case 1: {
+//                }
+//                case 2: {
+//                }
+//                case 3: {
+//                }
+//            }
+//            return null;
+//        }
+//
+//        @Override
+//        public int getCount() {
+//            return 0;
+//        }
+//
+//    }
+//
+//
+//
+//
     public class AppsReceiver extends BroadcastReceiver {
         private AppsChangeObservable observable;
 
