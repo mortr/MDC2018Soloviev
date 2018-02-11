@@ -22,7 +22,7 @@ import java.util.List;
 import static com.mortr.soloviev.mdc2018soloviev.utils.Utils.getListApplications;
 import static com.mortr.soloviev.mdc2018soloviev.utils.Utils.getSortedApps;
 
-public class LauncherListFragment extends Fragment implements AppsChangeObservable.AppsChangeObserver {
+public class LauncherListFragment extends LaunchPagesFragment implements AppsChangeObservable.AppsChangeObserver {
 
     public static final String TAG = "LauncherFragment";
     public static final int OFFSET_WAS_NOT_RESSIVED = -1;

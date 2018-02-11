@@ -7,23 +7,22 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.net.Uri;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mortr.soloviev.mdc2018soloviev.R;
 import com.mortr.soloviev.mdc2018soloviev.db.DBHelper;
 import com.mortr.soloviev.mdc2018soloviev.db.DBUtils;
+import com.mortr.soloviev.mdc2018soloviev.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,7 +90,6 @@ public class LauncherApplicationsAdapter extends RecyclerView.Adapter<LauncherAp
     }
 
 
-
     @Override
     public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
 
@@ -134,8 +132,10 @@ public class LauncherApplicationsAdapter extends RecyclerView.Adapter<LauncherAp
     private void launchApp(ResolveInfo appInfo, Context context) {
         Log.v(TAG, "launchApp " + appInfo);
         ActivityInfo activity = appInfo.activityInfo;
+
         ComponentName name = new ComponentName(activity.applicationInfo.packageName,
                 activity.name);
+        Utils.sendYAPPMEvent(Utils.YAPPEventName.LAUNCH_APP_START, activity.name);
         Intent intent = new Intent(Intent.ACTION_MAIN);
 
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
@@ -153,39 +153,7 @@ public class LauncherApplicationsAdapter extends RecyclerView.Adapter<LauncherAp
                 if (viewHolder != null) {
                     position = viewHolder.getAdapterPosition();
                 }
-                final ResolveInfo appInfo = applicationInfos.get(position);
-                final PopupMenu popup = new PopupMenu(v.getContext(), v);
-//                popup.getMenu().findItem(R.id.);
-                popup.inflate(R.menu.context_menu);
-                final DBHelper dbHelper = new DBHelper(v.getContext());
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.menu_info: {
-                                Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                intent.setData(Uri.parse("package:" + appInfo.activityInfo.packageName));
-                                v.getContext().startActivity(intent);
-                            }
-                            return true;
-                            case R.id.menu_delete: {
-                                Intent intent = new Intent(Intent.ACTION_DELETE);
-                                intent.setData(Uri.parse("package:" + appInfo.activityInfo.packageName));
-                                v.getContext().startActivity(intent);
-                                return true;
-                            }
-                            case R.id.menu_count: {
-                                int menuCount = DBUtils.getStartCount(appInfo, dbHelper.getWritableDatabase());
-                                dbHelper.close();
-                                Toast.makeText(v.getContext(), "start count = " + menuCount, Toast.LENGTH_LONG).show();
-                                return true;
-                            }
-                            default:
-                                return true;
-                        }
-                    }
-                });
+                final PopupMenu popup = createPopupMenu(v, position);
                 popup.show();
 
 
@@ -193,6 +161,13 @@ public class LauncherApplicationsAdapter extends RecyclerView.Adapter<LauncherAp
             return true;
         }
     };
+
+    @NonNull
+    private PopupMenu createPopupMenu(final View v, int position) {
+        final ResolveInfo appInfo = applicationInfos.get(position);
+        return Utils.createPopupMenu(v, appInfo);
+    }
+
 }
 
 

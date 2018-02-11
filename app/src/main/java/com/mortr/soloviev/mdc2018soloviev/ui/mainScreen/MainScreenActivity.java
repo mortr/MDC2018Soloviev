@@ -14,7 +14,7 @@ public class MainScreenActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setTheme(Utils.isWhiteTheme(this)?R.style.AppTheme_WhiteTheme:R.style.AppTheme_BlackTheme);
         super.onCreate(savedInstanceState);
-//        Fabric.with(this, new Crashlytics());//TODO move to application
+        Utils.sendYAPPMEvent(Utils.YAPPEventName.MAIN_SCREEN_OPEN,"");
         setContentView(R.layout.activity_main_screen);
     }
 }

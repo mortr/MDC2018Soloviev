@@ -5,18 +5,30 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.content.res.Configuration;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.PopupMenu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
+import com.mortr.soloviev.mdc2018soloviev.R;
 import com.mortr.soloviev.mdc2018soloviev.db.DBHelper;
 import com.mortr.soloviev.mdc2018soloviev.db.DBUtils;
+import com.yandex.metrica.YandexMetrica;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Utils {
 
@@ -26,6 +38,45 @@ public class Utils {
     private static final String PREFS_WELCOME_PAGE_WAS_SHOWED = "PREFS_WELCOME_PAGE_WAS_SHOWED";
     private static final String PREFS_SORT_TYPE = "PREFS_SORT_TYPE";
     private static final String PREFS_PREFS_APP_SHOWED = "PREFS_PREFS_APP_SHOWED";
+
+
+    public enum YAPPEventName {
+        WELC_PAGE_ON_FOREGROUND, WELC_SCREANS_CREATE, LAUNCH_PAGE_ON_FOREGROUND, LAUNCH_SCREANS_CREATE, LAUNCH_DRAWER_OPEN, LAUNCH_DRAWER_ITEM_CHOOSE,
+        LAUNCH_APP_START, LAUNCH_APP_DELETE, LAUNCH_APP_INFO, LAUNCH_APP_STARTS_INFO, LAUNCH_SORT_APP_CHANGE,
+        LAUNCH_BACK_PRESS, MAIN_SCREEN_OPEN, PROFILE_OPEN, PROFILE_GIT_HUB, PROFILE_BACK, PROFILE_HOME, PROFILE_MOB_PHONE,
+        PROFILE_ADDITIONAL_MAIL, PROFILE_MAIN_MAIL, PROFILE_HOME_ADDRESS, THEME_CHANGE, LAYOUT_DENSITY_CHANGE
+    }
+
+    public enum SortType {
+        SORT_AZ(), SORT_ZA(), SORT_DATA(), DEFAULT(), SORT_START_COUNT()
+    }
+
+    public static void sendYAPPMEvent(final YAPPEventName eventName, final String message) {
+        final Map<String, Object> arguments = new HashMap<>(2);
+        arguments.put("time", String.valueOf(System.currentTimeMillis()));
+        if (message != null && !message.isEmpty()) {
+            arguments.put("message", message);
+        }
+        final Thread sendEventToYAPM = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+
+                YandexMetrica.reportEvent(eventName.name(), arguments);
+            }
+        });
+        sendEventToYAPM.start();
+    }
+
+    public static String getOrientation(Context context) {
+        final Configuration configuration = context.getResources().getConfiguration();
+        int orientation = configuration.orientation;
+
+        return
+                orientation == Configuration.ORIENTATION_LANDSCAPE
+                        ? "LANDSCAPE"
+                        : orientation == Configuration.ORIENTATION_PORTRAIT ? "PORTRAIT" : "UNDEFINED or Square";
+    }
 
     public static void savePreferenceAppShowingState(Activity context, boolean isShow) {
         SharedPreferences sharedPreferences = context.getApplicationContext().getSharedPreferences(Utils.PREFS_FILE, Context.MODE_PRIVATE);
@@ -37,10 +88,6 @@ public class Utils {
     public static boolean isPreferenceAppShowed(Context context) {
         SharedPreferences sharedPreferences = context.getApplicationContext().getSharedPreferences(PREFS_FILE, Context.MODE_PRIVATE);
         return sharedPreferences.getBoolean(PREFS_PREFS_APP_SHOWED, false);
-    }
-
-    public enum SortType {
-        SORT_AZ(), SORT_ZA(), SORT_DATA(), DEFAULT(), SORT_START_COUNT()
     }
 
 
@@ -57,6 +104,7 @@ public class Utils {
     }
 
     public static void saveLayoutSettings(Context context, boolean isStandard) {
+        sendYAPPMEvent(YAPPEventName.LAYOUT_DENSITY_CHANGE, isStandard ? "Standard layout" : "Compact layout");
         SharedPreferences sharedPreferences = context.getApplicationContext().getSharedPreferences(Utils.PREFS_FILE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(PREFS_LAYOUT_IS_STANDARD, isStandard);
@@ -69,6 +117,7 @@ public class Utils {
     }
 
     private static void saveAppTheme(Context context, boolean isWhiteTheme) {
+        sendYAPPMEvent(YAPPEventName.THEME_CHANGE, isWhiteTheme ? "White theme" : "Black theme");
         SharedPreferences sharedPreferences = context.getApplicationContext().getSharedPreferences(Utils.PREFS_FILE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(Utils.PREFS_APP_THEME, isWhiteTheme);
@@ -130,6 +179,7 @@ public class Utils {
     }
 
     public static void saveSortSettings(Context context, SortType sort) {
+        sendYAPPMEvent(YAPPEventName.LAUNCH_SORT_APP_CHANGE, sort.name());
         SharedPreferences sharedPreferences = context.getApplicationContext().getSharedPreferences(Utils.PREFS_FILE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(PREFS_SORT_TYPE, sort.name());
@@ -202,4 +252,45 @@ public class Utils {
         return sortedResolveList;
     }
 
+
+    @NonNull
+    public static PopupMenu createPopupMenu(final View v, final ResolveInfo appInfo) {
+        final PopupMenu popup = new PopupMenu(v.getContext(), v);
+        popup.inflate(R.menu.context_menu);
+        final DBHelper dbHelper = new DBHelper(v.getContext());
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.menu_info: {
+                        Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        ActivityInfo activityInfo = appInfo.activityInfo;
+                        intent.setData(Uri.parse("package:" + activityInfo.packageName));
+                        sendYAPPMEvent(YAPPEventName.LAUNCH_APP_INFO, activityInfo.name);
+                        v.getContext().startActivity(intent);
+                    }
+                    return true;
+                    case R.id.menu_delete: {
+                        Intent intent = new Intent(Intent.ACTION_DELETE);
+                        ActivityInfo activityInfo = appInfo.activityInfo;
+                        intent.setData(Uri.parse("package:" + activityInfo.packageName));
+                        sendYAPPMEvent(YAPPEventName.LAUNCH_APP_DELETE, activityInfo.name);
+                        v.getContext().startActivity(intent);
+                        return true;
+                    }
+                    case R.id.menu_count: {
+                        sendYAPPMEvent(YAPPEventName.LAUNCH_APP_STARTS_INFO, appInfo.activityInfo.name);
+                        int startCount = DBUtils.getStartCount(appInfo, dbHelper.getWritableDatabase());
+                        dbHelper.close();
+                        Toast.makeText(v.getContext(), "start count = " + startCount, Toast.LENGTH_LONG).show();
+                        return true;
+                    }
+                    default:
+                        return true;
+                }
+            }
+        });
+        return popup;
+    }
 }

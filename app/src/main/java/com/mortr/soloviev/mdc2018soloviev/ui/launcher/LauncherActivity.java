@@ -22,6 +22,7 @@ import com.mortr.soloviev.mdc2018soloviev.ui.profile.ProfileActivity;
 import com.mortr.soloviev.mdc2018soloviev.ui.settings.SettingsFragment;
 import com.mortr.soloviev.mdc2018soloviev.utils.Utils;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class LauncherActivity extends AppCompatActivity implements NavigationVie
 
 
     public static final String TAG_LAUNCHER_FRAGMENT = "TagLauncherFragment";
-//    public static final String TAG_QUASI_LAUNCHER_FRAGMENT = "TAG_QUASI_LAUNCHER_FRAGMENT";
+    //    public static final String TAG_QUASI_LAUNCHER_FRAGMENT = "TAG_QUASI_LAUNCHER_FRAGMENT";
     public static final String TAG_LAUNCHER_LIST_FRAGMENT = "TAG_LAUNCHER_LIST_FRAGMENT";
     private DrawerLayout drawer;
     private List<AppsChangeObserver> observerList = new ArrayList<>();
@@ -40,8 +41,9 @@ public class LauncherActivity extends AppCompatActivity implements NavigationVie
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTheme(Utils.isWhiteTheme(this)?R.style.AppTheme_WhiteTheme:R.style.AppTheme_BlackTheme);
+        setTheme(Utils.isWhiteTheme(this) ? R.style.AppTheme_WhiteTheme : R.style.AppTheme_BlackTheme);
         setContentView(R.layout.activity_launcher);
+        Utils.sendYAPPMEvent(Utils.YAPPEventName.LAUNCH_SCREANS_CREATE, "");
 //        ViewGroup container=findViewById(R.id.fragments_container);
         if (savedInstanceState == null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
@@ -51,6 +53,27 @@ public class LauncherActivity extends AppCompatActivity implements NavigationVie
         final NavigationView navigationView = findViewById(R.id.nd_menu);
         navigationView.setNavigationItemSelectedListener(this);
         drawer = findViewById(R.id.n_drawer);
+        drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                Utils.sendYAPPMEvent(Utils.YAPPEventName.LAUNCH_DRAWER_OPEN, "");
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+
+            }
+        });
         final View navigationHeaderView = navigationView.getHeaderView(0);
         final View profileAvatar = navigationHeaderView.findViewById(R.id.navigation_header_avatar);
         profileAvatar.setOnClickListener(new View.OnClickListener() {
@@ -66,9 +89,14 @@ public class LauncherActivity extends AppCompatActivity implements NavigationVie
         intentFilter.addAction(Intent.ACTION_PACKAGE_ADDED);
         intentFilter.addAction(Intent.ACTION_PACKAGE_REMOVED);
         intentFilter.addDataScheme("package");
-        registerReceiver(broadcastReceiver,intentFilter);
+        registerReceiver(broadcastReceiver, intentFilter);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Utils.sendYAPPMEvent(Utils.YAPPEventName.LAUNCH_BACK_PRESS, "");
+    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -100,18 +128,20 @@ public class LauncherActivity extends AppCompatActivity implements NavigationVie
                 break;
         }
         if (startingFragment != null) {
+            Utils.sendYAPPMEvent(Utils.YAPPEventName.LAUNCH_DRAWER_ITEM_CHOOSE, "");
             fragmentManager.popBackStack();
             fragmentManager.beginTransaction().replace(R.id.fragments_container, startingFragment, startingFragmentTag).addToBackStack(null).commit();
+            //noinspection ConstantConditions
+            if (startingFragment instanceof PageForegroundable) {
+                ((PageForegroundable) startingFragment).onFrontPagerScreen();
+            } else {
+                throw new ClassCastException("Fragment mast implement PageForegroundable");
+            }
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    @Override
-    public void onBackPressed() {
-
-        super.onBackPressed();
-    }
 
     @Override
     public void addAppsChangeObserver(AppsChangeObserver observer) {
@@ -164,7 +194,7 @@ public class LauncherActivity extends AppCompatActivity implements NavigationVie
         private AppsChangeObservable observable;
 
         public AppsReceiver(AppsChangeObservable observable) {
-            this.observable=observable;
+            this.observable = observable;
         }
 
         @Override
