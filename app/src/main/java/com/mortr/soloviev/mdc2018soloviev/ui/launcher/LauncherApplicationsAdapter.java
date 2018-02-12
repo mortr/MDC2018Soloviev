@@ -3,6 +3,7 @@ package com.mortr.soloviev.mdc2018soloviev.ui.launcher;
 
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,20 +17,27 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mortr.soloviev.mdc2018soloviev.R;
-import com.mortr.soloviev.mdc2018soloviev.db.DBHelper;
-import com.mortr.soloviev.mdc2018soloviev.db.DBUtils;
 import com.mortr.soloviev.mdc2018soloviev.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class LauncherApplicationsAdapter extends RecyclerView.Adapter<LauncherApplicationsAdapter.Holder> {
+
+    public interface AppItemClickListener{
+
+        void onClickApplicationItem(ResolveInfo appInfo, View v);
+
+        void onLongClickApplicationItem(ResolveInfo appInfo, View v);
+    }
+
     private static final String TAG = "LauncherAppsAdapter";
     @LayoutRes
     private int itemLayoutRes;
     @Nullable
     private RecyclerView recycler;
     private List<ResolveInfo> applicationInfos = new ArrayList<>();
+    private AppItemClickListener appItemClickListener;
 
     class Holder extends RecyclerView.ViewHolder {
         ImageView appIcon;
@@ -71,9 +79,14 @@ public class LauncherApplicationsAdapter extends RecyclerView.Adapter<LauncherAp
         this.itemLayoutRes = R.layout.application_list_item;
     }
 
+
     LauncherApplicationsAdapter(@LayoutRes int itemLayoutRes) {
         this.itemLayoutRes = itemLayoutRes;
 
+    }
+
+    public void setAppItemClickListener(AppItemClickListener appItemClickListener){
+        this.appItemClickListener=appItemClickListener;
     }
 
     void setNewAppList(List<ResolveInfo> app) {
@@ -117,10 +130,10 @@ public class LauncherApplicationsAdapter extends RecyclerView.Adapter<LauncherAp
                 position = viewHolder.getAdapterPosition();
             }
             final ResolveInfo appInfo = applicationInfos.get(position);
-            final DBHelper dbHelper = new DBHelper(v.getContext());
-            DBUtils.onStartApp(appInfo, v.getContext(), dbHelper.getWritableDatabase());
-            dbHelper.close();
-            Utils.launchApp(appInfo, recycler.getContext());
+            if (appItemClickListener!=null){
+                appItemClickListener.onClickApplicationItem(appInfo,v);
+            }
+
         }
 
     };
@@ -134,8 +147,11 @@ public class LauncherApplicationsAdapter extends RecyclerView.Adapter<LauncherAp
                 if (viewHolder != null) {
                     position = viewHolder.getAdapterPosition();
                 }
-                final PopupMenu popup = createPopupMenu(v, position);
-                popup.show();
+                final ResolveInfo appInfo = applicationInfos.get(position);
+                if (appItemClickListener!=null){
+                    appItemClickListener.onLongClickApplicationItem(appInfo,v);
+                }
+
 
 
             }
@@ -143,11 +159,7 @@ public class LauncherApplicationsAdapter extends RecyclerView.Adapter<LauncherAp
         }
     };
 
-    @NonNull
-    private PopupMenu createPopupMenu(final View v, int position) {
-        final ResolveInfo appInfo = applicationInfos.get(position);
-        return Utils.createApplicationPopupMenu(v, appInfo);
-    }
+
 
 }
 

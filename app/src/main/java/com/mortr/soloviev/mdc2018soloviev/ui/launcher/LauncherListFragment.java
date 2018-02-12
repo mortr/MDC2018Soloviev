@@ -22,58 +22,22 @@ import java.util.List;
 import static com.mortr.soloviev.mdc2018soloviev.utils.Utils.getListApplications;
 import static com.mortr.soloviev.mdc2018soloviev.utils.Utils.getSortedApps;
 
-public class LauncherListFragment extends LaunchPagesFragment implements AppsChangeObservable.AppsChangeObserver {
+public class LauncherListFragment extends LaunchPagesFragment {
 
     public static final String TAG = "LauncherFragment";
     public static final int OFFSET_WAS_NOT_RESSIVED = -1;
     private int offset = OFFSET_WAS_NOT_RESSIVED;
-    private LauncherApplicationsAdapter adapter;
-    private Utils.SortType sortType = Utils.SortType.DEFAULT;
 
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        adapter = new LauncherApplicationsAdapter(R.layout.app_three_line_list_item);
-        Context context = getContext();
-        sortType = Utils.getTypeSort(context);
-        refreshAppsToAdapter(sortType, getSortedApps(getListApplications(getContext()), sortType, context));
-        setRetainInstance(true);
-    }
-
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof AppsChangeObservable) {
-            ((AppsChangeObservable) context).addAppsChangeObserver(this);
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        Context context = getContext();
-        if (context instanceof AppsChangeObservable) {
-            ((AppsChangeObservable) context).addAppsChangeObserver(this);
-        }
+    LauncherApplicationsAdapter createAdapter() {
+        return new LauncherApplicationsAdapter(R.layout.app_three_line_list_item);
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.launcher_content_layout, container, false);
-        Context context = getContext();
-        Utils.SortType newSortType = Utils.getTypeSort(context);
-        if (!sortType.equals(newSortType)) {
-            refreshAppsToAdapter(newSortType, getSortedApps(getListApplications(context), newSortType, context));
-        }
-        return view;
-    }
-
-    private void refreshAppsToAdapter(Utils.SortType newSortType, List<ResolveInfo> sortedApps) {
-        sortType = newSortType;
-        adapter.setNewAppList(sortedApps);
+        return inflater.inflate(R.layout.launcher_content_layout, container, false);
     }
 
 
@@ -96,7 +60,7 @@ public class LauncherListFragment extends LaunchPagesFragment implements AppsCha
                 }
             });
         }
-        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(getAdapter());
 
 
     }
@@ -110,12 +74,4 @@ public class LauncherListFragment extends LaunchPagesFragment implements AppsCha
 
     }
 
-    @Override
-    public void onListApplicationsWasChanged() {
-        if (adapter != null) {
-            Context context = getContext();
-            sortType = Utils.getTypeSort(context);
-            refreshAppsToAdapter(sortType, getSortedApps(getListApplications(getContext()), sortType, context));
-        }
-    }
 }

@@ -109,8 +109,8 @@ public class DesktopAdapter extends RecyclerView.Adapter<DesktopAdapter.Holder> 
                 position = viewHolder.getAdapterPosition();
             }
             DesktopItemModel desktopItem = itemModels.get(position);
-            if (desktopItem.getModelType() == DesktopItemModel.ModelType.APPLICATION_ACTIVITY) {
-                Utils.launchApp(desktopItem.getComponentInfo(), recycler.getContext());
+            if (desktopItem.getDesktopModelType() == DesktopItemModel.DesktopModelType.APPLICATION_ACTIVITY) {
+                Utils.launchApp(desktopItem.getComponentName(), recycler.getContext());
             }
         }
 

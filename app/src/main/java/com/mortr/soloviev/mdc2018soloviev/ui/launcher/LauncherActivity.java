@@ -1,9 +1,12 @@
 package com.mortr.soloviev.mdc2018soloviev.ui.launcher;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,14 +18,18 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.PopupMenu;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 
 import com.mortr.soloviev.mdc2018soloviev.R;
+import com.mortr.soloviev.mdc2018soloviev.db.DBHelper;
+import com.mortr.soloviev.mdc2018soloviev.db.DBUtils;
+import com.mortr.soloviev.mdc2018soloviev.ui.desktop.AppChooseActivityLauncher;
 import com.mortr.soloviev.mdc2018soloviev.ui.desktop.AppChooserActivity;
+import com.mortr.soloviev.mdc2018soloviev.ui.desktop.ChooseAppReceiverable;
 import com.mortr.soloviev.mdc2018soloviev.ui.desktop.DesktopFragment;
 import com.mortr.soloviev.mdc2018soloviev.ui.desktop.WorkSpace;
 import com.mortr.soloviev.mdc2018soloviev.ui.profile.ProfileActivity;
@@ -32,8 +39,12 @@ import com.mortr.soloviev.mdc2018soloviev.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.mortr.soloviev.mdc2018soloviev.ui.desktop.AppChooserActivity.KEY_COMPONENT_NAME;
 
-public class LauncherActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, AppsChangeObservable,WorkSpace.AppChooseActivityLauncher {
+
+public class LauncherActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener,
+        AppsChangeObservable, AppChooseActivityLauncher, LauncherApplicationsAdapter.AppItemClickListener {
 
 
     public static final String TAG_LAUNCHER_FRAGMENT = "TagLauncherFragment";
@@ -41,11 +52,18 @@ public class LauncherActivity extends AppCompatActivity implements NavigationVie
     public static final String TAG_LAUNCHER_LIST_FRAGMENT = "TAG_LAUNCHER_LIST_FRAGMENT";
     public static final String TAG_SETTINGS_FRAGMENT = "TAG_SETTINGS_FRAGMENT";
     public static final String TAG_DESKTOP_FRAGMENT = "TAG_DESKTOP_FRAGMENT";
+    public static final int REQUEST_CODE_DESKTOP_APP_CHOOSER = 12;
+    public static final String DESKTOP_X = "X";
+    public static final String DESKTOP_Y = "Y";
+
     private DrawerLayout drawer;
     private List<AppsChangeObserver> observerList = new ArrayList<>();
     private BroadcastReceiver broadcastReceiver;
-    private IntentFilter intentFilter;
     private ViewPager viewPager;
+    @Nullable
+    private ChooseAppReceiverable chooseAppReceiverable;
+    @Nullable
+    private Bundle placeCoordinatesForAppChoose;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -119,7 +137,7 @@ public class LauncherActivity extends AppCompatActivity implements NavigationVie
         });
 
         broadcastReceiver = new AppsReceiver(this);
-        intentFilter = new IntentFilter();
+        IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Intent.ACTION_PACKAGE_REPLACED);
         intentFilter.addAction(Intent.ACTION_PACKAGE_ADDED);
         intentFilter.addAction(Intent.ACTION_PACKAGE_REMOVED);
@@ -229,18 +247,45 @@ public class LauncherActivity extends AppCompatActivity implements NavigationVie
 
     @Override
     public void startAppChooseActivity(float x, float y) {
-        Bundle bundle=new Bundle();
-        bundle.putFloat("X",x);
-        bundle.putFloat("Y",y);
-        startActivityForResult(new Intent(this, AppChooserActivity.class),12);
+        placeCoordinatesForAppChoose = new Bundle();//TODO it is needed to refactor
+        placeCoordinatesForAppChoose.putFloat(DESKTOP_X, x);
+        placeCoordinatesForAppChoose.putFloat(DESKTOP_Y, y);
+        startActivityForResult(new Intent(this, AppChooserActivity.class), REQUEST_CODE_DESKTOP_APP_CHOOSER);
+    }
+
+    @Override
+    public void setChooseAppReceiverable(ChooseAppReceiverable chooseAppReceiverable) {
+        this.chooseAppReceiverable = chooseAppReceiverable;
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode==12){
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_DESKTOP_APP_CHOOSER) {
+            ComponentName componentName = (ComponentName) data.getParcelableExtra(KEY_COMPONENT_NAME);
+            if (chooseAppReceiverable != null&&placeCoordinatesForAppChoose!=null) {
 
+                chooseAppReceiverable.chooseAppReceive(componentName,
+                        placeCoordinatesForAppChoose.getFloat(DESKTOP_X,64),
+                        placeCoordinatesForAppChoose.getFloat(DESKTOP_Y,64));
+            }
         }
+    }
+
+    @Override
+    public void onClickApplicationItem(ResolveInfo appInfo, View v) {
+        final DBHelper dbHelper = new DBHelper(v.getContext());
+        DBUtils.onStartApp(appInfo, v.getContext(), dbHelper.getWritableDatabase());
+        dbHelper.close();
+        Utils.launchApp(appInfo, this);
+    }
+
+    @Override
+    public void onLongClickApplicationItem(ResolveInfo appInfo, View v) {
+
+        PopupMenu popupMenu = Utils.createApplicationPopupMenu(v, appInfo);
+        popupMenu.show();
+
     }
 
     public class ViewPagerAdapter extends FragmentStatePagerAdapter { //TODO move to package
