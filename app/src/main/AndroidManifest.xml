@@ -39,6 +39,7 @@
                 <category android:name="android.intent.category.HOME" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.desktop.AppChooserActivity" />
 
         <meta-data
             android:name="io.fabric.ApiKey"

@@ -2,6 +2,7 @@ package com.mortr.soloviev.mdc2018soloviev.utils;
 
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -39,6 +40,40 @@ public class Utils {
     private static final String PREFS_SORT_TYPE = "PREFS_SORT_TYPE";
     private static final String PREFS_PREFS_APP_SHOWED = "PREFS_PREFS_APP_SHOWED";
 
+    public static void launchApp(ResolveInfo appInfo, Context context) {
+        ActivityInfo activity = appInfo.activityInfo;
+
+        ComponentName name = new ComponentName(activity.applicationInfo.packageName,
+                activity.name);
+        launchApp(name, context);
+    }
+
+    public static void launchApp(ComponentName componentName, Context context) {
+        sendYAPPMEvent(YAPPEventName.LAUNCH_APP_START, componentName.getClassName());
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_LAUNCHER);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK) ;
+        intent.setComponent(componentName);
+        context.startActivity(intent);
+    }
+
+    public static void launchWebReference(Context context, String url) {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        context.startActivity(intent);
+    }
+
+    public static void launchCustom(Context context, String action, String[] categories, ComponentName componentName) {
+        Intent intent = new Intent(action);
+        intent.addCategory(Intent.CATEGORY_LAUNCHER);
+        for (String category : categories) {
+            intent.addCategory(category);
+        }
+        if (componentName != null) {
+            intent.setComponent(componentName);
+        }
+        context.startActivity(intent);
+
+    }
 
     public enum YAPPEventName {
         WELC_PAGE_ON_FOREGROUND, WELC_SCREANS_CREATE, LAUNCH_PAGE_ON_FOREGROUND, LAUNCH_SCREANS_CREATE, LAUNCH_DRAWER_OPEN, LAUNCH_DRAWER_ITEM_CHOOSE,
@@ -254,7 +289,7 @@ public class Utils {
 
 
     @NonNull
-    public static PopupMenu createPopupMenu(final View v, final ResolveInfo appInfo) {
+    public static PopupMenu createApplicationPopupMenu(final View v, final ResolveInfo appInfo) {
         final PopupMenu popup = new PopupMenu(v.getContext(), v);
         popup.inflate(R.menu.context_menu);
         final DBHelper dbHelper = new DBHelper(v.getContext());

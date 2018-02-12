@@ -16,35 +16,36 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 
 import com.mortr.soloviev.mdc2018soloviev.R;
+import com.mortr.soloviev.mdc2018soloviev.ui.desktop.AppChooserActivity;
+import com.mortr.soloviev.mdc2018soloviev.ui.desktop.DesktopFragment;
+import com.mortr.soloviev.mdc2018soloviev.ui.desktop.WorkSpace;
 import com.mortr.soloviev.mdc2018soloviev.ui.profile.ProfileActivity;
 import com.mortr.soloviev.mdc2018soloviev.ui.settings.SettingsFragment;
-import com.mortr.soloviev.mdc2018soloviev.ui.welcomePages.DescriptionFragment;
-import com.mortr.soloviev.mdc2018soloviev.ui.welcomePages.LayoutSettingsFragment;
-import com.mortr.soloviev.mdc2018soloviev.ui.welcomePages.ThemeChooserFragment;
-import com.mortr.soloviev.mdc2018soloviev.ui.welcomePages.WelcomeFragment;
-import com.mortr.soloviev.mdc2018soloviev.ui.welcomePages.WelcomePagesActivity;
-import com.mortr.soloviev.mdc2018soloviev.ui.welcomePages.WelcomePagesFragment;
 import com.mortr.soloviev.mdc2018soloviev.utils.Utils;
-
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class LauncherActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, AppsChangeObservable {
+public class LauncherActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, AppsChangeObservable,WorkSpace.AppChooseActivityLauncher {
 
 
     public static final String TAG_LAUNCHER_FRAGMENT = "TagLauncherFragment";
     //    public static final String TAG_QUASI_LAUNCHER_FRAGMENT = "TAG_QUASI_LAUNCHER_FRAGMENT";
     public static final String TAG_LAUNCHER_LIST_FRAGMENT = "TAG_LAUNCHER_LIST_FRAGMENT";
+    public static final String TAG_SETTINGS_FRAGMENT = "TAG_SETTINGS_FRAGMENT";
+    public static final String TAG_DESKTOP_FRAGMENT = "TAG_DESKTOP_FRAGMENT";
     private DrawerLayout drawer;
     private List<AppsChangeObserver> observerList = new ArrayList<>();
     private BroadcastReceiver broadcastReceiver;
     private IntentFilter intentFilter;
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,35 +53,38 @@ public class LauncherActivity extends AppCompatActivity implements NavigationVie
         setTheme(Utils.isWhiteTheme(this) ? R.style.AppTheme_WhiteTheme : R.style.AppTheme_BlackTheme);
         setContentView(R.layout.activity_launcher);
         Utils.sendYAPPMEvent(Utils.YAPPEventName.LAUNCH_SCREANS_CREATE, "");
-        if (savedInstanceState == null) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            Fragment launcherFragment = LauncherFragment.newInstance();
-            fragmentManager.beginTransaction().add(R.id.fragments_container, launcherFragment, TAG_LAUNCHER_FRAGMENT)/*.addToBackStack(null)*/.commit();
-        }
+//        if (savedInstanceState == null) {
+//            FragmentManager fragmentManager = getSupportFragmentManager();
+//            Fragment launcherFragment = LauncherFragment.newInstance();
+//            fragmentManager.beginTransaction().add(R.id.fragments_container, launcherFragment, TAG_LAUNCHER_FRAGMENT)/*.addToBackStack(null)*/.commit();
+//        }
 //
-//        final FragmentManager fragmentManager = getSupportFragmentManager();
-//        final ViewPagerAdapter pagerAdapter = new ViewPagerAdapter(fragmentManager);
-//
-//        final ViewPager viewPager = findViewById(R.id.view_pager);
-//        viewPager.setAdapter(pagerAdapter);
-//        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-//            @Override
-//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//
-//            }
-//
-//            @Override
-//            public void onPageSelected(int position) {
-//                ((WelcomePagesFragment) pagerAdapter.getItem(position)).onFrontPagerScreen();
-//            }
-//
-//            @Override
-//            public void onPageScrollStateChanged(int state) {
-//
-//            }
-//        });
-//
-//
+        final FragmentManager fragmentManager = getSupportFragmentManager();
+        final ViewPagerAdapter pagerAdapter = new ViewPagerAdapter(fragmentManager);
+
+        viewPager = findViewById(R.id.view_pager);
+        viewPager.setAdapter(pagerAdapter);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                Fragment startingFragment = pagerAdapter.getItem(position);
+                if (startingFragment instanceof PageForegroundable) {
+                    ((PageForegroundable) startingFragment).onFrontPagerScreen();
+                } else {
+                    throw new ClassCastException("Fragment mast implement PageForegroundable");
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         final NavigationView navigationView = findViewById(R.id.nd_menu);
         navigationView.setNavigationItemSelectedListener(this);
         drawer = findViewById(R.id.n_drawer);
@@ -139,13 +143,14 @@ public class LauncherActivity extends AppCompatActivity implements NavigationVie
 //            case R.id.menu_device_settings_point:
 //                return true;
             case R.id.app_menu_settings_point:
-                startingFragment = new SettingsFragment();
-                startingFragmentTag = "TAG_SETTINGS_FRAGMENT";
+                viewPager.setCurrentItem(3);
+//                startingFragment = new SettingsFragment();
+//                startingFragmentTag = TAG_SETTINGS_FRAGMENT;
                 break;
             case R.id.menu_launcher_activity_point:
-                startingFragment = LauncherFragment.newInstance();
-                startingFragmentTag = TAG_LAUNCHER_FRAGMENT;
-
+//                startingFragment = LauncherFragment.newInstance();
+//                startingFragmentTag = TAG_LAUNCHER_FRAGMENT;
+                viewPager.setCurrentItem(1);
                 break;
 
 //            case R.id.menu_quasi_launcher_activity_point:
@@ -154,21 +159,22 @@ public class LauncherActivity extends AppCompatActivity implements NavigationVie
 //                break;
 
             case R.id.menu_list_activity_point:
-                startingFragment = LauncherListFragment.newInstance();
-                startingFragmentTag = TAG_LAUNCHER_LIST_FRAGMENT;
+                viewPager.setCurrentItem(2);
+//                startingFragment = LauncherListFragment.newInstance();
+//                startingFragmentTag = TAG_LAUNCHER_LIST_FRAGMENT;
                 break;
         }
-        if (startingFragment != null) {
-            Utils.sendYAPPMEvent(Utils.YAPPEventName.LAUNCH_DRAWER_ITEM_CHOOSE, "");
-            fragmentManager.popBackStack();
-            fragmentManager.beginTransaction().replace(R.id.fragments_container, startingFragment, startingFragmentTag).addToBackStack(null).commit();
-            //noinspection ConstantConditions
-            if (startingFragment instanceof PageForegroundable) {
-                ((PageForegroundable) startingFragment).onFrontPagerScreen();
-            } else {
-                throw new ClassCastException("Fragment mast implement PageForegroundable");
-            }
-        }
+//        if (startingFragment != null) {
+//            Utils.sendYAPPMEvent(Utils.YAPPEventName.LAUNCH_DRAWER_ITEM_CHOOSE, "");
+//            fragmentManager.popBackStack();
+//            fragmentManager.beginTransaction().replace(R.id.fragments_container, startingFragment, startingFragmentTag).addToBackStack(null).commit();
+//            //noinspection ConstantConditions
+//            if (startingFragment instanceof PageForegroundable) {
+//                ((PageForegroundable) startingFragment).onFrontPagerScreen();
+//            } else {
+//                throw new ClassCastException("Fragment mast implement PageForegroundable");
+//            }
+//        }
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -221,38 +227,67 @@ public class LauncherActivity extends AppCompatActivity implements NavigationVie
         unregisterReceiver(broadcastReceiver);
     }
 
-//    public class ViewPagerAdapter extends FragmentStatePagerAdapter { //TODO move to package
-//
-//
-//        ViewPagerAdapter(@NonNull final FragmentManager fm) {
-//            super(fm);
-//        }
-//
-//        @Override
-//        public Fragment getItem(int position) {
-//            switch (position) {
-//                case 0: {
-//                }
-//                case 1: {
-//                }
-//                case 2: {
-//                }
-//                case 3: {
-//                }
-//            }
-//            return null;
-//        }
-//
-//        @Override
-//        public int getCount() {
-//            return 0;
-//        }
-//
-//    }
-//
-//
-//
-//
+    @Override
+    public void startAppChooseActivity(float x, float y) {
+        Bundle bundle=new Bundle();
+        bundle.putFloat("X",x);
+        bundle.putFloat("Y",y);
+        startActivityForResult(new Intent(this, AppChooserActivity.class),12);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==12){
+
+        }
+    }
+
+    public class ViewPagerAdapter extends FragmentStatePagerAdapter { //TODO move to package
+        static final int FRAGMENT_COUNT = 4;
+        //        String[] fragmentsTag = {TAG_DESKTOP_FRAGMENT, TAG_LAUNCHER_FRAGMENT, TAG_LAUNCHER_LIST_FRAGMENT, TAG_SETTINGS_FRAGMENT};
+        SparseArray<Fragment> fragments = new SparseArray<>(FRAGMENT_COUNT);
+
+        ViewPagerAdapter(@NonNull final FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            Fragment fragment = fragments.get(position);
+            if (fragment != null) {
+                return fragment;
+            }
+            switch (position) {
+                case 0: {
+                    fragments.put(position, DesktopFragment.newInstance());
+                    break;
+                }
+                case 1: {
+                    fragments.put(position, LauncherFragment.newInstance());
+                    break;
+                }
+                case 2: {
+                    fragments.put(position, LauncherListFragment.newInstance());
+                    break;
+                }
+                case 3: {
+                    fragments.put(position, new SettingsFragment());
+                    break;
+                }
+            }
+
+            return fragments.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return FRAGMENT_COUNT;
+        }
+
+    }
+
+
     public class AppsReceiver extends BroadcastReceiver {
         private AppsChangeObservable observable;
 

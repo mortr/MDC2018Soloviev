@@ -46,6 +46,7 @@ public class WelcomePagesActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 ((WelcomePagesFragment) pagerAdapter.getItem(position)).onFrontPagerScreen();
+                Log.d("WelcomeActivity",""+pagerAdapter.getItem(position).getTag()+pagerAdapter.getItem(position).getId());
             }
 
             @Override
