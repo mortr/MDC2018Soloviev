@@ -1,6 +1,8 @@
 package com.mortr.soloviev.mdc2018soloviev.ui.launcher;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -22,6 +24,7 @@ public abstract class LaunchPagesFragment extends Fragment implements PageForegr
     private Utils.SortType sortType = Utils.SortType.DEFAULT;
     public static final String TAG = "LaunchPagesFr";
     private LauncherApplicationsAdapter.AppItemClickListener appItemClickListener;
+//    private boolean isNeedChangeRequestOrientation;
 
     @Nullable
     public LauncherApplicationsAdapter getAdapter() {
@@ -52,10 +55,16 @@ public abstract class LaunchPagesFragment extends Fragment implements PageForegr
         }
         if (context instanceof LauncherApplicationsAdapter.AppItemClickListener) {
             appItemClickListener = (LauncherApplicationsAdapter.AppItemClickListener) context;
-            if(adapter!=null){
+            if (adapter != null) {
                 adapter.setAppItemClickListener(appItemClickListener);
             }
         }
+//        if (isNeedChangeRequestOrientation){
+//            if (((Activity)context).getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED) {
+//                ((Activity)context).setRequestedOrientation((ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED));
+//            }
+//            isNeedChangeRequestOrientation=false;
+//        }
     }
 
     @Override
@@ -81,6 +90,15 @@ public abstract class LaunchPagesFragment extends Fragment implements PageForegr
 
     public void onFrontPagerScreen() {
         Log.d(TAG, this.getClass().getName() + "onFrontScreen()");
+//        Activity activity = getActivity();
+//        if (activity != null) {
+//            if (activity.getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED) {
+//                activity.setRequestedOrientation((ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED));
+//            }
+//            isNeedChangeRequestOrientation = false;
+//        } else {
+//            isNeedChangeRequestOrientation = true;
+//        }
         Utils.sendYAPPMEvent(Utils.YAPPEventName.LAUNCH_PAGE_ON_FOREGROUND, LaunchPagesFragment.this.getClass().getName());
     }
 

@@ -4,32 +4,37 @@ import android.annotation.TargetApi;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.v4.util.Pair;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mortr.soloviev.mdc2018soloviev.R;
 import com.yandex.metrica.YandexMetrica;
 
-public class WorkSpace extends ViewGroup implements ChooseAppReceiverable {
+import java.util.HashMap;
+import java.util.Map;
+
+public class WorkSpace extends ViewGroup {
 
     private LayoutInflater layoutInflater;
 
-    @Override
-    public void chooseAppReceive(ComponentName componentName, float x, float y) {
-        addItem(new DesktopItemModel(componentName), x, y);
-    }
+    private Map<View, ComponentName> map = new HashMap<>();
 
-    AppChooseActivityLauncher appChooseActivityLauncher;
+    private AppChooseActivityLauncher appChooseActivityLauncher;
+
+    private WorkspaceDeskAppManagerable workspaceDeskAppManagerable;
+    private int w;
+    private int h;
 
 
     public WorkSpace(Context context) {
@@ -55,6 +60,8 @@ public class WorkSpace extends ViewGroup implements ChooseAppReceiverable {
 
     private void init() {
         layoutInflater = LayoutInflater.from(getContext());
+        w = ((WindowManager)getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getWidth();
+        h = ((WindowManager)getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getHeight();
         GestureDetector.SimpleOnGestureListener simpleOnGestureListener = new GestureDetector.SimpleOnGestureListener() {
             @Override
             public void onShowPress(MotionEvent e) {
@@ -75,6 +82,9 @@ public class WorkSpace extends ViewGroup implements ChooseAppReceiverable {
         this.appChooseActivityLauncher = appChooseActivityLauncher;
     }
 
+    public void setWorkspaceDeskAppManagerable(WorkspaceDeskAppManagerable workspaceDeskAppManagerable) {
+        this.workspaceDeskAppManagerable = workspaceDeskAppManagerable;
+    }
 
     private void createDialogAppChoose(float x, float y) {
         if (appChooseActivityLauncher != null) {
@@ -91,14 +101,21 @@ public class WorkSpace extends ViewGroup implements ChooseAppReceiverable {
         for (int i = 0; i < count; i++) {
             final View child = getChildAt(i);
             Pair<Float, Float> pair = (Pair<Float, Float>) child.getTag();
-            childLeft = pair.first;
-            childTop = pair.second;
             child.measure(0, 0);
+            float childHeight = child.getMeasuredHeight();
+            float childWidth = child.getMeasuredWidth();
+            int parentHeight = h;
+            int parentWidth = w;
+
+            childLeft = pair.first - (childWidth / 2f);
+            childTop = pair.second - (childHeight / 2f);
+            childLeft = childLeft < 0 ? 0 : childLeft > parentWidth ? parentWidth - childWidth : childLeft;
+            childTop = childTop < 0 ? 0 : childTop > parentHeight ? parentHeight - childHeight : childTop;
+
             if (child.getVisibility() != View.GONE) {
-                final int childWidth = child.getMeasuredWidth();
 
 
-                child.layout((int) childLeft, (int) childTop, (int) childLeft + childWidth, (int) childTop + child.getMeasuredHeight());
+                child.layout((int) childLeft, (int) childTop, (int) (childLeft + childWidth), (int) (childTop + childHeight));
 
             }
         }
@@ -108,24 +125,24 @@ public class WorkSpace extends ViewGroup implements ChooseAppReceiverable {
 
     private void fillView(final View itemView, final ComponentName componentName) {
 
-        itemView.setOnLongClickListener(new OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                return false;
-            }
+        itemView.setOnLongClickListener(onLongClickListener);
 
-        });
-        itemView.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+        itemView.setOnClickListener(onClickListener);
+        PackageManager packageManager = itemView.getContext().getPackageManager();
+        TextView appPackageName = itemView.findViewById(R.id.app_package_name);
 
         ImageView appIcon = itemView.findViewById(R.id.app_icon);
-        ((TextView) itemView.findViewById(R.id.app_name)).setText(componentName.getClassName());
-        TextView appPackageName = itemView.findViewById(R.id.app_package_name);
-        PackageManager packageManager = itemView.getContext().getPackageManager();
+        TextView appName = (TextView) itemView.findViewById(R.id.app_name);
+        String packageName = componentName.getPackageName();
+        try {
+            appName.setText(packageManager.getApplicationLabel(packageManager.getApplicationInfo(packageName, 0)));
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            YandexMetrica.reportError("Package did not found for name ", e);
+            String[] name = TextUtils.split(componentName.getClassName(), ".");
+            appName.setText(name[name.length - 1]);
+        }
+
         try {
             appIcon.setImageDrawable(packageManager.getActivityIcon(componentName));
         } catch (PackageManager.NameNotFoundException e) {
@@ -134,7 +151,7 @@ public class WorkSpace extends ViewGroup implements ChooseAppReceiverable {
             appIcon.setBackgroundColor(Color.RED);
         }
         if (appPackageName != null) {
-            appPackageName.setText(componentName.getPackageName());
+            appPackageName.setText(packageName);
         }
 
     }
@@ -146,18 +163,40 @@ public class WorkSpace extends ViewGroup implements ChooseAppReceiverable {
         switch (desktopItemModel.getDesktopModelType()) {
             case APPLICATION_ACTIVITY: {
                 fillView(newView, desktopItemModel.getComponentName());
+
                 break;
             }
-            case CUSTOM: {
-                fillView(newView, new ComponentName(desktopItemModel.getName(), desktopItemModel.getDescription()));
-                break;
-            }
-            case REFERENCES: {
-                break;
-            }
+//            case CUSTOM: {
+//                fillView(newView, new ComponentName(desktopItemModel.getName(), desktopItemModel.getDescription()));
+//                break;
+//            }
+//            case REFERENCES: {
+//                break;
+//            }
         }
-        newView.setTag(new Pair<Float, Float>(x, y));
+        map.put(newView, desktopItemModel.getComponentName());
+        newView.setTag(new Pair<>(x, y));
         addView(newView);
 
     }
+
+
+    private OnClickListener onClickListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (workspaceDeskAppManagerable != null) {
+                workspaceDeskAppManagerable.onDeskAppClick(map.get(v));
+            }
+        }
+    };
+    private OnLongClickListener onLongClickListener = new OnLongClickListener() {
+        @Override
+        public boolean onLongClick(View v) {
+            if (workspaceDeskAppManagerable != null) {
+                workspaceDeskAppManagerable.onDeskAppLongClick(map.get(v));
+            }
+            return true;
+        }
+
+    };
 }

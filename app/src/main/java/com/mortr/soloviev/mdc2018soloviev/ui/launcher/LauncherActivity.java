@@ -30,8 +30,9 @@ import com.mortr.soloviev.mdc2018soloviev.db.DBUtils;
 import com.mortr.soloviev.mdc2018soloviev.ui.desktop.AppChooseActivityLauncher;
 import com.mortr.soloviev.mdc2018soloviev.ui.desktop.AppChooserActivity;
 import com.mortr.soloviev.mdc2018soloviev.ui.desktop.ChooseAppReceiverable;
+import com.mortr.soloviev.mdc2018soloviev.ui.desktop.DesktopAppRemovable;
 import com.mortr.soloviev.mdc2018soloviev.ui.desktop.DesktopFragment;
-import com.mortr.soloviev.mdc2018soloviev.ui.desktop.WorkSpace;
+import com.mortr.soloviev.mdc2018soloviev.ui.desktop.WorkspaceDeskAppManagerable;
 import com.mortr.soloviev.mdc2018soloviev.ui.profile.ProfileActivity;
 import com.mortr.soloviev.mdc2018soloviev.ui.settings.SettingsFragment;
 import com.mortr.soloviev.mdc2018soloviev.utils.Utils;
@@ -44,7 +45,8 @@ import static com.mortr.soloviev.mdc2018soloviev.ui.desktop.AppChooserActivity.K
 
 public class LauncherActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        AppsChangeObservable, AppChooseActivityLauncher, LauncherApplicationsAdapter.AppItemClickListener {
+        AppsChangeObservable, AppChooseActivityLauncher,
+        LauncherApplicationsAdapter.AppItemClickListener, WorkspaceDeskAppManagerable {
 
 
     public static final String TAG_LAUNCHER_FRAGMENT = "TagLauncherFragment";
@@ -64,6 +66,8 @@ public class LauncherActivity extends AppCompatActivity
     private ChooseAppReceiverable chooseAppReceiverable;
     @Nullable
     private Bundle placeCoordinatesForAppChoose;
+    @Nullable
+    private DesktopAppRemovable desktopAppRemovable;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -254,7 +258,7 @@ public class LauncherActivity extends AppCompatActivity
     }
 
     @Override
-    public void setChooseAppReceiverable(ChooseAppReceiverable chooseAppReceiverable) {
+    public void setChooseAppReceiverable(@Nullable ChooseAppReceiverable chooseAppReceiverable) {
         this.chooseAppReceiverable = chooseAppReceiverable;
     }
 
@@ -263,11 +267,14 @@ public class LauncherActivity extends AppCompatActivity
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_DESKTOP_APP_CHOOSER) {
             ComponentName componentName = (ComponentName) data.getParcelableExtra(KEY_COMPONENT_NAME);
-            if (chooseAppReceiverable != null&&placeCoordinatesForAppChoose!=null) {
+            final DBHelper dbHelper = new DBHelper(this);       // TODO  single DBhelper for activity
+            DBUtils.saveDesktopApp(dbHelper, componentName, placeCoordinatesForAppChoose, this);
+            dbHelper.close();
+            if (chooseAppReceiverable != null && placeCoordinatesForAppChoose != null) {
 
                 chooseAppReceiverable.chooseAppReceive(componentName,
-                        placeCoordinatesForAppChoose.getFloat(DESKTOP_X,64),
-                        placeCoordinatesForAppChoose.getFloat(DESKTOP_Y,64));
+                        placeCoordinatesForAppChoose.getFloat(DESKTOP_X, 64),
+                        placeCoordinatesForAppChoose.getFloat(DESKTOP_Y, 64));
             }
         }
     }
@@ -286,6 +293,25 @@ public class LauncherActivity extends AppCompatActivity
         PopupMenu popupMenu = Utils.createApplicationPopupMenu(v, appInfo);
         popupMenu.show();
 
+    }
+
+    @Override
+    public void onDeskAppLongClick(@Nullable ComponentName componentName) {
+        if (desktopAppRemovable != null && componentName != null) {
+            desktopAppRemovable.removeAppFromDesktop(componentName);
+        }
+    }
+
+    @Override
+    public void onDeskAppClick(@Nullable ComponentName componentName) {
+        if (componentName != null) {
+            Utils.launchApp(componentName, this);
+        }
+    }
+
+    @Override
+    public void setDesktopAppRemovable(@Nullable DesktopAppRemovable desktopAppRemovable) {
+        this.desktopAppRemovable = desktopAppRemovable;
     }
 
     public class ViewPagerAdapter extends FragmentStatePagerAdapter { //TODO move to package
