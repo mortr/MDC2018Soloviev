@@ -19,10 +19,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mortr.soloviev.mdc2018soloviev.R;
+import com.mortr.soloviev.mdc2018soloviev.ui.quasilauncher.SquareTextView;
 import com.yandex.metrica.YandexMetrica;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static android.graphics.Color.RED;
 
 public class WorkSpace extends ViewGroup {
 
@@ -33,8 +36,10 @@ public class WorkSpace extends ViewGroup {
     private AppChooseActivityLauncher appChooseActivityLauncher;
 
     private WorkspaceDeskAppManagerable workspaceDeskAppManagerable;
-    private int w;
-    private int h;
+    private int parentHeight;
+    private int parentWidth;
+    //    private int w;
+//    private int h;
 
 
     public WorkSpace(Context context) {
@@ -60,8 +65,8 @@ public class WorkSpace extends ViewGroup {
 
     private void init() {
         layoutInflater = LayoutInflater.from(getContext());
-        w = ((WindowManager)getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getWidth();
-        h = ((WindowManager)getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getHeight();
+//        parentHeight = ((WindowManager)getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getHeight();
+//        parentWidth =((WindowManager)getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getWidth();
         GestureDetector.SimpleOnGestureListener simpleOnGestureListener = new GestureDetector.SimpleOnGestureListener() {
             @Override
             public void onShowPress(MotionEvent e) {
@@ -87,8 +92,14 @@ public class WorkSpace extends ViewGroup {
     }
 
     private void createDialogAppChoose(float x, float y) {
+
         if (appChooseActivityLauncher != null) {
-            appChooseActivityLauncher.startAppChooseActivity(x, y);
+            final TextView archor = new SquareTextView(getContext());
+            archor.setX(x);
+            archor.setY(y);
+            addView(archor);
+            appChooseActivityLauncher.startAppChooseActivity(x, y,archor);
+            removeView(archor);
         }
     }
 
@@ -101,16 +112,17 @@ public class WorkSpace extends ViewGroup {
         for (int i = 0; i < count; i++) {
             final View child = getChildAt(i);
             Pair<Float, Float> pair = (Pair<Float, Float>) child.getTag();
+
+            parentHeight = getMeasuredHeight();
+            parentWidth =getMeasuredWidth();
             child.measure(0, 0);
             float childHeight = child.getMeasuredHeight();
             float childWidth = child.getMeasuredWidth();
-            int parentHeight = h;
-            int parentWidth = w;
 
             childLeft = pair.first - (childWidth / 2f);
             childTop = pair.second - (childHeight / 2f);
-            childLeft = childLeft < 0 ? 0 : childLeft > parentWidth ? parentWidth - childWidth : childLeft;
-            childTop = childTop < 0 ? 0 : childTop > parentHeight ? parentHeight - childHeight : childTop;
+            childLeft = childLeft < 0 ? 0 : childLeft+childWidth > parentWidth ? parentWidth - childWidth : childLeft;
+            childTop = childTop < 0 ? 0 : childTop+childHeight > parentHeight ? parentHeight - childHeight : childTop;
 
             if (child.getVisibility() != View.GONE) {
 
@@ -148,7 +160,7 @@ public class WorkSpace extends ViewGroup {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
             YandexMetrica.reportError("Icon did not found " + componentName, e);
-            appIcon.setBackgroundColor(Color.RED);
+            appIcon.setBackgroundColor(RED);
         }
         if (appPackageName != null) {
             appPackageName.setText(packageName);
@@ -185,7 +197,7 @@ public class WorkSpace extends ViewGroup {
         @Override
         public void onClick(View v) {
             if (workspaceDeskAppManagerable != null) {
-                workspaceDeskAppManagerable.onDeskAppClick(map.get(v));
+                workspaceDeskAppManagerable.onDeskAppClick(map.get(v),v);
             }
         }
     };
@@ -193,7 +205,7 @@ public class WorkSpace extends ViewGroup {
         @Override
         public boolean onLongClick(View v) {
             if (workspaceDeskAppManagerable != null) {
-                workspaceDeskAppManagerable.onDeskAppLongClick(map.get(v));
+                workspaceDeskAppManagerable.onDeskAppLongClick(map.get(v),v);
             }
             return true;
         }

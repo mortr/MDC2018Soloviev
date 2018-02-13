@@ -23,6 +23,7 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.mortr.soloviev.mdc2018soloviev.R;
 import com.mortr.soloviev.mdc2018soloviev.db.DBHelper;
@@ -250,12 +251,36 @@ public class LauncherActivity extends AppCompatActivity
     }
 
     @Override
-    public void startAppChooseActivity(float x, float y) {
+    public void startAppChooseActivity(float x, float y, TextView archor) {
+
         placeCoordinatesForAppChoose = new Bundle();//TODO it is needed to refactor
         placeCoordinatesForAppChoose.putFloat(DESKTOP_X, x);
         placeCoordinatesForAppChoose.putFloat(DESKTOP_Y, y);
-        startActivityForResult(new Intent(this, AppChooserActivity.class), REQUEST_CODE_DESKTOP_APP_CHOOSER);
+        createApplicationChoosePopupMenu(archor).show();
     }
+
+    @NonNull
+    public PopupMenu createApplicationChoosePopupMenu(final View v) {
+        final PopupMenu popup = new PopupMenu(v.getContext(), v);
+        popup.inflate(R.menu.choose_app_context_menu);
+        final DBHelper dbHelper = new DBHelper(v.getContext());
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.menu_choose_app: {
+                        startActivityForResult(new Intent(LauncherActivity.this, AppChooserActivity.class), REQUEST_CODE_DESKTOP_APP_CHOOSER);
+                    return true;
+                    }
+
+                }
+                placeCoordinatesForAppChoose = null;
+                return false;
+            }
+        });
+        return popup;
+    }
+
 
     @Override
     public void setChooseAppReceiverable(@Nullable ChooseAppReceiverable chooseAppReceiverable) {
@@ -296,14 +321,30 @@ public class LauncherActivity extends AppCompatActivity
     }
 
     @Override
-    public void onDeskAppLongClick(@Nullable ComponentName componentName) {
+    public void onDeskAppLongClick(@Nullable final ComponentName componentName, View v) {
         if (desktopAppRemovable != null && componentName != null) {
-            desktopAppRemovable.removeAppFromDesktop(componentName);
+            final PopupMenu popup = new PopupMenu(v.getContext(), v);
+            popup.inflate(R.menu.desktop_app_context_menu);
+            final DBHelper dbHelper = new DBHelper(v.getContext());
+            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    switch (item.getItemId()) {
+                        case R.id.menu_delete: {
+                            desktopAppRemovable.removeAppFromDesktop(componentName);
+                        }
+
+                    }
+                    return false;
+                }
+            });
+            popup.show();
         }
     }
 
+
     @Override
-    public void onDeskAppClick(@Nullable ComponentName componentName) {
+    public void onDeskAppClick(@Nullable ComponentName componentName, View v) {
         if (componentName != null) {
             Utils.launchApp(componentName, this);
         }
