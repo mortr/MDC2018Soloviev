@@ -57,5 +57,7 @@
     <string name="main_email_header">البريد الإلكتروني الرئيسي</string>
     <string name="additional_mail_header">بريد إضافي</string>
     <string name="home_address_header">عنوان المنزل</string>
+	<string name="menu_choose_app_name">إضافة تطبيق هنا</string>
+    <string name="menu_desktop_context_delete_name">حذف رمز من سطح المكتب</string>
 
 </resources>

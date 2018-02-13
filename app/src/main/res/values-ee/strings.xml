@@ -57,5 +57,7 @@
     <string name="main_email_header">דוא"ל ראשי</string>
     <string name="additional_mail_header">דואר נוסף</string>
     <string name="home_address_header">כתובת בית</string>
+	<string name="menu_choose_app_name">הוסף יישום כאן</string>
+    <string name="menu_desktop_context_delete_name">למחוק סמל משולחן העבודה - -</string>
 
 </resources>

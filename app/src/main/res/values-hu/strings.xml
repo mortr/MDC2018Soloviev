@@ -57,5 +57,7 @@
     <string name="main_email_header">fő e-mail</string>
     <string name="additional_mail_header">további levél</string>
     <string name="home_address_header">lakcím</string>
+	<string name="menu_choose_app_name">adj hozzá alkalmazást itt</string>
+    <string name="menu_desktop_context_delete_name">ikon eltávolítása az asztalon</string>
 
 </resources>
