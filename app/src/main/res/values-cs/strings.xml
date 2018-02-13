@@ -57,5 +57,7 @@
     <string name="main_email_header">hlavní e-mail</string>
     <string name="additional_mail_header">další pošta</string>
     <string name="home_address_header">domovní adresa</string>
+	<string name="menu_choose_app_name">přidat aplikaci zde</string>
+    <string name="menu_desktop_context_delete_name">ikona odstranit z plochy</string>
 
 </resources>
