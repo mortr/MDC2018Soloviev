@@ -57,5 +57,7 @@
     <string name="main_email_header">correo principal</string>
     <string name="additional_mail_header">correo adicional</string>
     <string name="home_address_header">direccion de casa</string>
+	<string name="menu_choose_app_name">agregar aplicación aquí</string>
+    <string name="menu_desktop_context_delete_name">eliminar icono del escritorio</string>
 
 </resources>

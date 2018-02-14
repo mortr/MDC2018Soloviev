@@ -8,7 +8,6 @@ public interface AppsChangeObservable {
 
     void addAppsChangeObserver(AppsChangeObserver observer);
 
-    @SuppressWarnings("unused")
     void removeAppsChangeObserver(AppsChangeObserver observer);
 
     void notifyAppsChangeObservers();

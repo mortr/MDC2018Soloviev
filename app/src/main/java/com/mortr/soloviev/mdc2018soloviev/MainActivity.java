@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Fabric.with(this, new Crashlytics());
+
 //        Utils.refreshTheme(this.getApplication());
         if (Utils.isWelcomePageShowed(this)) {
             startActivity(new Intent(this, com.mortr.soloviev.mdc2018soloviev.ui.launcher.LauncherActivity.class));

@@ -57,5 +57,7 @@
     <string name="main_email_header">मुख्य ईमेल</string>
     <string name="additional_mail_header">अतिरिक्त मेल</string>
     <string name="home_address_header">घर का पता</string>
+	<string name="menu_choose_app_name">आवेदन यहाँ जोड़ें</string>
+    <string name="menu_desktop_context_delete_name">डेस्कटॉप से चिह्न हटाएं</string>
 
 </resources>
