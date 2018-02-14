@@ -60,5 +60,6 @@
     <string name="home_address_header">Heimatadresse</string>
 	<string name="menu_choose_app_name">füge deine Bewerbung hier hinzu</string>
     <string name="menu_desktop_context_delete_name">lösche das Icon vom Desktop</string>
+    <string name="desktop_title">Desktop</string>
 
 </resources>

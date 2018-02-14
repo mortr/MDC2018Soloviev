@@ -58,5 +58,6 @@
     <string name="home_address_header">hjemme adresse</string>
 	<string name="menu_choose_app_name">tilføj ansøgning her</string>
     <string name="menu_desktop_context_delete_name">slet ikon fra skrivebordet</string>
+    <string name="desktop_title">Desktop</string>
 
 </resources>

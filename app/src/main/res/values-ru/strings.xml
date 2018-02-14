@@ -59,5 +59,6 @@
     <string name="home_address_header">Домашний адрес</string>
 	<string name="menu_choose_app_name">Добавить приложение</string>
     <string name="menu_desktop_context_delete_name">Удалить иконку с рабочего стола</string>
+    <string name="desktop_title">Desktop</string>
 
 </resources>

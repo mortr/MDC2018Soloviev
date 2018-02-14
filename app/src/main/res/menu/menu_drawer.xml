@@ -3,6 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="@layout/activity_launcher">
     <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/menu_desktop_point"
+            android:icon="@null"
+            android:title="@string/desktop_title" />
         <item android:title="@string/nd_layouts_type">
             <menu>
 
