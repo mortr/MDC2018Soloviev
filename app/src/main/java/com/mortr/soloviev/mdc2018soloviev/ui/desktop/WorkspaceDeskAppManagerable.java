@@ -7,5 +7,6 @@ import android.view.View;
 public interface WorkspaceDeskAppManagerable {
     void onDeskAppLongClick(ComponentName componentName, View v);
     void onDeskAppClick(ComponentName componentName, View v);
-    void setDesktopAppRemovable(DesktopAppRemovable desktopAppRemovable);
+    void onDeskAppChangePlace(ComponentName componentName, View v);
+    void setDesktopAppMovable(DesktopAppMovable desktopAppMovable);
 }

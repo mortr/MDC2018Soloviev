@@ -31,7 +31,7 @@ import com.mortr.soloviev.mdc2018soloviev.db.DBUtils;
 import com.mortr.soloviev.mdc2018soloviev.ui.desktop.AppChooseActivityLauncher;
 import com.mortr.soloviev.mdc2018soloviev.ui.desktop.AppChooserActivity;
 import com.mortr.soloviev.mdc2018soloviev.ui.desktop.ChooseAppReceiverable;
-import com.mortr.soloviev.mdc2018soloviev.ui.desktop.DesktopAppRemovable;
+import com.mortr.soloviev.mdc2018soloviev.ui.desktop.DesktopAppMovable;
 import com.mortr.soloviev.mdc2018soloviev.ui.desktop.DesktopFragment;
 import com.mortr.soloviev.mdc2018soloviev.ui.desktop.WorkspaceDeskAppManagerable;
 import com.mortr.soloviev.mdc2018soloviev.ui.profile.ProfileActivity;
@@ -68,7 +68,7 @@ public class LauncherActivity extends AppCompatActivity
     @Nullable
     private Bundle placeCoordinatesForAppChoose;
     @Nullable
-    private DesktopAppRemovable desktopAppRemovable;
+    private DesktopAppMovable desktopAppMovable;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -322,7 +322,7 @@ public class LauncherActivity extends AppCompatActivity
 
     @Override
     public void onDeskAppLongClick(@Nullable final ComponentName componentName, View v) {
-        if (desktopAppRemovable != null && componentName != null) {
+        if (desktopAppMovable != null && componentName != null) {
             final PopupMenu popup = new PopupMenu(v.getContext(), v);
             popup.inflate(R.menu.desktop_app_context_menu);
             final DBHelper dbHelper = new DBHelper(v.getContext());
@@ -331,7 +331,7 @@ public class LauncherActivity extends AppCompatActivity
                 public boolean onMenuItemClick(MenuItem item) {
                     switch (item.getItemId()) {
                         case R.id.menu_delete: {
-                            desktopAppRemovable.removeAppFromDesktop(componentName);
+                            desktopAppMovable.removeAppFromDesktop(componentName);
                         }
 
                     }
@@ -351,8 +351,20 @@ public class LauncherActivity extends AppCompatActivity
     }
 
     @Override
-    public void setDesktopAppRemovable(@Nullable DesktopAppRemovable desktopAppRemovable) {
-        this.desktopAppRemovable = desktopAppRemovable;
+    public void onDeskAppChangePlace(ComponentName componentName, View v) {
+
+
+        float x = v.getX();
+        float y = v.getY();
+
+        if (desktopAppMovable!=null){
+            desktopAppMovable.moveAppFromDesktop(componentName, x, y);
+        }
+    }
+
+    @Override
+    public void setDesktopAppMovable(@Nullable DesktopAppMovable desktopAppMovable) {
+        this.desktopAppMovable = desktopAppMovable;
     }
 
     public class ViewPagerAdapter extends FragmentStatePagerAdapter { //TODO move to package

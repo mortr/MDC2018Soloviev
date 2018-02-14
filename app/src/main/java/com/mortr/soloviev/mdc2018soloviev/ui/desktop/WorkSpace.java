@@ -36,8 +36,7 @@ public class WorkSpace extends ViewGroup {
     private AppChooseActivityLauncher appChooseActivityLauncher;
 
     private WorkspaceDeskAppManagerable workspaceDeskAppManagerable;
-    private int parentHeight;
-    private int parentWidth;
+    private boolean isMoving;
     //    private int w;
 //    private int h;
 
@@ -72,6 +71,18 @@ public class WorkSpace extends ViewGroup {
             public void onShowPress(MotionEvent e) {
                 createDialogAppChoose(e.getX(), e.getY());
             }
+
+
+            @Override
+            public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+//                if (movingView!=null){
+//                    movingView.setX(e2.getX());
+//                    movingView.setY(e2.getY());
+//
+//                   return  true;
+//                }
+                return super.onScroll(e1, e2, distanceX, distanceY);
+            }
         };
         final GestureDetector gestureDetector = new GestureDetector(getContext(), simpleOnGestureListener);
 
@@ -98,7 +109,7 @@ public class WorkSpace extends ViewGroup {
             archor.setX(x);
             archor.setY(y);
             addView(archor);
-            appChooseActivityLauncher.startAppChooseActivity(x, y,archor);
+            appChooseActivityLauncher.startAppChooseActivity(x, y, archor);
             removeView(archor);
         }
     }
@@ -113,16 +124,16 @@ public class WorkSpace extends ViewGroup {
             final View child = getChildAt(i);
             Pair<Float, Float> pair = (Pair<Float, Float>) child.getTag();
 
-            parentHeight = getMeasuredHeight();
-            parentWidth =getMeasuredWidth();
+            int parentHeight = getMeasuredHeight();
+            int parentWidth = getMeasuredWidth();
             child.measure(0, 0);
             float childHeight = child.getMeasuredHeight();
             float childWidth = child.getMeasuredWidth();
 
             childLeft = pair.first - (childWidth / 2f);
             childTop = pair.second - (childHeight / 2f);
-            childLeft = childLeft < 0 ? 0 : childLeft+childWidth > parentWidth ? parentWidth - childWidth : childLeft;
-            childTop = childTop < 0 ? 0 : childTop+childHeight > parentHeight ? parentHeight - childHeight : childTop;
+            childLeft = childLeft < 0 ? 0 : childLeft + childWidth > parentWidth ? parentWidth - childWidth : childLeft;
+            childTop = childTop < 0 ? 0 : childTop + childHeight > parentHeight ? parentHeight - childHeight : childTop;
 
             if (child.getVisibility() != View.GONE) {
 
@@ -140,6 +151,7 @@ public class WorkSpace extends ViewGroup {
         itemView.setOnLongClickListener(onLongClickListener);
 
         itemView.setOnClickListener(onClickListener);
+        itemView.setOnTouchListener(onItemTouch);
         PackageManager packageManager = itemView.getContext().getPackageManager();
         TextView appPackageName = itemView.findViewById(R.id.app_package_name);
 
@@ -193,11 +205,38 @@ public class WorkSpace extends ViewGroup {
     }
 
 
+    private OnTouchListener onItemTouch = new OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+
+            if (event.getAction() == MotionEvent.ACTION_MOVE) {
+                v.setX(event.getRawX() - v.getMeasuredWidth() / 2);//TODO it is needed to add view bounds check
+                v.setY(event.getRawY() - v.getMeasuredHeight() / 2);
+                isMoving = true;
+                return true;
+            }
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                if (isMoving) {
+                    isMoving = false;
+                    saveNewCoordinates(v);
+
+                }
+            }
+            return false;
+        }
+    };
+
+    private void saveNewCoordinates(View v) {
+        if (workspaceDeskAppManagerable != null) {
+            workspaceDeskAppManagerable.onDeskAppChangePlace(map.get(v), v);
+        }
+    }
+
     private OnClickListener onClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
             if (workspaceDeskAppManagerable != null) {
-                workspaceDeskAppManagerable.onDeskAppClick(map.get(v),v);
+                workspaceDeskAppManagerable.onDeskAppClick(map.get(v), v);
             }
         }
     };
@@ -205,7 +244,7 @@ public class WorkSpace extends ViewGroup {
         @Override
         public boolean onLongClick(View v) {
             if (workspaceDeskAppManagerable != null) {
-                workspaceDeskAppManagerable.onDeskAppLongClick(map.get(v),v);
+                workspaceDeskAppManagerable.onDeskAppLongClick(map.get(v), v);
             }
             return true;
         }

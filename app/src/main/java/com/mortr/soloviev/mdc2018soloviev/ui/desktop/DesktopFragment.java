@@ -1,10 +1,8 @@
 package com.mortr.soloviev.mdc2018soloviev.ui.desktop;
 
 
-import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -23,7 +21,7 @@ import com.mortr.soloviev.mdc2018soloviev.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DesktopFragment extends Fragment implements PageForegroundable, ChooseAppReceiverable, DesktopAppRemovable {
+public class DesktopFragment extends Fragment implements PageForegroundable, ChooseAppReceiverable, DesktopAppMovable {
 //    private boolean isNeedChangeRequestOrientation;
     private WorkSpace workSpace;
     private AppChooseActivityLauncher appChooseActivityLauncher;
@@ -82,7 +80,7 @@ public class DesktopFragment extends Fragment implements PageForegroundable, Cho
         }
         if (context instanceof WorkspaceDeskAppManagerable) {
             workspaceDeskAppManagerable = (WorkspaceDeskAppManagerable) context;
-            ((WorkspaceDeskAppManagerable) context).setDesktopAppRemovable(this);
+            ((WorkspaceDeskAppManagerable) context).setDesktopAppMovable(this);
         }
 //        if (isNeedChangeRequestOrientation) {
 //            if (((Activity) context).getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
@@ -144,5 +142,19 @@ public class DesktopFragment extends Fragment implements PageForegroundable, Cho
             refreshWorkspace();
         }
 
+    }
+
+    @Override
+    public void moveAppFromDesktop(ComponentName componentName, float x, float y) {
+        for (DesktopItemModel desktopItemModel:desktopItemModels){
+            if (desktopItemModel.getComponentName().equals(componentName)){
+                final DBHelper dbHelper = new DBHelper(getContext());
+                DBUtils.updateDesktopApp(dbHelper.getWritableDatabase(),componentName, x, y);
+                dbHelper.close();
+                desktopItemModel.setX(x);
+                desktopItemModel.setY(y);
+                return;
+            }
+        }
     }
 }

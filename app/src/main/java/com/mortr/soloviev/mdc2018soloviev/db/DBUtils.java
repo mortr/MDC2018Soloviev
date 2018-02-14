@@ -148,6 +148,14 @@ public class DBUtils {
         return dbApplicationItem;
     }
 
+    public static void updateDesktopApp(SQLiteDatabase writableDatabase, ComponentName componentName, float x, float y) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DESKTOP_COORDINATES_X, x);
+        contentValues.put(DESKTOP_COORDINATES_Y, y);
+        String[] args = {componentName.getPackageName()};
+        writableDatabase.updateWithOnConflict(TABLE_NAME, contentValues, PACKAGE_NAME + " = ?", args, SQLiteDatabase.CONFLICT_REPLACE);
+    }
+
     public static List<DBApplicationItem> getDesktopDBApplicationItemFromDB(SQLiteDatabase db) {
         List<DBApplicationItem> list = new ArrayList<>();
         String[] args = {"1"};
@@ -182,9 +190,9 @@ public class DBUtils {
         DBApplicationItem dbApplicationItem = getDBApplicationItemFromDB(componentName, db);
         if (dbApplicationItem != null) {
             ContentValues contentValues = new ContentValues();
-            contentValues.put(IS_DESKTOP,0);
-            contentValues.put(DESKTOP_COORDINATES_X,0);
-            contentValues.put(DESKTOP_COORDINATES_Y,0);
+            contentValues.put(IS_DESKTOP, 0);
+            contentValues.put(DESKTOP_COORDINATES_X, 0);
+            contentValues.put(DESKTOP_COORDINATES_Y, 0);
             String[] args = {componentName.getPackageName()};
             db.updateWithOnConflict(TABLE_NAME, contentValues, PACKAGE_NAME + " = ?", args, SQLiteDatabase.CONFLICT_REPLACE);
         }
@@ -195,10 +203,10 @@ public class DBUtils {
         int startCount = 1;
         String[] args = {info.activityInfo.packageName};
         Cursor cursor = db.rawQuery(DB_SQL_SELECT_APP_WITH_NAME, args);
-        boolean isFirst=true;
+        boolean isFirst = true;
         if (cursor.moveToFirst()) {
             startCount += cursor.getInt(cursor.getColumnIndex(MyDatabase.Columns.STARTS_COUNT));
-            isFirst=false;
+            isFirst = false;
         }
         cursor.close();
 
