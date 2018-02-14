@@ -12,6 +12,7 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/prof_mob_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
@@ -90,6 +91,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/prof_git_hub"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
@@ -131,6 +133,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/prof_main_mail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
@@ -171,6 +174,7 @@
 
 
         <LinearLayout
+            android:id="@+id/prof_additional_mail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
@@ -210,6 +214,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/prof_home_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"

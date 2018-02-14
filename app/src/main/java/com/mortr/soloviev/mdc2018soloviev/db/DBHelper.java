@@ -6,10 +6,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import static com.mortr.soloviev.mdc2018soloviev.db.DBUtils.MyDatabase.CREATE_TABLE;
 import static com.mortr.soloviev.mdc2018soloviev.db.DBUtils.MyDatabase.DB_NAME;
+import static com.mortr.soloviev.mdc2018soloviev.db.DBUtils.MyDatabase.DROP_TABLE_SCRIPT;
 
 
 public class DBHelper extends SQLiteOpenHelper {
-    private static final int VERSION = 1;
+    private static final int VERSION = 2;
 
 
     public DBHelper(Context context) {
@@ -24,6 +25,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        db.execSQL(DROP_TABLE_SCRIPT);
+        db.execSQL(CREATE_TABLE);
     }
 }

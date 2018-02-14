@@ -1,13 +1,8 @@
-package com.mortr.soloviev.mdc2018soloviev.ui.launcher;
+package com.mortr.soloviev.mdc2018soloviev.ui.desktop;
 
 
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.os.Bundle;
 import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,47 +17,36 @@ import com.mortr.soloviev.mdc2018soloviev.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LauncherApplicationsAdapter extends RecyclerView.Adapter<LauncherApplicationsAdapter.Holder> {
-
-    public interface AppItemClickListener{
-
-        void onClickApplicationItem(ResolveInfo appInfo, View v);
-
-        void onLongClickApplicationItem(ResolveInfo appInfo, View v);
-    }
-
+public class DesktopAdapter extends RecyclerView.Adapter<DesktopAdapter.Holder> {
     private static final String TAG = "LauncherAppsAdapter";
     @LayoutRes
     private int itemLayoutRes;
     @Nullable
     private RecyclerView recycler;
-    private List<ResolveInfo> applicationInfos = new ArrayList<>();
-    private AppItemClickListener appItemClickListener;
+    private List<DesktopItemModel> itemModels = new ArrayList<>();
 
     class Holder extends RecyclerView.ViewHolder {
-        ImageView appIcon;
-        TextView appName;
-        TextView appPackageName;
+        ImageView itemIcon;
+        TextView itemName;
+        TextView itemDescription;
 
         Holder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(onClickListener);
 
             itemView.setOnLongClickListener(onLongClickListener);
-            appIcon = itemView.findViewById(R.id.app_icon);
-            appName = itemView.findViewById(R.id.app_name);
-            appPackageName = itemView.findViewById(R.id.app_package_name);
+            itemIcon = itemView.findViewById(R.id.app_icon);
+            itemName = itemView.findViewById(R.id.app_name);
+            itemDescription = itemView.findViewById(R.id.app_package_name);
 
         }
 
-        @SuppressWarnings("unused")
-        void setApp(ResolveInfo app, int position) {
+        void setDesktopItem(DesktopItemModel itemModel, int position) {
 //            ((TextView) itemView).setText(position + "\n" + Integer.toHexString(app));
-            PackageManager packageManager = itemView.getContext().getPackageManager();
-            appName.setText(app.loadLabel(packageManager));
-            appIcon.setImageDrawable(app.loadIcon(packageManager));
-            if (appPackageName != null) {
-                appPackageName.setText(app.activityInfo.packageName);
+            itemName.setText(itemModel.getName());
+            itemIcon.setImageDrawable(itemModel.getIcon());
+            if (itemDescription != null) {
+                itemDescription.setText(itemModel.getDescription());
             }
         }
 
@@ -75,24 +59,19 @@ public class LauncherApplicationsAdapter extends RecyclerView.Adapter<LauncherAp
     }
 
 
-    LauncherApplicationsAdapter() {
+    DesktopAdapter() {
         this.itemLayoutRes = R.layout.application_list_item;
     }
 
-
-    LauncherApplicationsAdapter(@LayoutRes int itemLayoutRes) {
+    DesktopAdapter(@LayoutRes int itemLayoutRes) {
         this.itemLayoutRes = itemLayoutRes;
 
     }
 
-    public void setAppItemClickListener(AppItemClickListener appItemClickListener){
-        this.appItemClickListener=appItemClickListener;
-    }
-
-    void setNewAppList(List<ResolveInfo> app) {
-        this.applicationInfos.clear();
+    void setNewAppList(List<DesktopItemModel> app) {
+        this.itemModels.clear();
         if (app != null) {
-            this.applicationInfos.addAll(app);
+            this.itemModels.addAll(app);
         }
         notifyDataSetChanged();
         Log.v(TAG, "setNewAppList");
@@ -108,14 +87,14 @@ public class LauncherApplicationsAdapter extends RecyclerView.Adapter<LauncherAp
 
     @Override
     public void onBindViewHolder(Holder holder, int position) {
-        holder.setApp(applicationInfos.get(position), position);
+        holder.setDesktopItem(itemModels.get(position), position);
 
     }
 
 
     @Override
     public int getItemCount() {
-        return applicationInfos.size();
+        return itemModels.size();
     }
 
     final private View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -129,11 +108,10 @@ public class LauncherApplicationsAdapter extends RecyclerView.Adapter<LauncherAp
             if (viewHolder != null) {
                 position = viewHolder.getAdapterPosition();
             }
-            final ResolveInfo appInfo = applicationInfos.get(position);
-            if (appItemClickListener!=null){
-                appItemClickListener.onClickApplicationItem(appInfo,v);
+            DesktopItemModel desktopItem = itemModels.get(position);
+            if (desktopItem.getDesktopModelType() == DesktopItemModel.DesktopModelType.APPLICATION_ACTIVITY) {
+                Utils.launchApp(desktopItem.getComponentName(), recycler.getContext());
             }
-
         }
 
     };
@@ -147,18 +125,11 @@ public class LauncherApplicationsAdapter extends RecyclerView.Adapter<LauncherAp
                 if (viewHolder != null) {
                     position = viewHolder.getAdapterPosition();
                 }
-                final ResolveInfo appInfo = applicationInfos.get(position);
-                if (appItemClickListener!=null){
-                    appItemClickListener.onLongClickApplicationItem(appInfo,v);
-                }
-
-
 
             }
             return true;
         }
     };
-
 
 
 }

@@ -97,6 +97,8 @@
     <string name="additional_mail_header">additional mail</string>
     <string name="address_value_do_not_translate" translatable="false">601 University Dr street San Marcos, TX 78666</string>
     <string name="home_address_header">home address</string>
+    <string name="menu_choose_app_name">add application here</string>
+    <string name="menu_desktop_context_delete_name">delete icon from desktop</string>
 
 
 </resources>

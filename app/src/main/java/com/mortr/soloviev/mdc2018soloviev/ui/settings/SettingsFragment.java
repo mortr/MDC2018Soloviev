@@ -8,10 +8,12 @@ import android.support.v7.preference.PreferenceFragmentCompat;
 import android.util.Log;
 
 import com.mortr.soloviev.mdc2018soloviev.R;
+import com.mortr.soloviev.mdc2018soloviev.ui.launcher.LaunchPagesFragment;
+import com.mortr.soloviev.mdc2018soloviev.ui.launcher.PageForegroundable;
 import com.mortr.soloviev.mdc2018soloviev.utils.Utils;
 
 
-public class SettingsFragment extends PreferenceFragmentCompat {
+public class SettingsFragment extends PreferenceFragmentCompat implements PageForegroundable {
 
     public static final String TAG = "SettingsFragment";
     public static final String KEY_THEME_SWITCH = "theme_switch";
@@ -83,6 +85,11 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             }
         }
     };
+
+    public void onFrontPagerScreen() {
+        Log.d(TAG, this.getClass().getName() + "onFrontScreen()");
+        Utils.sendYAPPMEvent(Utils.YAPPEventName.LAUNCH_PAGE_ON_FOREGROUND, this.getClass().getName());
+    }
 
 
     @Override
