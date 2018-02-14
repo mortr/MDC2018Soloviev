@@ -186,6 +186,9 @@ public class LauncherActivity extends AppCompatActivity
 //                startingFragment = LauncherListFragment.newInstance();
 //                startingFragmentTag = TAG_LAUNCHER_LIST_FRAGMENT;
                 break;
+            case R.id.menu_desktop_point:
+                viewPager.setCurrentItem(0);
+                break;
         }
 //        if (startingFragment != null) {
 //            Utils.sendYAPPMEvent(Utils.YAPPEventName.LAUNCH_DRAWER_ITEM_CHOOSE, "");
