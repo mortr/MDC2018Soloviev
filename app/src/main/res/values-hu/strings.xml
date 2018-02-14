@@ -59,5 +59,6 @@
     <string name="home_address_header">lakcím</string>
 	<string name="menu_choose_app_name">adj hozzá alkalmazást itt</string>
     <string name="menu_desktop_context_delete_name">ikon eltávolítása az asztalon</string>
+    <string name="desktop_title">Desktop</string>
 
 </resources>
