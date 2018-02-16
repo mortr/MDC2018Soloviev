@@ -87,6 +87,7 @@ public class LauncherActivity extends AppCompatActivity
 
         viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(pagerAdapter);
+        viewPager.setOffscreenPageLimit(ViewPagerAdapter.FRAGMENT_COUNT);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
