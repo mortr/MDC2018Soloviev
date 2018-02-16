@@ -1,8 +1,6 @@
 package com.mortr.soloviev.mdc2018soloviev.ui.launcher;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.pm.ActivityInfo;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,6 +11,8 @@ import android.view.View;
 import com.mortr.soloviev.mdc2018soloviev.utils.Utils;
 
 import java.util.List;
+
+import io.fabric.sdk.android.services.concurrency.AsyncTask;
 
 import static com.mortr.soloviev.mdc2018soloviev.utils.Utils.getListApplications;
 import static com.mortr.soloviev.mdc2018soloviev.utils.Utils.getSortedApps;
@@ -57,6 +57,7 @@ public abstract class LaunchPagesFragment extends Fragment implements PageForegr
             appItemClickListener = (LauncherApplicationsAdapter.AppItemClickListener) context;
             if (adapter != null) {
                 adapter.setAppItemClickListener(appItemClickListener);
+                checkSortType();
             }
         }
 //        if (isNeedChangeRequestOrientation){
@@ -72,9 +73,9 @@ public abstract class LaunchPagesFragment extends Fragment implements PageForegr
         super.onViewCreated(view, savedInstanceState);
         Context context = getContext();
         Utils.SortType newSortType = Utils.getTypeSort(context);
-        if (!sortType.equals(newSortType)) {
-            refreshAppsToAdapter(newSortType, getSortedApps(getListApplications(context), newSortType, context));
-        }
+//        if (!sortType.equals(newSortType)) {
+//            refreshAppsToAdapter(newSortType, getSortedApps(getListApplications(context), newSortType, context));
+//        }
         if (Utils.isPreferenceAppShowed(context)) {
             addPreferenseApps();
         }
@@ -99,6 +100,7 @@ public abstract class LaunchPagesFragment extends Fragment implements PageForegr
 //        } else {
 //            isNeedChangeRequestOrientation = true;
 //        }
+        checkSortType();
         Utils.sendYAPPMEvent(Utils.YAPPEventName.LAUNCH_PAGE_ON_FOREGROUND, LaunchPagesFragment.this.getClass().getName());
     }
 
@@ -121,9 +123,18 @@ public abstract class LaunchPagesFragment extends Fragment implements PageForegr
     @Override
     public void onListApplicationsWasChanged() {
         if (adapter != null) {
-            Context context = getContext();
-            sortType = Utils.getTypeSort(context);
-            refreshAppsToAdapter(sortType, getSortedApps(getListApplications(context), sortType, context));
+            checkSortType();
+        }
+    }
+
+    private void checkSortType() {//TODO maybe it is needed move to Activity(Observer-Observable)
+        Context context = getContext();
+        if (context == null) {
+            return;
+        }
+        Utils.SortType newSortType = Utils.getTypeSort(context);
+        if (!sortType.equals(newSortType)) {
+            refreshAppsToAdapter(newSortType, getSortedApps(getListApplications(context), newSortType, context));//TODO move to asynctask
         }
     }
 

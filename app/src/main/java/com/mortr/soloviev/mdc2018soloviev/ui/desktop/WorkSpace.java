@@ -243,6 +243,7 @@ public class WorkSpace extends ViewGroup {
     private OnLongClickListener onLongClickListener = new OnLongClickListener() {
         @Override
         public boolean onLongClick(View v) {
+
             if (workspaceDeskAppManagerable != null) {
                 workspaceDeskAppManagerable.onDeskAppLongClick(map.get(v), v);
             }
