@@ -61,4 +61,11 @@
     <string name="menu_desktop_context_delete_name">Удалить иконку с рабочего стола</string>
     <string name="desktop_title">Desktop</string>
 
+    <string name="time_period_15_description" translatable="false">15 мин</string>
+    <string name="time_period_1h_description" translatable="false">1 час</string>
+    <string name="time_period_8h_description" translatable="false">8 час</string>
+    <string name="time_period_24h_description" translatable="false">24 часа</string>
+    <string name="time_period_0_description" translatable="false">5 секунд</string>
+    <string name="pref_title_time_period"  translatable="false">Выбрать период изменения заставки</string>
+
 </resources>

@@ -1,7 +1,6 @@
 package com.mortr.soloviev.mdc2018soloviev.ui.welcomePages;
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,13 +10,11 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 
 import com.mortr.soloviev.mdc2018soloviev.R;
-import com.mortr.soloviev.mdc2018soloviev.ui.launcher.LauncherActivity;
+import com.mortr.soloviev.mdc2018soloviev.ui.MainPagerActivity;
 import com.mortr.soloviev.mdc2018soloviev.utils.Utils;
-import com.yandex.metrica.YandexMetrica;
 
 
 public class WelcomePagesActivity extends AppCompatActivity {
@@ -61,7 +58,7 @@ public class WelcomePagesActivity extends AppCompatActivity {
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            final Intent intent = new Intent(WelcomePagesActivity.this, LauncherActivity.class);
+            final Intent intent = new Intent(WelcomePagesActivity.this, MainPagerActivity.class);
             Utils.saveWelcomePageShowingState(WelcomePagesActivity.this, true);
             WelcomePagesActivity.this.startActivity(intent);
         }

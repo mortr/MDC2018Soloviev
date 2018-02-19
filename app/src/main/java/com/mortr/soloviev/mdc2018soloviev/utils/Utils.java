@@ -39,6 +39,7 @@ public class Utils {
     private static final String PREFS_WELCOME_PAGE_WAS_SHOWED = "PREFS_WELCOME_PAGE_WAS_SHOWED";
     private static final String PREFS_SORT_TYPE = "PREFS_SORT_TYPE";
     private static final String PREFS_PREFS_APP_SHOWED = "PREFS_PREFS_APP_SHOWED";
+    private static final String PREFS_PREFS_TIME_PRIOD = "PREFS_PREFS_TIME_PRIOD";
 
     public static void launchApp(ResolveInfo appInfo, Context context) {
         ActivityInfo activity = appInfo.activityInfo;
@@ -125,6 +126,40 @@ public class Utils {
         return sharedPreferences.getBoolean(PREFS_PREFS_APP_SHOWED, false);
     }
 
+    public static String getTimePeriodSettings(Context context) {
+        SharedPreferences sharedPreferences = context.getApplicationContext().getSharedPreferences(PREFS_FILE, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(PREFS_PREFS_TIME_PRIOD, "15_min");
+    }
+
+    public static void saveTimePeriodSettings(Activity context, String string) {
+        SharedPreferences sharedPreferences = context.getApplicationContext().getSharedPreferences(Utils.PREFS_FILE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(PREFS_PREFS_TIME_PRIOD, string);
+        editor.apply();
+    }
+
+    public static int getPeriod(String key) {
+        switch (key) {
+            case "15_min": {
+                return 15 * 60 * 1000;
+            }
+            case "1_hour": {
+                return 60 * 60 * 1000;
+            }
+            case "24_hour": {
+                return 24 * 60 * 60 * 1000;
+            }
+            case "8_hour": {
+                return 8 * 60 * 60 * 1000;
+            }
+            case "5_s": {
+                return 5 * 1000;
+            }
+            default:
+                return 15 * 60 * 1000;
+        }
+
+    }
 
     public static void saveWelcomePageShowingState(Context context, boolean isShow) {
         SharedPreferences sharedPreferences = context.getApplicationContext().getSharedPreferences(Utils.PREFS_FILE, Context.MODE_PRIVATE);
