@@ -4,16 +4,21 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.util.Log;
+import android.view.View;
 
 import com.mortr.soloviev.mdc2018soloviev.R;
-import com.mortr.soloviev.mdc2018soloviev.ui.launcher.LaunchPagesFragment;
 import com.mortr.soloviev.mdc2018soloviev.ui.launcher.PageForegroundable;
 import com.mortr.soloviev.mdc2018soloviev.utils.Utils;
 
 
 public class SettingsFragment extends PreferenceFragmentCompat implements PageForegroundable {
+
+    public interface PeriodTimeObserver {
+        void onPeriodChange(String timePeriodKey);
+    }
 
     public static final String TAG = "SettingsFragment";
     public static final String KEY_THEME_SWITCH = "theme_switch";
@@ -21,6 +26,11 @@ public class SettingsFragment extends PreferenceFragmentCompat implements PageFo
     public static final String KEY_LAYOUTS_LIST = "layouts_list";
     public static final String KEY_SORT_TYPE_LIST = "sort_type_list";
     public static final String KEY_PREFERENCE_APP = "preference_apps_switch";
+    public static final String KEY_TIME_PERIOD_LIST = "time_period_list";
+
+    @Nullable
+    PeriodTimeObserver periodTimeObserver;
+
     SharedPreferences.OnSharedPreferenceChangeListener onSharedPreferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
@@ -82,6 +92,15 @@ public class SettingsFragment extends PreferenceFragmentCompat implements PageFo
 //                    Utils.restartCurrentActivity(context);
                     break;
                 }
+                case KEY_TIME_PERIOD_LIST: {
+                    String keyTime = sharedPreferences.getString(key, "15_min");
+                    Utils.saveTimePeriodSettings(context, keyTime);
+//                    Utils.restartCurrentActivity(context);
+                    if (periodTimeObserver != null) {
+                        periodTimeObserver.onPeriodChange(keyTime);
+                    }
+                    break;
+                }
             }
         }
     };
@@ -91,6 +110,11 @@ public class SettingsFragment extends PreferenceFragmentCompat implements PageFo
         Utils.sendYAPPMEvent(Utils.YAPPEventName.LAUNCH_PAGE_ON_FOREGROUND, this.getClass().getName());
     }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        view.setBackgroundColor(getResources().getColor(R.color.colorWhiteTransparent));
+    }
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -105,6 +129,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements PageFo
                     Utils.isStandardLayoutsWasSaved(context)
                             ? getResources().getString(R.string.standard_layout_choose_text)
                             : getResources().getString(R.string.compact_layout_choose_text));
+            editor.putString(KEY_TIME_PERIOD_LIST, Utils.getTimePeriodSettings(context));
             editor.apply();
         }
         addPreferencesFromResource(R.xml.pref_general);
@@ -112,5 +137,11 @@ public class SettingsFragment extends PreferenceFragmentCompat implements PageFo
         Log.v(TAG, "onCreatePreferences " + rootKey);
     }
 
-
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof PeriodTimeObserver) {
+            periodTimeObserver = (PeriodTimeObserver) context;
+        }
+    }
 }

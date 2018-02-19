@@ -29,8 +29,8 @@ import static com.mortr.soloviev.mdc2018soloviev.db.DBUtils.MyDatabase.DB_SQL_SE
 import static com.mortr.soloviev.mdc2018soloviev.db.DBUtils.MyDatabase.DB_SQL_SELECT_APP_WITH_FROM_DESKTOP;
 import static com.mortr.soloviev.mdc2018soloviev.db.DBUtils.MyDatabase.DB_SQL_SELECT_APP_WITH_NAME;
 import static com.mortr.soloviev.mdc2018soloviev.db.DBUtils.MyDatabase.TABLE_NAME;
-import static com.mortr.soloviev.mdc2018soloviev.ui.launcher.LauncherActivity.DESKTOP_X;
-import static com.mortr.soloviev.mdc2018soloviev.ui.launcher.LauncherActivity.DESKTOP_Y;
+import static com.mortr.soloviev.mdc2018soloviev.ui.MainPagerActivity.DESKTOP_X;
+import static com.mortr.soloviev.mdc2018soloviev.ui.MainPagerActivity.DESKTOP_Y;
 
 public class DBUtils {
 

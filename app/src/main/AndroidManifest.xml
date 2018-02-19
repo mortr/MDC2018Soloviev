@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme.WhiteTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <activity
-            android:name=".MainActivity"
+            android:name=".StartActivity"
             android:label="@string/app_name"
             android:noHistory="true">
             <intent-filter>
@@ -31,7 +31,7 @@
         <activity android:name=".ui.profile.ProfileActivity" />
         <activity
             android:theme="@style/AppTheme"
-            android:name=".ui.launcher.LauncherActivity"
+            android:name=".ui.MainPagerActivity"
             android:parentActivityName=".ui.mainScreen.MainScreenActivity"
             >
             <intent-filter>
@@ -47,6 +47,7 @@
         <!-- <meta-data -->
         <!-- android:name="net.hockeyapp.android.appIdentifier" -->
         <!-- android:value="${HOCKEYAPP_APP_ID}" /> -->
+        <service android:name=".network.ImageLoaderService" />
     </application>
 
 </manifest>

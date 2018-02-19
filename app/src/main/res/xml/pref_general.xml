@@ -28,6 +28,17 @@
         android:title="@string/pref_title_sort_type" />
 
 
+    <ListPreference
+
+        android:defaultValue="@string/time_period_15"
+        android:entries="@array/pref_time_period_list_titles"
+        android:entryValues="@array/pref_time_period_list_values"
+        android:key="time_period_list"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="@string/pref_title_time_period" />
+
+
     <!--suppress AndroidElementNotAllowed -->
     <android.support.v7.preference.SwitchPreferenceCompat
         android:defaultValue="false"

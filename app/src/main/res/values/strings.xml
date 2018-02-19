@@ -26,6 +26,23 @@
     <string name="pref_title_show_prefs_app">Show preference apps </string>
 
 
+    <string name="pref_title_time_period" translatable="false">Choose bg change time period  </string>
+    <string-array name="pref_time_period_list_titles">
+        <item>@string/time_period_15_description</item>
+        <item>@string/time_period_1h_description</item>
+        <item>@string/time_period_8h_description</item>
+        <item>@string/time_period_24h_description</item>
+        <item>@string/time_period_0_description</item>
+    </string-array>
+
+    <string-array name="pref_time_period_list_values">
+        <item>@string/time_period_15</item>
+        <item>@string/time_period_1h</item>
+        <item>@string/time_period_8h</item>
+        <item>@string/time_period_24h</item>
+        <item>@string/time_period_0</item>
+    </string-array>
+
 
     <string name="pref_title_chose_layout">Choose layout </string>
     <string-array name="pref_layout_list_titles">
@@ -38,8 +55,8 @@
         <item>@string/compact_layout_choose_text</item>
     </string-array>
 
-    <string name="pref_title_sort_type" >Choose sorting type</string>
-    <string-array name="pref_pref_sort_type_list_values" >
+    <string name="pref_title_sort_type">Choose sorting type</string>
+    <string-array name="pref_pref_sort_type_list_values">
         <item>@string/type_sort_date</item>
         <item>@string/type_sort_name_az</item>
         <item>@string/type_sort_name_za</item>
@@ -47,7 +64,7 @@
         <item>@string/type_sort_none</item>
     </string-array>
 
-    <string-array name="pref_sort_type_list_titles" >
+    <string-array name="pref_sort_type_list_titles">
         <item>@string/type_sort_date_title</item>
         <item>@string/type_sort_name_az_title</item>
         <item>@string/type_sort_name_za_title</item>
@@ -101,5 +118,16 @@
     <string name="menu_desktop_context_delete_name">delete icon from desktop</string>
     <string name="desktop_title">Desktop</string>
 
+    <string name="time_period_15" translatable="false">15_min</string>
+    <string name="time_period_1h" translatable="false">1_hour</string>
+    <string name="time_period_24h" translatable="false">24_hour</string>
+    <string name="time_period_8h" translatable="false">8_hour</string>
+    <string name="time_period_0" translatable="false">5_s</string>
+
+    <string name="time_period_15_description" translatable="false">15 min</string>
+    <string name="time_period_1h_description" translatable="false">1 h</string>
+    <string name="time_period_8h_description" translatable="false">8 h</string>
+    <string name="time_period_24h_description" translatable="false">24 h</string>
+    <string name="time_period_0_description" translatable="false">5 s</string>
 
 </resources>
