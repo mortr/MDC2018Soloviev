@@ -61,6 +61,7 @@
     <string name="menu_desktop_context_delete_name">למחוק סמל משולחן העבודה - -</string>
     <string name="desktop_title">שולחן העבודה</string>
 
+    <string name="pref_title_time_period">בחר bg לשנות את פרק הזמן</string>
     <string name="time_period_15_description">15 min</string>
     <string name="time_period_1h_description">1 h</string>
     <string name="time_period_8h_description">8 h</string>

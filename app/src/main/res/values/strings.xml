@@ -26,7 +26,7 @@
     <string name="pref_title_show_prefs_app">Show preference apps </string>
 
 
-    <string name="pref_title_time_period" translatable="false">Choose bg change time period  </string>
+    <string name="pref_title_time_period">Choose bg change time period  </string>
     <string-array name="pref_time_period_list_titles">
         <item>@string/time_period_15_description</item>
         <item>@string/time_period_1h_description</item>

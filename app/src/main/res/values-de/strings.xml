@@ -62,6 +62,7 @@
     <string name="menu_desktop_context_delete_name">lösche das Icon vom Desktop</string>
     <string name="desktop_title">Desktop</string>
 
+    <string name="pref_title_time_period">Wählen Sie bg change time period</string>
     <string name="time_period_15_description">15 min</string>
     <string name="time_period_1h_description">1 h</string>
     <string name="time_period_8h_description">8 h</string>

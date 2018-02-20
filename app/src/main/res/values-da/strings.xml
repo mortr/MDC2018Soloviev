@@ -60,6 +60,7 @@
     <string name="menu_desktop_context_delete_name">slet ikon fra skrivebordet</string>
     <string name="desktop_title">Desktop</string>
 
+    <string name="pref_title_time_period">Vælg bg ændre tidsperiode</string>
     <string name="time_period_15_description">15 min</string>
     <string name="time_period_1h_description">1 h</string>
     <string name="time_period_8h_description">8 h</string>
