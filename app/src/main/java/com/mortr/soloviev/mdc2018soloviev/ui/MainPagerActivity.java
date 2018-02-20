@@ -38,6 +38,7 @@ import com.mortr.soloviev.mdc2018soloviev.network.ImageLoaderService;
 import com.mortr.soloviev.mdc2018soloviev.network.ImageLoadingObserver;
 import com.mortr.soloviev.mdc2018soloviev.network.NextImageSelectObserver;
 import com.mortr.soloviev.mdc2018soloviev.network.image_sources.FlickrImgSourcesLoadable;
+import com.mortr.soloviev.mdc2018soloviev.network.image_sources.YandexImgSourcesLoadable;
 import com.mortr.soloviev.mdc2018soloviev.ui.desktop.AppChooseActivityLauncher;
 import com.mortr.soloviev.mdc2018soloviev.ui.desktop.AppChooserActivity;
 import com.mortr.soloviev.mdc2018soloviev.ui.desktop.ChooseAppReceiverable;
@@ -63,7 +64,8 @@ import static com.mortr.soloviev.mdc2018soloviev.utils.Utils.getProcessedBitmap;
 public class MainPagerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         AppsChangeObservable, AppChooseActivityLauncher,
-        LauncherApplicationsAdapter.AppItemClickListener, WorkspaceDeskAppManagerable, SettingsFragment.PeriodTimeObserver {
+        LauncherApplicationsAdapter.AppItemClickListener, WorkspaceDeskAppManagerable,
+        SettingsFragment.PeriodTimeObserver,SettingsFragment.ImageSourceChangeObserver {
 
 
     public static final String TAG_LAUNCHER_FRAGMENT = "TagLauncherFragment";
@@ -91,6 +93,7 @@ public class MainPagerActivity extends AppCompatActivity
     private int changeBgPeriodTime;
     private float width;
     private float height;
+    private ImageLoaderService.ImgSourceLoadable mCurrentImgSource;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -107,6 +110,7 @@ public class MainPagerActivity extends AppCompatActivity
         final FragmentManager fragmentManager = getSupportFragmentManager();
         final ViewPagerAdapter pagerAdapter = new ViewPagerAdapter(fragmentManager);
 
+        prepareImgSource(Utils.getImgSourceSettings(this));
         viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(pagerAdapter);
         viewPager.setOffscreenPageLimit(ViewPagerAdapter.FRAGMENT_COUNT);
@@ -382,7 +386,7 @@ public class MainPagerActivity extends AppCompatActivity
             Log.d("MainPager", "onServiceConnected");
             imageLoaderService = ((ImageLoaderService.ImageLoaderServiceBinder) service).getService();
             if (imageLoaderService != null) {
-                imageLoaderService.setNewSource(new FlickrImgSourcesLoadable());
+                imageLoaderService.setNewSource(mCurrentImgSource);
                 imageLoaderService.setTimePeriod(changeBgPeriodTime);
                 imageLoaderService.addNextImgLoadObserver(nextImageSelectObserver);
                 Log.d("MainPager", "onServiceConnected2");
@@ -472,6 +476,27 @@ public class MainPagerActivity extends AppCompatActivity
             imageLoaderService.setTimePeriod(changeBgPeriodTime);
         }
 
+    }
+
+    @Override
+    public void onImageSourceChange(String imgSrcKey) {
+        prepareImgSource(imgSrcKey);
+        if (imageLoaderService!=null){
+            imageLoaderService.setNewSource(mCurrentImgSource);
+        }
+
+    }
+
+    private void prepareImgSource(String imgSrcKey) {
+        switch (imgSrcKey){
+            case "flickr":{
+                mCurrentImgSource =new FlickrImgSourcesLoadable();
+                break;
+            }
+            default:{
+                mCurrentImgSource =new YandexImgSourcesLoadable();
+            }
+        }
     }
 
 

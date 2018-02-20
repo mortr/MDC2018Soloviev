@@ -44,6 +44,7 @@ public class Utils {
     public static final String PREFS_SORT_TYPE = "PREFS_SORT_TYPE";
     private static final String PREFS_PREFS_APP_SHOWED = "PREFS_PREFS_APP_SHOWED";
     public static final String PREFS_PREFS_TIME_PRIOD = "PREFS_PREFS_TIME_PRIOD";
+    public static final String PREFS_IMG_SOURCE="PREFS_IMG_SOURCE";
 
     public static void launchApp(ResolveInfo appInfo, Context context) {
         ActivityInfo activity = appInfo.activityInfo;
@@ -139,6 +140,18 @@ public class Utils {
         SharedPreferences sharedPreferences = context.getApplicationContext().getSharedPreferences(Utils.PREFS_FILE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(PREFS_PREFS_TIME_PRIOD, string);
+        editor.apply();
+    }
+
+    public static String getImgSourceSettings(Context context) {
+        SharedPreferences sharedPreferences = context.getApplicationContext().getSharedPreferences(PREFS_FILE, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(PREFS_IMG_SOURCE, "yandex");
+    }
+
+    public static void saveImgSourceSettings(Activity context, String keySource) {
+        SharedPreferences sharedPreferences = context.getApplicationContext().getSharedPreferences(Utils.PREFS_FILE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(PREFS_IMG_SOURCE, keySource);
         editor.apply();
     }
 

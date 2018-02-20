@@ -16,10 +16,15 @@ import com.mortr.soloviev.mdc2018soloviev.utils.Utils;
 
 public class SettingsFragment extends PreferenceFragmentCompat implements PageForegroundable {
 
+
+
     public interface PeriodTimeObserver {
-        void onPeriodChange(String timePeriodKey);
+        void onPeriodChange(String timePeriodKey);//todo change to enum
     }
 
+    public interface ImageSourceChangeObserver{
+        void onImageSourceChange(String imgSrcKey);//todo change to enum
+    }
     public static final String TAG = "SettingsFragment";
     public static final String KEY_THEME_SWITCH = "theme_switch";
     public static final String KEY_WELCOME_PAGES_SWITCH = "welcome_pages_switch";
@@ -27,9 +32,11 @@ public class SettingsFragment extends PreferenceFragmentCompat implements PageFo
     public static final String KEY_SORT_TYPE_LIST = "sort_type_list";
     public static final String KEY_PREFERENCE_APP = "preference_apps_switch";
     public static final String KEY_TIME_PERIOD_LIST = "time_period_list";
-
+    public static final String KEY_IMG_SOURCE_LIST="image_sources_list";
     @Nullable
     PeriodTimeObserver periodTimeObserver;
+    @Nullable
+    ImageSourceChangeObserver imageSourceChangeObserver;
 
     SharedPreferences.OnSharedPreferenceChangeListener onSharedPreferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
         @Override
@@ -101,7 +108,18 @@ public class SettingsFragment extends PreferenceFragmentCompat implements PageFo
                     }
                     break;
                 }
+                case KEY_IMG_SOURCE_LIST: {
+                    String keySource = sharedPreferences.getString(key, "yandex");
+                    Utils.saveImgSourceSettings(context, keySource);
+//                    Utils.restartCurrentActivity(context);
+                    if (imageSourceChangeObserver != null) {
+                        imageSourceChangeObserver.onImageSourceChange(keySource);
+                    }
+                    break;
+                }
+
             }
+
         }
     };
 
@@ -142,6 +160,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements PageFo
         super.onAttach(context);
         if (context instanceof PeriodTimeObserver) {
             periodTimeObserver = (PeriodTimeObserver) context;
+        }
+        if (context instanceof ImageSourceChangeObserver){
+            imageSourceChangeObserver=(ImageSourceChangeObserver)context;
         }
     }
 }
