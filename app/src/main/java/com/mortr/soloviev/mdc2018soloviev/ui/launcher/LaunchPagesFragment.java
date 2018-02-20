@@ -115,15 +115,20 @@ public abstract class LaunchPagesFragment extends Fragment implements PageForegr
     public void onDetach() {
         super.onDetach();
         Context context = getContext();
-        if (context instanceof AppsChangeObservable) {
-            ((AppsChangeObservable) context).removeAppsChangeObserver(this);
-        }
+//        if (context instanceof AppsChangeObservable) {
+//            ((AppsChangeObservable) context).removeAppsChangeObserver(this);
+//        }
     }
 
     @Override
     public void onListApplicationsWasChanged() {
         if (adapter != null) {
-            checkSortType();
+            Context context = getContext();
+            if (context == null) {
+                return;
+            }
+            Utils.SortType newSortType = Utils.getTypeSort(context);
+            refreshAppsToAdapter(newSortType, getSortedApps(getListApplications(context), newSortType, context));
         }
     }
 
