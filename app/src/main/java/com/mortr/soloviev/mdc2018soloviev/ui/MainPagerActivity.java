@@ -8,14 +8,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.pm.ResolveInfo;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
-import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -59,12 +56,11 @@ import com.mortr.soloviev.mdc2018soloviev.ui.profile.ProfileActivity;
 import com.mortr.soloviev.mdc2018soloviev.ui.settings.SettingsFragment;
 import com.mortr.soloviev.mdc2018soloviev.utils.Utils;
 
-import net.hockeyapp.android.utils.Util;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.mortr.soloviev.mdc2018soloviev.ui.desktop.AppChooserActivity.KEY_COMPONENT_NAME;
+import static com.mortr.soloviev.mdc2018soloviev.utils.Utils.getProcessedBitmap;
 
 //todo change to LC components
 public class MainPagerActivity extends AppCompatActivity
@@ -96,6 +92,8 @@ public class MainPagerActivity extends AppCompatActivity
     private ImageLoaderService imageLoaderService;
 
     private int changeBgPeriodTime;
+    private float width;
+    private float height;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -103,7 +101,11 @@ public class MainPagerActivity extends AppCompatActivity
         setTheme(Utils.isWhiteTheme(this) ? R.style.AppTheme_WhiteTheme : R.style.AppTheme_BlackTheme);
         setContentView(R.layout.activity_main_pager);
         Utils.sendYAPPMEvent(Utils.YAPPEventName.LAUNCH_SCREANS_CREATE, "");
-
+        Window window = getWindow();
+        Point point = new Point();
+        window.getWindowManager().getDefaultDisplay().getSize(point);
+        width = point.x;
+        height = point.y;
         changeBgPeriodTime = Utils.getPeriod(Utils.getTimePeriodSettings(this));
         final FragmentManager fragmentManager = getSupportFragmentManager();
         final ViewPagerAdapter pagerAdapter = new ViewPagerAdapter(fragmentManager);
@@ -257,7 +259,6 @@ public class MainPagerActivity extends AppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
         unregisterReceiver(broadcastReceiver);
     }
 
@@ -421,44 +422,8 @@ public class MainPagerActivity extends AppCompatActivity
             Log.d("MainPager", "onNextImagesLoad()");
             if (bitmap != null) {
 //                final Bitmap processedBitmap=bitmap.copy(Bitmap.Config.ARGB_8888, true);
-                Window window = getWindow();
-                Point point = new Point();
-                window.getWindowManager().getDefaultDisplay().getSize(point);
-                final float width = point.x;
-                final float height = point.y;
 
-
-
-
-                final Bitmap processedBitmap=Bitmap.createBitmap((int)width,(int)height,Bitmap.Config.ARGB_8888);
-
-                Canvas canvas = new Canvas(processedBitmap);
-
-
-
-
-                Paint paint = new Paint();
-                paint.setFilterBitmap(true);
-
-
-                final float bWidth = bitmap.getWidth();
-                final float bHeight = bitmap.getHeight();
-
-                float dx = 0;
-                float dy = 0;
-                float scaleValue;
-                if (height> width) {
-                    scaleValue = height / bHeight;
-                    dx = (width - bWidth * scaleValue) / 2;
-                } else {
-                    scaleValue = width / bWidth;
-                    dy = (height - bHeight * scaleValue) / 2;
-                }
-
-                Matrix matrix = new Matrix();
-                matrix.setScale(scaleValue, scaleValue);
-                matrix.postTranslate(dx, dy);
-                canvas.drawBitmap(bitmap,matrix,paint);
+                final Bitmap processedBitmap = getProcessedBitmap(bitmap, width, height);
 //
 //                bitmapShader.setLocalMatrix(matrix);
 //
@@ -493,7 +458,7 @@ public class MainPagerActivity extends AppCompatActivity
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        getWindow().setBackgroundDrawable(new BitmapDrawable(getResources(), bitmap));
+                        getWindow().setBackgroundDrawable(new BitmapDrawable(getResources(), getProcessedBitmap(bitmap, width, height)));
 
                     }
                 });
