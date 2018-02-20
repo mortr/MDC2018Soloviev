@@ -134,11 +134,11 @@
     <string name="time_period_8h" translatable="false">8_hour</string>
     <string name="time_period_0" translatable="false">5_s</string>
 
-    <string name="time_period_15_description" translatable="false">15 min</string>
-    <string name="time_period_1h_description" translatable="false">1 h</string>
-    <string name="time_period_8h_description" translatable="false">8 h</string>
-    <string name="time_period_24h_description" translatable="false">24 h</string>
-    <string name="time_period_0_description" translatable="false">5 s</string>
+    <string name="time_period_15_description">15 min</string>
+    <string name="time_period_1h_description">1 h</string>
+    <string name="time_period_8h_description">8 h</string>
+    <string name="time_period_24h_description">24 h</string>
+    <string name="time_period_0_description">5 s</string>
     <string name="pref_choose_image_source">Choose image source</string>
     <string name="yandex_source_description_text">yandex</string>
     <string name="flickr_source_description_text">flickr</string>
