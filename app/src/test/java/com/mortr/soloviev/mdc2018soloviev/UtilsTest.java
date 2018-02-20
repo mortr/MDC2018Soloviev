@@ -85,7 +85,9 @@ public class UtilsTest {
     public void getLayoutSettingsSharedTest() {
         SharedPreferences sharedPreferences = context.getApplicationContext().getSharedPreferences(Utils.PREFS_FILE, Context.MODE_PRIVATE);
         sharedPreferences.edit().putBoolean(PREFS_LAYOUT_IS_STANDARD, false).commit();
-        assertEquals(false, Utils.isStandardLayoutsWasSaved(context));
+
+         assertEquals(false, Utils.isStandardLayoutsWasSaved(context));
+
 
     }
 

@@ -39,11 +39,11 @@ public class Utils {
 
     public static final String PREFS_FILE = "Shared_Pref";
     public static final String PREFS_LAYOUT_IS_STANDARD = "PREFS_LAYOUT_IS_STANDARD";
-    private static final String PREFS_APP_THEME = "PREFS_APP_THEME";
-    private static final String PREFS_WELCOME_PAGE_WAS_SHOWED = "PREFS_WELCOME_PAGE_WAS_SHOWED";
+    public static final String PREFS_APP_THEME = "PREFS_APP_THEME";
+    public static final String PREFS_WELCOME_PAGE_WAS_SHOWED = "PREFS_WELCOME_PAGE_WAS_SHOWED";
     public static final String PREFS_SORT_TYPE = "PREFS_SORT_TYPE";
     private static final String PREFS_PREFS_APP_SHOWED = "PREFS_PREFS_APP_SHOWED";
-    private static final String PREFS_PREFS_TIME_PRIOD = "PREFS_PREFS_TIME_PRIOD";
+    public static final String PREFS_PREFS_TIME_PRIOD = "PREFS_PREFS_TIME_PRIOD";
 
     public static void launchApp(ResolveInfo appInfo, Context context) {
         ActivityInfo activity = appInfo.activityInfo;
