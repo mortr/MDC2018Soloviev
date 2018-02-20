@@ -44,6 +44,16 @@
     </string-array>
 
 
+    <string-array name="pref_sources_list_titles">
+        <item>@string/yandex_source_description_text</item>
+        <item>@string/flickr_source_description_text</item>
+    </string-array>
+
+    <string-array name="pref_chose_sources_list_values">
+        <item>@string/yandex_source_choose_text</item>
+        <item>@string/flickr_source_choose_text</item>
+    </string-array>
+
     <string name="pref_title_chose_layout">Choose layout </string>
     <string-array name="pref_layout_list_titles">
         <item>@string/standard_layout_description_text</item>
@@ -129,5 +139,10 @@
     <string name="time_period_8h_description" translatable="false">8 h</string>
     <string name="time_period_24h_description" translatable="false">24 h</string>
     <string name="time_period_0_description" translatable="false">5 s</string>
+    <string name="pref_choose_image_source">Choose image source</string>
+    <string name="yandex_source_description_text">yandex</string>
+    <string name="flickr_source_description_text">flickr</string>
+    <string name="yandex_source_choose_text" translatable="false">yandex</string>
+    <string name="flickr_source_choose_text" translatable="false">flickr</string>
 
 </resources>

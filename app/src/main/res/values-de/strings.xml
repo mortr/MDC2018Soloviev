@@ -61,5 +61,8 @@
 	<string name="menu_choose_app_name">füge deine Bewerbung hier hinzu</string>
     <string name="menu_desktop_context_delete_name">lösche das Icon vom Desktop</string>
     <string name="desktop_title">Desktop</string>
+    <string name="pref_choose_image_source">Wählen Sie die Bildquelle</string>
+    <string name="yandex_source_description_text">yandex</string>
+    <string name="flickr_source_description_text">flickr</string>
 
 </resources>

@@ -59,6 +59,9 @@
     <string name="home_address_header">direccion de casa</string>
 	<string name="menu_choose_app_name">agregar aplicación aquí</string>
     <string name="menu_desktop_context_delete_name">eliminar icono del escritorio</string>
-    <string name="desktop_title">Desktop</string>
+    <string name="desktop_title">Escritorio</string>
+    <string name="pref_choose_image_source">Elige la fuente de la imagen</string>
+    <string name="yandex_source_description_text">yandex</string>
+    <string name="flickr_source_description_text">flickr</string>
 
 </resources>

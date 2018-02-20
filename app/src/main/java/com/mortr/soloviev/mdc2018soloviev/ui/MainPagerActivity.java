@@ -9,9 +9,6 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Matrix;
-import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -40,7 +37,7 @@ import com.mortr.soloviev.mdc2018soloviev.db.DBUtils;
 import com.mortr.soloviev.mdc2018soloviev.network.ImageLoaderService;
 import com.mortr.soloviev.mdc2018soloviev.network.ImageLoadingObserver;
 import com.mortr.soloviev.mdc2018soloviev.network.NextImageSelectObserver;
-import com.mortr.soloviev.mdc2018soloviev.network.image_sources.YandexImgSourcesLoadable;
+import com.mortr.soloviev.mdc2018soloviev.network.image_sources.FlickrImgSourcesLoadable;
 import com.mortr.soloviev.mdc2018soloviev.ui.desktop.AppChooseActivityLauncher;
 import com.mortr.soloviev.mdc2018soloviev.ui.desktop.AppChooserActivity;
 import com.mortr.soloviev.mdc2018soloviev.ui.desktop.ChooseAppReceiverable;
@@ -385,7 +382,7 @@ public class MainPagerActivity extends AppCompatActivity
             Log.d("MainPager", "onServiceConnected");
             imageLoaderService = ((ImageLoaderService.ImageLoaderServiceBinder) service).getService();
             if (imageLoaderService != null) {
-                imageLoaderService.setNewSource(new YandexImgSourcesLoadable());
+                imageLoaderService.setNewSource(new FlickrImgSourcesLoadable());
                 imageLoaderService.setTimePeriod(changeBgPeriodTime);
                 imageLoaderService.addNextImgLoadObserver(nextImageSelectObserver);
                 Log.d("MainPager", "onServiceConnected2");

@@ -65,5 +65,8 @@
     <string name="time_period_24h_description">24 часа</string>
     <string name="time_period_0_description">5 секунд</string>
     <string name="pref_title_time_period">Выбрать период изменения заставки</string>
+    <string name="pref_choose_image_source">Выберите источник картинок</string>
+    <string name="yandex_source_description_text">yandex</string>
+    <string name="flickr_source_description_text">flickr</string>
 
 </resources>

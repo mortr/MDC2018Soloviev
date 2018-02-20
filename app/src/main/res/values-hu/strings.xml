@@ -60,5 +60,8 @@
 	<string name="menu_choose_app_name">adj hozzá alkalmazást itt</string>
     <string name="menu_desktop_context_delete_name">ikon eltávolítása az asztalon</string>
     <string name="desktop_title">Desktop</string>
+    <string name="pref_choose_image_source">Válassza ki a képforrást</string>
+    <string name="yandex_source_description_text">yandex</string>
+    <string name="flickr_source_description_text">flickr</string>
 
 </resources>
