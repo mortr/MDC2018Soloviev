@@ -6,3 +6,7 @@
 /build
 /captures
 .externalNativeBuild
+app/com.crashlytics.settings.json
+app/session_analytics.tap
+session_analytics_to_send/
+session_analytics.tap

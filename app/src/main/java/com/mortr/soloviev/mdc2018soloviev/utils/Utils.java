@@ -11,6 +11,10 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -33,11 +37,11 @@ import java.util.Map;
 
 public class Utils {
 
-    private static final String PREFS_FILE = "Shared_Pref";
-    private static final String PREFS_LAYOUT_IS_STANDARD = "PREFS_LAYOUT_IS_STANDARD";
+    public static final String PREFS_FILE = "Shared_Pref";
+    public static final String PREFS_LAYOUT_IS_STANDARD = "PREFS_LAYOUT_IS_STANDARD";
     private static final String PREFS_APP_THEME = "PREFS_APP_THEME";
     private static final String PREFS_WELCOME_PAGE_WAS_SHOWED = "PREFS_WELCOME_PAGE_WAS_SHOWED";
-    private static final String PREFS_SORT_TYPE = "PREFS_SORT_TYPE";
+    public static final String PREFS_SORT_TYPE = "PREFS_SORT_TYPE";
     private static final String PREFS_PREFS_APP_SHOWED = "PREFS_PREFS_APP_SHOWED";
     private static final String PREFS_PREFS_TIME_PRIOD = "PREFS_PREFS_TIME_PRIOD";
 
@@ -363,4 +367,37 @@ public class Utils {
         });
         return popup;
     }
+
+    @NonNull
+    public static Bitmap getProcessedBitmap(Bitmap bitmap, float containerWidth, float containerHeight) {
+        final Bitmap processedBitmap = Bitmap.createBitmap((int) containerWidth, (int) containerHeight, Bitmap.Config.ARGB_8888);
+
+        Canvas canvas = new Canvas(processedBitmap);
+
+
+        Paint paint = new Paint();
+        paint.setFilterBitmap(true);
+
+
+        final float bWidth = bitmap.getWidth();
+        final float bHeight = bitmap.getHeight();
+
+        float dx = 0;
+        float dy = 0;
+        float scaleValue;
+        if (containerHeight > containerWidth) {
+            scaleValue = containerHeight / bHeight;
+            dx = (containerWidth - bWidth * scaleValue) / 2;
+        } else {
+            scaleValue = containerWidth / bWidth;
+            dy = (containerHeight - bHeight * scaleValue) / 2;
+        }
+
+        Matrix matrix = new Matrix();
+        matrix.setScale(scaleValue, scaleValue);
+        matrix.postTranslate(dx, dy);
+        canvas.drawBitmap(bitmap, matrix, paint);
+        return processedBitmap;
+    }
+
 }
