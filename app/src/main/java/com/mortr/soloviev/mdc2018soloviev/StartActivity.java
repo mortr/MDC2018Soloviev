@@ -4,21 +4,22 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.crashlytics.android.Crashlytics;
+import com.mortr.soloviev.mdc2018soloviev.network.ImageLoaderService;
+import com.mortr.soloviev.mdc2018soloviev.ui.MainPagerActivity;
 import com.mortr.soloviev.mdc2018soloviev.ui.welcomePages.WelcomePagesActivity;
 import com.mortr.soloviev.mdc2018soloviev.utils.Utils;
 
-import io.fabric.sdk.android.Fabric;
-
-public class MainActivity extends AppCompatActivity {
+public class StartActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        if (savedInstanceState == null) {
+            startService(new Intent(this, ImageLoaderService.class));
+        }
 //        Utils.refreshTheme(this.getApplication());
         if (Utils.isWelcomePageShowed(this)) {
-            startActivity(new Intent(this, com.mortr.soloviev.mdc2018soloviev.ui.launcher.LauncherActivity.class));
+            startActivity(new Intent(this, MainPagerActivity.class));
         } else {
             startActivity(new Intent(this, WelcomePagesActivity.class));
         }

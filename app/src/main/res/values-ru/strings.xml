@@ -21,12 +21,10 @@
     <string name="pref_title_show_prefs_app">Показать предпочтительные приложения</string>
 
 
-
     <string name="pref_title_chose_layout">Выбрать макет</string>
 
 
     <string name="pref_title_sort_type">Вабрать тип сортировки</string>
-
 
 
     <string name="type_sort_date_title">дата</string>
@@ -57,8 +55,18 @@
     <string name="main_email_header">Основной адрес электронной почты</string>
     <string name="additional_mail_header">Дополнительный адрес электронной почты</string>
     <string name="home_address_header">Домашний адрес</string>
-	<string name="menu_choose_app_name">Добавить приложение</string>
+    <string name="menu_choose_app_name">Добавить приложение</string>
     <string name="menu_desktop_context_delete_name">Удалить иконку с рабочего стола</string>
     <string name="desktop_title">Desktop</string>
+
+    <string name="time_period_15_description">15 мин</string>
+    <string name="time_period_1h_description">1 час</string>
+    <string name="time_period_8h_description">8 час</string>
+    <string name="time_period_24h_description">24 часа</string>
+    <string name="time_period_0_description">5 секунд</string>
+    <string name="pref_title_time_period">Выбрать период изменения заставки</string>
+    <string name="pref_choose_image_source">Выберите источник картинок</string>
+    <string name="yandex_source_description_text">yandex</string>
+    <string name="flickr_source_description_text">flickr</string>
 
 </resources>

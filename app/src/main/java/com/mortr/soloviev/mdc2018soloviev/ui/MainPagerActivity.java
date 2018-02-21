@@ -1,4 +1,4 @@
-package com.mortr.soloviev.mdc2018soloviev.ui.launcher;
+package com.mortr.soloviev.mdc2018soloviev.ui;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -6,8 +6,13 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
+import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -23,17 +28,28 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.TextView;
 
 import com.mortr.soloviev.mdc2018soloviev.R;
 import com.mortr.soloviev.mdc2018soloviev.db.DBHelper;
 import com.mortr.soloviev.mdc2018soloviev.db.DBUtils;
+import com.mortr.soloviev.mdc2018soloviev.network.ImageLoaderService;
+import com.mortr.soloviev.mdc2018soloviev.network.ImageLoadingObserver;
+import com.mortr.soloviev.mdc2018soloviev.network.NextImageSelectObserver;
+import com.mortr.soloviev.mdc2018soloviev.network.image_sources.FlickrImgSourcesLoadable;
+import com.mortr.soloviev.mdc2018soloviev.network.image_sources.YandexImgSourcesLoadable;
 import com.mortr.soloviev.mdc2018soloviev.ui.desktop.AppChooseActivityLauncher;
 import com.mortr.soloviev.mdc2018soloviev.ui.desktop.AppChooserActivity;
 import com.mortr.soloviev.mdc2018soloviev.ui.desktop.ChooseAppReceiverable;
 import com.mortr.soloviev.mdc2018soloviev.ui.desktop.DesktopAppMovable;
 import com.mortr.soloviev.mdc2018soloviev.ui.desktop.DesktopFragment;
 import com.mortr.soloviev.mdc2018soloviev.ui.desktop.WorkspaceDeskAppManagerable;
+import com.mortr.soloviev.mdc2018soloviev.ui.launcher.AppsChangeObservable;
+import com.mortr.soloviev.mdc2018soloviev.ui.launcher.LauncherApplicationsAdapter;
+import com.mortr.soloviev.mdc2018soloviev.ui.launcher.LauncherFragment;
+import com.mortr.soloviev.mdc2018soloviev.ui.launcher.LauncherListFragment;
+import com.mortr.soloviev.mdc2018soloviev.ui.launcher.PageForegroundable;
 import com.mortr.soloviev.mdc2018soloviev.ui.profile.ProfileActivity;
 import com.mortr.soloviev.mdc2018soloviev.ui.settings.SettingsFragment;
 import com.mortr.soloviev.mdc2018soloviev.utils.Utils;
@@ -42,12 +58,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.mortr.soloviev.mdc2018soloviev.ui.desktop.AppChooserActivity.KEY_COMPONENT_NAME;
+import static com.mortr.soloviev.mdc2018soloviev.utils.Utils.getProcessedBitmap;
 
-
-public class LauncherActivity extends AppCompatActivity
+//todo change to LC components
+public class MainPagerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         AppsChangeObservable, AppChooseActivityLauncher,
-        LauncherApplicationsAdapter.AppItemClickListener, WorkspaceDeskAppManagerable {
+        LauncherApplicationsAdapter.AppItemClickListener, WorkspaceDeskAppManagerable,
+        SettingsFragment.PeriodTimeObserver,SettingsFragment.ImageSourceChangeObserver {
 
 
     public static final String TAG_LAUNCHER_FRAGMENT = "TagLauncherFragment";
@@ -69,22 +87,30 @@ public class LauncherActivity extends AppCompatActivity
     private Bundle placeCoordinatesForAppChoose;
     @Nullable
     private DesktopAppMovable desktopAppMovable;
+    @Nullable
+    private ImageLoaderService imageLoaderService;
+
+    private int changeBgPeriodTime;
+    private float width;
+    private float height;
+    private ImageLoaderService.ImgSourceLoadable mCurrentImgSource;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(Utils.isWhiteTheme(this) ? R.style.AppTheme_WhiteTheme : R.style.AppTheme_BlackTheme);
-        setContentView(R.layout.activity_launcher);
+        setContentView(R.layout.activity_main_pager);
         Utils.sendYAPPMEvent(Utils.YAPPEventName.LAUNCH_SCREANS_CREATE, "");
-//        if (savedInstanceState == null) {
-//            FragmentManager fragmentManager = getSupportFragmentManager();
-//            Fragment launcherFragment = LauncherFragment.newInstance();
-//            fragmentManager.beginTransaction().add(R.id.fragments_container, launcherFragment, TAG_LAUNCHER_FRAGMENT)/*.addToBackStack(null)*/.commit();
-//        }
-//
+        Window window = getWindow();
+        Point point = new Point();
+        window.getWindowManager().getDefaultDisplay().getSize(point);
+        width = point.x;
+        height = point.y;
+        changeBgPeriodTime = Utils.getPeriod(Utils.getTimePeriodSettings(this));
         final FragmentManager fragmentManager = getSupportFragmentManager();
         final ViewPagerAdapter pagerAdapter = new ViewPagerAdapter(fragmentManager);
 
+        prepareImgSource(Utils.getImgSourceSettings(this));
         viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(pagerAdapter);
         viewPager.setOffscreenPageLimit(ViewPagerAdapter.FRAGMENT_COUNT);
@@ -160,20 +186,11 @@ public class LauncherActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment startingFragment = null;
-        String startingFragmentTag = null;
         switch (id) {
-//            case R.id.menu_device_settings_point:
-//                return true;
             case R.id.app_menu_settings_point:
                 viewPager.setCurrentItem(3);
-//                startingFragment = new SettingsFragment();
-//                startingFragmentTag = TAG_SETTINGS_FRAGMENT;
                 break;
             case R.id.menu_launcher_activity_point:
-//                startingFragment = LauncherFragment.newInstance();
-//                startingFragmentTag = TAG_LAUNCHER_FRAGMENT;
                 viewPager.setCurrentItem(1);
                 break;
 
@@ -184,24 +201,11 @@ public class LauncherActivity extends AppCompatActivity
 
             case R.id.menu_list_activity_point:
                 viewPager.setCurrentItem(2);
-//                startingFragment = LauncherListFragment.newInstance();
-//                startingFragmentTag = TAG_LAUNCHER_LIST_FRAGMENT;
                 break;
             case R.id.menu_desktop_point:
                 viewPager.setCurrentItem(0);
                 break;
         }
-//        if (startingFragment != null) {
-//            Utils.sendYAPPMEvent(Utils.YAPPEventName.LAUNCH_DRAWER_ITEM_CHOOSE, "");
-//            fragmentManager.popBackStack();
-//            fragmentManager.beginTransaction().replace(R.id.fragments_container, startingFragment, startingFragmentTag).addToBackStack(null).commit();
-//            //noinspection ConstantConditions
-//            if (startingFragment instanceof PageForegroundable) {
-//                ((PageForegroundable) startingFragment).onFrontPagerScreen();
-//            } else {
-//                throw new ClassCastException("Fragment mast implement PageForegroundable");
-//            }
-//        }
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -227,7 +231,10 @@ public class LauncherActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
+        Intent intent = new Intent(this, ImageLoaderService.class);
+        bindService(intent, connection, Context.BIND_AUTO_CREATE);
 
+        Log.d("MainPager", "onStart()" + imageLoaderService);
     }
 
     @Override
@@ -245,6 +252,8 @@ public class LauncherActivity extends AppCompatActivity
     @Override
     protected void onStop() {
         super.onStop();
+        serverObserversClear();
+        unbindService(connection);
 //        unregisterReceiver(broadcastReceiver);
     }
 
@@ -273,8 +282,8 @@ public class LauncherActivity extends AppCompatActivity
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.menu_choose_app: {
-                        startActivityForResult(new Intent(LauncherActivity.this, AppChooserActivity.class), REQUEST_CODE_DESKTOP_APP_CHOOSER);
-                    return true;
+                        startActivityForResult(new Intent(MainPagerActivity.this, AppChooserActivity.class), REQUEST_CODE_DESKTOP_APP_CHOOSER);
+                        return true;
                     }
 
                 }
@@ -361,7 +370,7 @@ public class LauncherActivity extends AppCompatActivity
         float x = v.getX();
         float y = v.getY();
 
-        if (desktopAppMovable!=null){
+        if (desktopAppMovable != null) {
             desktopAppMovable.moveAppFromDesktop(componentName, x, y);
         }
     }
@@ -370,6 +379,126 @@ public class LauncherActivity extends AppCompatActivity
     public void setDesktopAppMovable(@Nullable DesktopAppMovable desktopAppMovable) {
         this.desktopAppMovable = desktopAppMovable;
     }
+
+    private ServiceConnection connection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            Log.d("MainPager", "onServiceConnected");
+            imageLoaderService = ((ImageLoaderService.ImageLoaderServiceBinder) service).getService();
+            if (imageLoaderService != null) {
+                imageLoaderService.setNewSource(mCurrentImgSource);
+                imageLoaderService.setTimePeriod(changeBgPeriodTime);
+                imageLoaderService.addNextImgLoadObserver(nextImageSelectObserver);
+                Log.d("MainPager", "onServiceConnected2");
+                imageLoaderService.addLoadObserver(imageLoadingObserver);
+
+            }
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            Log.d("MainPager", "onServiceDisconnected" + imageLoaderService);
+            serverObserversClear();
+        }
+    };
+
+    private void serverObserversClear() {
+        if (imageLoaderService != null) {
+            imageLoaderService.removeLoadObserver(imageLoadingObserver);
+            imageLoaderService.removeNextImgLoadObserver(nextImageSelectObserver);
+        }
+
+        imageLoaderService = null;
+    }
+
+    private NextImageSelectObserver nextImageSelectObserver = new NextImageSelectObserver() {
+        @Override
+        public void onNextImageLoad() {
+            final Bitmap bitmap;
+            if (imageLoaderService != null) {
+                bitmap = imageLoaderService.getCurrentBitmap();
+            } else {
+                return;
+            }
+            Log.d("MainPager", "onNextImagesLoad()");
+            if (bitmap != null) {
+//                final Bitmap processedBitmap=bitmap.copy(Bitmap.Config.ARGB_8888, true);
+
+                final Bitmap processedBitmap = getProcessedBitmap(bitmap, width, height);
+//
+//                bitmapShader.setLocalMatrix(matrix);
+//
+//
+//                Canvas canvas = new Canvas(processedBitmap);
+//                canvas.drawRect(0, 0, width, height, paint);
+//                BitmapDrawable bitmapDrawable=new BitmapDrawable(getResources(), processedBitmap);
+//                bitmapDrawable.set
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        getWindow().setBackgroundDrawable(new BitmapDrawable(getResources(), processedBitmap));
+                    }
+                });
+            }
+        }
+    };
+
+    private ImageLoadingObserver imageLoadingObserver = new ImageLoadingObserver() {
+        @Override
+        public void onImagesLoad() {
+            final Bitmap bitmap;
+            if (imageLoaderService != null) {
+                bitmap = imageLoaderService.getCurrentBitmap();
+
+            } else {
+                return;
+            }
+            Log.d("MainPager", "onImagesLoad()");
+            if (bitmap != null) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        getWindow().setBackgroundDrawable(new BitmapDrawable(getResources(), getProcessedBitmap(bitmap, width, height)));
+
+                    }
+                });
+                imageLoaderService.removeLoadObserver(imageLoadingObserver);
+            }
+        }
+    };
+
+    @Override
+    public void onPeriodChange(String timePeriodKey) {
+        changeBgPeriodTime = Utils.getPeriod(timePeriodKey);
+        Log.d("MainPager", timePeriodKey);
+        if (imageLoaderService != null) {
+            imageLoaderService.setTimePeriod(changeBgPeriodTime);
+        }
+
+    }
+
+    @Override
+    public void onImageSourceChange(String imgSrcKey) {
+        prepareImgSource(imgSrcKey);
+        if (imageLoaderService!=null){
+            imageLoaderService.setNewSource(mCurrentImgSource);
+        }
+
+    }
+
+    private void prepareImgSource(String imgSrcKey) {
+        switch (imgSrcKey){
+            case "flickr":{
+                mCurrentImgSource =new FlickrImgSourcesLoadable();
+                break;
+            }
+            default:{
+                mCurrentImgSource =new YandexImgSourcesLoadable();
+            }
+        }
+    }
+
 
     public class ViewPagerAdapter extends FragmentStatePagerAdapter { //TODO move to package
         static final int FRAGMENT_COUNT = 4;

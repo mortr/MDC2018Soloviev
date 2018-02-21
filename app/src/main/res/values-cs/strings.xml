@@ -59,6 +59,17 @@
     <string name="home_address_header">domovní adresa</string>
 	<string name="menu_choose_app_name">přidat aplikaci zde</string>
     <string name="menu_desktop_context_delete_name">ikona odstranit z plochy</string>
-    <string name="desktop_title">Desktop</string>
+    <string name="desktop_title">plocha počítače</string>
+
+    <string name="pref_title_time_period">Zvolte bg časové období pro změnu </string>
+    <string name="time_period_15_description">15 min</string>
+    <string name="time_period_1h_description">1 h</string>
+    <string name="time_period_8h_description">8 h</string>
+    <string name="time_period_24h_description">24 h</string>
+    <string name="time_period_0_description">5 s</string>
+
+    <string name="pref_choose_image_source">Zvolte zdroj obrazu</string>
+    <string name="yandex_source_description_text">yandex</string>
+    <string name="flickr_source_description_text">flickr</string>
 
 </resources>

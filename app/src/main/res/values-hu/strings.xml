@@ -61,4 +61,15 @@
     <string name="menu_desktop_context_delete_name">ikon eltávolítása az asztalon</string>
     <string name="desktop_title">Desktop</string>
 
+    <string name="pref_title_time_period">Válasszon bg változási időt</string>
+    <string name="time_period_15_description">15 min</string>
+    <string name="time_period_1h_description">1 h</string>
+    <string name="time_period_8h_description">8 h</string>
+    <string name="time_period_24h_description">24 h</string>
+    <string name="time_period_0_description">5 s</string>
+
+    <string name="pref_choose_image_source">Válassza ki a képforrást</string>
+    <string name="yandex_source_description_text">yandex</string>
+    <string name="flickr_source_description_text">flickr</string>
+
 </resources>

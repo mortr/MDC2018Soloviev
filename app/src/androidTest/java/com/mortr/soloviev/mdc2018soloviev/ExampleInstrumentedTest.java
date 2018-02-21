@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.cmd2018.sol.hw1", appContext.getPackageName());
+        assertEquals("com.mortr.soloviev.mdc2018soloviev.mdc2018solo", appContext.getPackageName());
     }
 }

@@ -19,6 +19,16 @@
         android:title="@string/pref_title_chose_layout" />
 
     <ListPreference
+        android:defaultValue="@string/yandex_source_choose_text"
+        android:entries="@array/pref_sources_list_titles"
+        android:entryValues="@array/pref_chose_sources_list_values"
+        android:key="image_sources_list"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="@string/pref_choose_image_source" />
+
+
+    <ListPreference
         android:defaultValue="@string/type_sort_none"
         android:entries="@array/pref_sort_type_list_titles"
         android:entryValues="@array/pref_pref_sort_type_list_values"
@@ -26,6 +36,17 @@
         android:negativeButtonText="@null"
         android:positiveButtonText="@null"
         android:title="@string/pref_title_sort_type" />
+
+
+    <ListPreference
+
+        android:defaultValue="@string/time_period_15"
+        android:entries="@array/pref_time_period_list_titles"
+        android:entryValues="@array/pref_time_period_list_values"
+        android:key="time_period_list"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="@string/pref_title_time_period" />
 
 
     <!--suppress AndroidElementNotAllowed -->
