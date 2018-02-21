@@ -52,13 +52,13 @@ public class StorageUtils {
         return null;
     }
 
-    public static void saveBitmap(final Context context, final Bitmap bitmap, final String imageName) {
-
-    }
-
-    public static Bitmap getBitmap(final Context context, final String imageName) {
-        return null;
-    }
+//    public static void saveBitmap(final Context context, final Bitmap bitmap, final String imageName) {
+//
+//    }
+//
+//    public static Bitmap getBitmap(final Context context, final String imageName) {
+//        return null;
+//    }
 
 
 }

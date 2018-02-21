@@ -11,6 +11,10 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -33,12 +37,14 @@ import java.util.Map;
 
 public class Utils {
 
-    private static final String PREFS_FILE = "Shared_Pref";
-    private static final String PREFS_LAYOUT_IS_STANDARD = "PREFS_LAYOUT_IS_STANDARD";
-    private static final String PREFS_APP_THEME = "PREFS_APP_THEME";
-    private static final String PREFS_WELCOME_PAGE_WAS_SHOWED = "PREFS_WELCOME_PAGE_WAS_SHOWED";
-    private static final String PREFS_SORT_TYPE = "PREFS_SORT_TYPE";
+    public static final String PREFS_FILE = "Shared_Pref";
+    public static final String PREFS_LAYOUT_IS_STANDARD = "PREFS_LAYOUT_IS_STANDARD";
+    public static final String PREFS_APP_THEME = "PREFS_APP_THEME";
+    public static final String PREFS_WELCOME_PAGE_WAS_SHOWED = "PREFS_WELCOME_PAGE_WAS_SHOWED";
+    public static final String PREFS_SORT_TYPE = "PREFS_SORT_TYPE";
     private static final String PREFS_PREFS_APP_SHOWED = "PREFS_PREFS_APP_SHOWED";
+    public static final String PREFS_PREFS_TIME_PRIOD = "PREFS_PREFS_TIME_PRIOD";
+    public static final String PREFS_IMG_SOURCE="PREFS_IMG_SOURCE";
 
     public static void launchApp(ResolveInfo appInfo, Context context) {
         ActivityInfo activity = appInfo.activityInfo;
@@ -113,7 +119,7 @@ public class Utils {
                         : orientation == Configuration.ORIENTATION_PORTRAIT ? "PORTRAIT" : "UNDEFINED or Square";
     }
 
-    public static void savePreferenceAppShowingState(Activity context, boolean isShow) {
+    public static void savePreferenceAppShowingState(Context context, boolean isShow) {
         SharedPreferences sharedPreferences = context.getApplicationContext().getSharedPreferences(Utils.PREFS_FILE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(PREFS_PREFS_APP_SHOWED, isShow);
@@ -125,6 +131,52 @@ public class Utils {
         return sharedPreferences.getBoolean(PREFS_PREFS_APP_SHOWED, false);
     }
 
+    public static String getTimePeriodSettings(Context context) {
+        SharedPreferences sharedPreferences = context.getApplicationContext().getSharedPreferences(PREFS_FILE, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(PREFS_PREFS_TIME_PRIOD, "15_min");
+    }
+
+    public static void saveTimePeriodSettings(Context context, String string) {
+        SharedPreferences sharedPreferences = context.getApplicationContext().getSharedPreferences(Utils.PREFS_FILE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(PREFS_PREFS_TIME_PRIOD, string);
+        editor.apply();
+    }
+
+    public static String getImgSourceSettings(Context context) {
+        SharedPreferences sharedPreferences = context.getApplicationContext().getSharedPreferences(PREFS_FILE, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(PREFS_IMG_SOURCE, "yandex");
+    }
+
+    public static void saveImgSourceSettings(Context context, String keySource) {
+        SharedPreferences sharedPreferences = context.getApplicationContext().getSharedPreferences(Utils.PREFS_FILE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(PREFS_IMG_SOURCE, keySource);
+        editor.apply();
+    }
+
+    public static int getPeriod(String key) {
+        switch (key) {
+            case "15_min": {
+                return 15 * 60 * 1000;
+            }
+            case "1_hour": {
+                return 60 * 60 * 1000;
+            }
+            case "24_hour": {
+                return 24 * 60 * 60 * 1000;
+            }
+            case "8_hour": {
+                return 8 * 60 * 60 * 1000;
+            }
+            case "5_s": {
+                return 5 * 1000;
+            }
+            default:
+                return 15 * 60 * 1000;
+        }
+
+    }
 
     public static void saveWelcomePageShowingState(Context context, boolean isShow) {
         SharedPreferences sharedPreferences = context.getApplicationContext().getSharedPreferences(Utils.PREFS_FILE, Context.MODE_PRIVATE);
@@ -328,4 +380,37 @@ public class Utils {
         });
         return popup;
     }
+
+    @NonNull
+    public static Bitmap getProcessedBitmap(Bitmap bitmap, float containerWidth, float containerHeight) {
+        final Bitmap processedBitmap = Bitmap.createBitmap((int) containerWidth, (int) containerHeight, Bitmap.Config.ARGB_8888);
+
+        Canvas canvas = new Canvas(processedBitmap);
+
+
+        Paint paint = new Paint();
+        paint.setFilterBitmap(true);
+
+
+        final float bWidth = bitmap.getWidth();
+        final float bHeight = bitmap.getHeight();
+
+        float dx = 0;
+        float dy = 0;
+        float scaleValue;
+        if (containerHeight > containerWidth) {
+            scaleValue = containerHeight / bHeight;
+            dx = (containerWidth - bWidth * scaleValue) / 2;
+        } else {
+            scaleValue = containerWidth / bWidth;
+            dy = (containerHeight - bHeight * scaleValue) / 2;
+        }
+
+        Matrix matrix = new Matrix();
+        matrix.setScale(scaleValue, scaleValue);
+        matrix.postTranslate(dx, dy);
+        canvas.drawBitmap(bitmap, matrix, paint);
+        return processedBitmap;
+    }
+
 }

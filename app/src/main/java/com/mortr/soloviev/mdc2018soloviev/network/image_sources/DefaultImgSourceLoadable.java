@@ -7,8 +7,13 @@ import com.mortr.soloviev.mdc2018soloviev.network.ImageLoaderService;
 import com.mortr.soloviev.mdc2018soloviev.utils.StorageUtils;
 
 
-public class DefaultImgSourceLadable implements ImageLoaderService.ImgSourceLoadable {
+public class DefaultImgSourceLoadable implements ImageLoaderService.ImgSourceLoadable {
     public Bitmap loadImg(final Context context) {
         return StorageUtils.getBitmap(context);
+    }
+
+    @Override
+    public void clearData() {
+
     }
 }
