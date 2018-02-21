@@ -119,7 +119,7 @@ public class Utils {
                         : orientation == Configuration.ORIENTATION_PORTRAIT ? "PORTRAIT" : "UNDEFINED or Square";
     }
 
-    public static void savePreferenceAppShowingState(Activity context, boolean isShow) {
+    public static void savePreferenceAppShowingState(Context context, boolean isShow) {
         SharedPreferences sharedPreferences = context.getApplicationContext().getSharedPreferences(Utils.PREFS_FILE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(PREFS_PREFS_APP_SHOWED, isShow);
@@ -136,7 +136,7 @@ public class Utils {
         return sharedPreferences.getString(PREFS_PREFS_TIME_PRIOD, "15_min");
     }
 
-    public static void saveTimePeriodSettings(Activity context, String string) {
+    public static void saveTimePeriodSettings(Context context, String string) {
         SharedPreferences sharedPreferences = context.getApplicationContext().getSharedPreferences(Utils.PREFS_FILE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(PREFS_PREFS_TIME_PRIOD, string);
@@ -148,7 +148,7 @@ public class Utils {
         return sharedPreferences.getString(PREFS_IMG_SOURCE, "yandex");
     }
 
-    public static void saveImgSourceSettings(Activity context, String keySource) {
+    public static void saveImgSourceSettings(Context context, String keySource) {
         SharedPreferences sharedPreferences = context.getApplicationContext().getSharedPreferences(Utils.PREFS_FILE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(PREFS_IMG_SOURCE, keySource);
