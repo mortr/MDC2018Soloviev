@@ -37,8 +37,8 @@ android {
         applicationId "com.mortr.soloviev.mdc2018soloviev.mdc2018solo"
         minSdkVersion 17
 //        targetSdkVersion 26
-        versionCode 4
-        versionName "3.0"
+        versionCode 5
+        versionName "4.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 //        manifestPlaceholders = [HOCKEYAPP_APP_ID: "2c37f0e52bfe49bdb6ae53c3e22a6fde"]
 //        buildConfigField  "String","YAPPM_KEY",'7fbb2c47-e769-4a99-b643-58dbae8b2dd5'
