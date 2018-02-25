@@ -217,14 +217,14 @@ public class Utils {
     }
 
     public static void restartCurrentActivity(Activity currentActivity) {
-        currentActivity.finish();
-        final Intent intent = currentActivity.getIntent();
+        currentActivity.recreate();
+//        final Intent intent = currentActivity.getIntent();
 //        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
-        currentActivity.startActivity(intent);
+//        currentActivity.startActivity(intent);
     }
 
     public static void saveThemeAndActivityRestart(Activity currentActivity, boolean isWhiteTheme) {
-        currentActivity.finish();
+//        currentActivity.finish();
         Utils.saveAppTheme(currentActivity.getApplicationContext(), isWhiteTheme);
 //        refreshTheme(currentActivity.getApplication(), isWhiteTheme);
         restartCurrentActivity(currentActivity);

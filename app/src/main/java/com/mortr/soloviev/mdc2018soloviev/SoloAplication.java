@@ -5,6 +5,7 @@ import android.app.Application;
 import com.crashlytics.android.Crashlytics;
 import com.yandex.metrica.YandexMetrica;
 import com.yandex.metrica.YandexMetricaConfig;
+import com.yandex.metrica.push.YandexMetricaPush;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -27,7 +28,7 @@ public class SoloAplication extends Application {
         YandexMetrica.activate(getApplicationContext(), extendedConfig);
         // Отслеживание активности пользователей
         YandexMetrica.enableActivityAutoTracking(this);
-
+        YandexMetricaPush.init(getApplicationContext());
 
     }
 }

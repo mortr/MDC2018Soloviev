@@ -61,6 +61,10 @@ public class ProfileActivity extends AppCompatActivity {
                 Utils.sendYAPPMEvent(Utils.YAPPEventName.PROFILE_GIT_HUB, "");
             }
         });
+
+//        if(){
+//
+//        }
     }
 
     @Override

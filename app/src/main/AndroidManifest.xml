@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.mortr.soloviev.mdc2018soloviev">
+<manifest package="com.mortr.soloviev.mdc2018soloviev"
+          xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools">
 
     <application
         android:name=".SoloAplication"
@@ -17,37 +17,48 @@
             android:label="@string/app_name"
             android:noHistory="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.HOME" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.HOME"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ui.mainScreen.MainScreenActivity" />
+        <activity android:name=".ui.mainScreen.MainScreenActivity"/>
         <activity
             android:name=".ui.welcomePages.WelcomePagesActivity"
-            android:noHistory="true" />
-        <activity android:name=".ui.profile.ProfileActivity" />
+            android:noHistory="true"/>
         <activity
-            android:theme="@style/AppTheme"
+            android:name=".ui.profile.ProfileActivity"
+            android:parentActivityName=".StartActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <data android:scheme="mdc2018soloviev" />
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+            </intent-filter>
+
+        </activity>
+        <activity
             android:name=".ui.MainPagerActivity"
             android:parentActivityName=".ui.mainScreen.MainScreenActivity"
+            android:theme="@style/AppTheme"
             >
             <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.HOME"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ui.desktop.AppChooserActivity" />
+        <activity android:name=".ui.desktop.AppChooserActivity"/>
 
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="ece16c684d37a795f2015c511008d20a73e36f80" />
+            android:value="ece16c684d37a795f2015c511008d20a73e36f80"/>
         <!-- <meta-data -->
         <!-- android:name="net.hockeyapp.android.appIdentifier" -->
         <!-- android:value="${HOCKEYAPP_APP_ID}" /> -->
-        <service android:name=".network.ImageLoaderService" />
+        <service android:name=".network.ImageLoaderService"/>
     </application>
 
 </manifest>
