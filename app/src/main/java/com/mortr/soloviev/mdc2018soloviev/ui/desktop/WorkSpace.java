@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.os.Build;
 import android.support.v4.util.Pair;
 import android.text.TextUtils;
@@ -14,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -204,6 +202,11 @@ public class WorkSpace extends ViewGroup {
 
     }
 
+    @Override
+    public void removeAllViews() {
+        super.removeAllViews();
+        map.clear();//TODO may be it is needed to move to separate method
+    }
 
     private OnTouchListener onItemTouch = new OnTouchListener() {
         @Override

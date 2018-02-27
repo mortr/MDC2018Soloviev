@@ -4,10 +4,13 @@ import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.pm.ResolveInfo;
+import android.content.res.Resources;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
@@ -22,6 +25,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
 import android.util.Log;
@@ -65,7 +69,7 @@ public class MainPagerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         AppsChangeObservable, AppChooseActivityLauncher,
         LauncherApplicationsAdapter.AppItemClickListener, WorkspaceDeskAppManagerable,
-        SettingsFragment.PeriodTimeObserver,SettingsFragment.ImageSourceChangeObserver {
+        SettingsFragment.PeriodTimeObserver, SettingsFragment.ImageSourceChangeObserver {
 
 
     public static final String TAG_LAUNCHER_FRAGMENT = "TagLauncherFragment";
@@ -98,7 +102,7 @@ public class MainPagerActivity extends AppCompatActivity
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTheme(Utils.isWhiteTheme(this) ? R.style.AppTheme_WhiteTheme : R.style.AppTheme_BlackTheme);
+//        setTheme(Utils.isWhiteTheme(this) ? R.style.AppTheme_WhiteTheme : R.style.AppTheme_BlackTheme);
         setContentView(R.layout.activity_main_pager);
         Utils.sendYAPPMEvent(Utils.YAPPEventName.LAUNCH_SCREANS_CREATE, "");
         Window window = getWindow();
@@ -178,9 +182,49 @@ public class MainPagerActivity extends AppCompatActivity
     }
 
     @Override
+    public Resources.Theme getTheme() {
+        final Resources.Theme theme = super.getTheme();
+        if (Utils.isWhiteTheme(this)) {
+            theme.applyStyle(R.style.AppTheme_WhiteTheme, true);
+        } else {
+            theme.applyStyle(R.style.AppTheme_BlackTheme, true);
+        }
+
+        return theme;
+    }
+
+
+    @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else if (viewPager.getCurrentItem() != 0) {
+            viewPager.setCurrentItem(0);
+        } else {
+            showExitDialog();
+        }
         Utils.sendYAPPMEvent(Utils.YAPPEventName.LAUNCH_BACK_PRESS, "");
+    }
+
+    private void showExitDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.cancel_dialog_title)
+                .setMessage(R.string.exit_text)
+                .setCancelable(false)
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                })
+                .setNegativeButton(R.string.cancel,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     @Override
@@ -223,9 +267,15 @@ public class MainPagerActivity extends AppCompatActivity
 
     @Override
     public void notifyAppsChangeObservers() {
-        for (AppsChangeObserver observer : observerList) {
-            observer.onListApplicationsWasChanged();
-        }
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                for (AppsChangeObserver observer : observerList) {
+                    observer.onListApplicationsWasChanged();
+                }
+
+            }
+        });
     }
 
     @Override
@@ -481,20 +531,20 @@ public class MainPagerActivity extends AppCompatActivity
     @Override
     public void onImageSourceChange(String imgSrcKey) {
         prepareImgSource(imgSrcKey);
-        if (imageLoaderService!=null){
+        if (imageLoaderService != null) {
             imageLoaderService.setNewSource(mCurrentImgSource);
         }
 
     }
 
     private void prepareImgSource(String imgSrcKey) {
-        switch (imgSrcKey){
-            case "flickr":{
-                mCurrentImgSource =new FlickrImgSourcesLoadable();
+        switch (imgSrcKey) {
+            case "flickr": {
+                mCurrentImgSource = new FlickrImgSourcesLoadable();
                 break;
             }
-            default:{
-                mCurrentImgSource =new YandexImgSourcesLoadable();
+            default: {
+                mCurrentImgSource = new YandexImgSourcesLoadable();
             }
         }
     }
@@ -558,8 +608,19 @@ public class MainPagerActivity extends AppCompatActivity
             // This condition will be called when package removed
             if (Intent.ACTION_PACKAGE_REMOVED.equals(intent.getAction()) ||
                     Intent.ACTION_PACKAGE_ADDED.equals(intent.getAction())) {
-                if (observable != null)
-                    observable.notifyAppsChangeObservers();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        DBHelper dbHelper = new DBHelper(MainPagerActivity.this);
+                        SQLiteDatabase db = dbHelper.getWritableDatabase();
+                        DBUtils.updateDBApplications(MainPagerActivity.this, db, Utils.getListApplications(MainPagerActivity.this));
+                        dbHelper.close();
+                        if (observable != null)
+                            observable.notifyAppsChangeObservers();
+                    }
+                }).start();
+
+
             }
         }
 

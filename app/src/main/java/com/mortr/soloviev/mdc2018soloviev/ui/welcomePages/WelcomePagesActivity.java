@@ -1,6 +1,7 @@
 package com.mortr.soloviev.mdc2018soloviev.ui.welcomePages;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,7 +25,7 @@ public class WelcomePagesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTheme(Utils.isWhiteTheme(this) ? R.style.AppTheme_WhiteTheme : R.style.AppTheme_BlackTheme);
+//        setTheme(Utils.isWhiteTheme(this) ? R.style.AppTheme_WhiteTheme : R.style.AppTheme_BlackTheme);
         setContentView(R.layout.activity_welcome_pages);
 
         Utils.sendYAPPMEvent(Utils.YAPPEventName.WELC_SCREANS_CREATE, "orientation " + Utils.getOrientation(this));
@@ -43,7 +44,7 @@ public class WelcomePagesActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 ((WelcomePagesFragment) pagerAdapter.getItem(position)).onFrontPagerScreen();
-                Log.d("WelcomeActivity",""+pagerAdapter.getItem(position).getTag()+pagerAdapter.getItem(position).getId());
+                Log.d("WelcomeActivity", "" + pagerAdapter.getItem(position).getTag() + pagerAdapter.getItem(position).getId());
             }
 
             @Override
@@ -54,6 +55,17 @@ public class WelcomePagesActivity extends AppCompatActivity {
         findViewById(R.id.nextButton).setOnClickListener(onClickListener);
     }
 
+    @Override
+    public Resources.Theme getTheme() {
+        final Resources.Theme theme = super.getTheme();
+        if (Utils.isWhiteTheme(this)) {
+            theme.applyStyle(R.style.AppTheme_WhiteTheme, true);
+        } else {
+            theme.applyStyle(R.style.AppTheme_BlackTheme, true);
+        }
+
+        return theme;
+    }
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
