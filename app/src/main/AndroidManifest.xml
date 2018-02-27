@@ -28,12 +28,21 @@
         <activity
             android:name=".ui.welcomePages.WelcomePagesActivity"
             android:noHistory="true" />
-        <activity android:name=".ui.profile.ProfileActivity" />
+        <activity android:name=".ui.profile.ProfileActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <data android:scheme="mdc2018soloviev" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+            </intent-filter>
+
+        </activity>
         <activity
-            android:theme="@style/AppTheme"
             android:name=".ui.MainPagerActivity"
             android:parentActivityName=".ui.mainScreen.MainScreenActivity"
-            >
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.HOME" />
@@ -48,6 +57,16 @@
         <!-- android:name="net.hockeyapp.android.appIdentifier" -->
         <!-- android:value="${HOCKEYAPP_APP_ID}" /> -->
         <service android:name=".network.ImageLoaderService" />
+        <service android:name=".ui.profile.InterestingInfoSaver" />
+
+        <receiver
+            android:name=".ui.profile.InterestingInfoReceiver"
+            android:exported="false">
+            <intent-filter>
+                <!--Получение silent push-уведомлений-->
+                <action android:name="${applicationId}.action.ymp.SILENT_PUSH_RECEIVE" />
+            </intent-filter>
+        </receiver><!--TODO for android 8-->
     </application>
 
 </manifest>

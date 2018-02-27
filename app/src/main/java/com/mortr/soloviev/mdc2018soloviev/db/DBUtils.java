@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.provider.BaseColumns;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -231,6 +232,33 @@ public class DBUtils {
         }
         cursor.close();
         return applicationItems;
+    }
+
+    public static void updateDBApplications(Context context, SQLiteDatabase db, List<ResolveInfo> resolveInfoList) {
+        Cursor cursor = db.rawQuery(DB_SQL_SELECT_APPS, null);
+        List<Pair<String, String>> applicationsFromDB = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            DBApplicationItem dbApplicationItem = createDBApplicationItem(cursor);
+            applicationsFromDB.add(new Pair<>(dbApplicationItem.getPackageName(), dbApplicationItem.getActivityName()));
+        }
+        cursor.close();
+        List<Pair<String, String>> applications = new ArrayList<>(resolveInfoList.size());
+        for (ResolveInfo resolveInfo : resolveInfoList) {
+            applications.add(new Pair<>(resolveInfo.activityInfo.packageName, resolveInfo.activityInfo.name));
+        }
+
+        applicationsFromDB.removeAll(applications);
+        try {
+            db.beginTransaction();
+            for (Pair<String, String> pair : applicationsFromDB) {
+                db.delete(TABLE_NAME,
+                        MyDatabase.Columns.ACTIVITY_NAME + " = ? AND " + MyDatabase.Columns.PACKAGE_NAME + " = ?",
+                        new String[]{pair.second, pair.first});
+            }
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
     }
 
 

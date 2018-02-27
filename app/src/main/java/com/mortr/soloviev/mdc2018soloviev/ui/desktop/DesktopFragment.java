@@ -15,14 +15,15 @@ import com.mortr.soloviev.mdc2018soloviev.R;
 import com.mortr.soloviev.mdc2018soloviev.db.DBApplicationItem;
 import com.mortr.soloviev.mdc2018soloviev.db.DBHelper;
 import com.mortr.soloviev.mdc2018soloviev.db.DBUtils;
+import com.mortr.soloviev.mdc2018soloviev.ui.launcher.AppsChangeObservable;
 import com.mortr.soloviev.mdc2018soloviev.ui.launcher.PageForegroundable;
 import com.mortr.soloviev.mdc2018soloviev.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DesktopFragment extends Fragment implements PageForegroundable, ChooseAppReceiverable, DesktopAppMovable {
-//    private boolean isNeedChangeRequestOrientation;
+public class DesktopFragment extends Fragment implements PageForegroundable, ChooseAppReceiverable, DesktopAppMovable, AppsChangeObservable.AppsChangeObserver {
+    //    private boolean isNeedChangeRequestOrientation;
     private WorkSpace workSpace;
     private AppChooseActivityLauncher appChooseActivityLauncher;
     private List<DesktopItemModel> desktopItemModels = new ArrayList<>();
@@ -49,11 +50,7 @@ public class DesktopFragment extends Fragment implements PageForegroundable, Cho
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-        DBHelper dbHelper = new DBHelper(getContext());
-        for (DBApplicationItem item : DBUtils.getDesktopDBApplicationItemFromDB(dbHelper.getReadableDatabase())) {
-            desktopItemModels.add(new DesktopItemModel(item));
-        }
-        dbHelper.close();
+        refreshDesktopItemsModels();
         Log.d("DesktopFragment", "onCreate");
     }
 
@@ -81,6 +78,9 @@ public class DesktopFragment extends Fragment implements PageForegroundable, Cho
         if (context instanceof WorkspaceDeskAppManagerable) {
             workspaceDeskAppManagerable = (WorkspaceDeskAppManagerable) context;
             ((WorkspaceDeskAppManagerable) context).setDesktopAppMovable(this);
+        }
+        if (context instanceof AppsChangeObservable) {
+            ((AppsChangeObservable) context).addAppsChangeObserver(this);
         }
 //        if (isNeedChangeRequestOrientation) {
 //            if (((Activity) context).getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
@@ -115,6 +115,15 @@ public class DesktopFragment extends Fragment implements PageForegroundable, Cho
         }
     }
 
+    private void refreshDesktopItemsModels() {
+        desktopItemModels.clear();
+        DBHelper dbHelper = new DBHelper(getContext());
+        for (DBApplicationItem item : DBUtils.getDesktopDBApplicationItemFromDB(dbHelper.getReadableDatabase())) {
+            desktopItemModels.add(new DesktopItemModel(item));
+        }
+        dbHelper.close();
+    }
+
     public static DesktopFragment newInstance() {
         //        Bundle args = new Bundle();
 
@@ -146,15 +155,22 @@ public class DesktopFragment extends Fragment implements PageForegroundable, Cho
 
     @Override
     public void moveAppFromDesktop(ComponentName componentName, float x, float y) {
-        for (DesktopItemModel desktopItemModel:desktopItemModels){
-            if (desktopItemModel.getComponentName().equals(componentName)){
+        for (DesktopItemModel desktopItemModel : desktopItemModels) {
+            if (desktopItemModel.getComponentName().equals(componentName)) {
                 final DBHelper dbHelper = new DBHelper(getContext());
-                DBUtils.updateDesktopApp(dbHelper.getWritableDatabase(),componentName, x, y);
+                DBUtils.updateDesktopApp(dbHelper.getWritableDatabase(), componentName, x, y);
                 dbHelper.close();
                 desktopItemModel.setX(x);
                 desktopItemModel.setY(y);
                 return;
             }
         }
+    }
+
+    @Override
+    public void onListApplicationsWasChanged() {
+        Log.d("Work", "onListApplicationsWasChanged()");
+        refreshDesktopItemsModels();
+        refreshWorkspace();
     }
 }
