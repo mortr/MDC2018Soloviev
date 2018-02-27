@@ -29,7 +29,7 @@
                 android:layout_weight="1"
                 android:contentDescription="@null"
                 android:padding="4dp"
-                android:text="Interesting : " />
+                android:text="@string/interesting_information" />
 
             <TextView
                 android:id="@+id/prof_interesting_tv"

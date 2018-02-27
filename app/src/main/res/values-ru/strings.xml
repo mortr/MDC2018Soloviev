@@ -72,5 +72,6 @@
     <string name="ok">Ok</string>
     <string name="cancel_dialog_title">Выход из приложения</string>
     <string name="exit_text">Вы действительно хотите выйти из приложения?</string>
+    <string name="interesting_information">Интересная информация :</string>
 
 </resources>
