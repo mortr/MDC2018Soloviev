@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "754710407575",
+    "firebase_url": "https://mdc2018soloviev.firebaseio.com",
+    "project_id": "mdc2018soloviev",
+    "storage_bucket": "mdc2018soloviev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:754710407575:android:4aecdac13c69baf8",
+        "android_client_info": {
+          "package_name": "com.mortr.soloviev.mdc2018soloviev.mdc2018solo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "754710407575-rvueb30s17ckkee7tjis5jqjh6kc3hop.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mortr.soloviev.mdc2018soloviev.mdc2018solo",
+            "certificate_hash": "00ff47901690ef2f38abb79fd3fd25470c87821e"
+          }
+        },
+        {
+          "client_id": "754710407575-v77da5p44p11rkkklj7uvfgu3gjpj5td.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAph3oWoVhE41i9L4TkvDdXvVFa6z4WCqo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "754710407575-v77da5p44p11rkkklj7uvfgu3gjpj5td.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

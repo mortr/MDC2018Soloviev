@@ -71,5 +71,10 @@
     <string name="pref_choose_image_source">اختر مصدر الصورة</string>
     <string name="yandex_source_description_text">yandex</string>
     <string name="flickr_source_description_text">flickr</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">Ok</string>
+    <string name="cancel_dialog_title">exit</string>
+    <string name="exit_text">are you shure?</string>
+    <string name="interesting_information">Interesting information :</string>
 
 </resources>

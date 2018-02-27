@@ -68,5 +68,10 @@
     <string name="pref_choose_image_source">Выберите источник картинок</string>
     <string name="yandex_source_description_text">yandex</string>
     <string name="flickr_source_description_text">flickr</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">Ok</string>
+    <string name="cancel_dialog_title">Выход из приложения</string>
+    <string name="exit_text">Вы действительно хотите выйти из приложения?</string>
+    <string name="interesting_information">Интересная информация :</string>
 
 </resources>
