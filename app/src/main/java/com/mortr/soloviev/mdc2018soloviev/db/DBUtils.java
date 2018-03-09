@@ -88,6 +88,22 @@ public class DBUtils {
         return contentValues;
     }
 
+    private static ContentValues createContentValues(ComponentName componentName, Context context, int startCount) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(IS_SYSTEM, isSystemApp(context, componentName.getPackageName()) ? 1 : 0);
+        contentValues.put(PACKAGE_NAME, componentName.getPackageName());
+        contentValues.put(ACTIVITY_NAME, componentName.getClassName());
+        contentValues.put(STARTS_COUNT, startCount);
+        try {
+            contentValues.put(DATE_INSTALLED,
+                    context.getPackageManager().getPackageInfo(componentName.getPackageName(), 0).firstInstallTime);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            contentValues.put(DATE_INSTALLED, 0);
+        }
+        return contentValues;
+    }
+
     private static ContentValues createContentValues(@NonNull ComponentName componentName, float x, float y, Context context, @Nullable DBApplicationItem dbApplicationItem) {
         ContentValues contentValues = new ContentValues();
         String packageName = componentName.getPackageName();
@@ -217,6 +233,26 @@ public class DBUtils {
             db.updateWithOnConflict(TABLE_NAME, contentValues, PACKAGE_NAME + " = ?", args, SQLiteDatabase.CONFLICT_REPLACE);
         }
     }
+
+    public static void onStartApp(ComponentName componentName, Context context, SQLiteDatabase db) {
+        int startCount = 1;
+        String[] args = {componentName.getPackageName()};
+        Cursor cursor = db.rawQuery(DB_SQL_SELECT_APP_WITH_NAME, args);
+        boolean isFirst = true;
+        if (cursor.moveToFirst()) {
+            startCount += cursor.getInt(cursor.getColumnIndex(MyDatabase.Columns.STARTS_COUNT));
+            isFirst = false;
+        }
+        cursor.close();
+
+        ContentValues contentValues = createContentValues(componentName, context, startCount);
+        if (isFirst) {
+            db.insert(TABLE_NAME, MyDatabase.Columns.IS_SYSTEM, contentValues);
+        } else {
+            db.updateWithOnConflict(TABLE_NAME, contentValues, PACKAGE_NAME + " = ?", args, SQLiteDatabase.CONFLICT_REPLACE);
+        }
+    }
+
 
 //    public static void onRemoveApp(ResolveInfo info, SQLiteDatabase db) {
 //        db.delete(TABLE_NAME, PACKAGE_NAME + " = ?", new String[]{info.activityInfo.packageName});

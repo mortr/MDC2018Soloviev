@@ -1,8 +1,10 @@
 package com.mortr.soloviev.mdc2018soloviev.ui.launcher;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -12,19 +14,18 @@ import com.mortr.soloviev.mdc2018soloviev.utils.Utils;
 
 import java.util.List;
 
-import io.fabric.sdk.android.services.concurrency.AsyncTask;
-
 import static com.mortr.soloviev.mdc2018soloviev.utils.Utils.getListApplications;
 import static com.mortr.soloviev.mdc2018soloviev.utils.Utils.getSortedApps;
 
 
-public abstract class LaunchPagesFragment extends Fragment implements PageForegroundable, AppsChangeObservable.AppsChangeObserver {
+public abstract class LaunchPagesFragment extends Fragment implements PageForegroundable, AppsChangeObservable.AppsChangeObserver, AppsStartedFromMDCObservable.AppsStartedFromMDCObserver {
     @Nullable
     private LauncherApplicationsAdapter adapter;
     private Utils.SortType sortType = Utils.SortType.DEFAULT;
     public static final String TAG = "LaunchPagesFr";
     private LauncherApplicationsAdapter.AppItemClickListener appItemClickListener;
-//    private boolean isNeedChangeRequestOrientation;
+    private boolean isNeedRefreshing;
+    //    private boolean isNeedChangeRequestOrientation;
 
     @Nullable
     public LauncherApplicationsAdapter getAdapter() {
@@ -57,8 +58,11 @@ public abstract class LaunchPagesFragment extends Fragment implements PageForegr
             appItemClickListener = (LauncherApplicationsAdapter.AppItemClickListener) context;
             if (adapter != null) {
                 adapter.setAppItemClickListener(appItemClickListener);
-                checkSortType();
+                checkRefreshAdapterNecessity();
             }
+        }
+        if (context instanceof AppsStartedFromMDCObservable) {
+            ((AppsStartedFromMDCObservable) context).addAppsStartedFromMDCObserver(this);
         }
 //        if (isNeedChangeRequestOrientation){
 //            if (((Activity)context).getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED) {
@@ -100,12 +104,13 @@ public abstract class LaunchPagesFragment extends Fragment implements PageForegr
 //        } else {
 //            isNeedChangeRequestOrientation = true;
 //        }
-        checkSortType();
+        checkRefreshAdapterNecessity();
         Utils.sendYAPPMEvent(Utils.YAPPEventName.LAUNCH_PAGE_ON_FOREGROUND, LaunchPagesFragment.this.getClass().getName());
     }
 
     private void refreshAppsToAdapter(Utils.SortType newSortType, List<ResolveInfo> sortedApps) {
         sortType = newSortType;
+        isNeedRefreshing = false;
         if (adapter != null) {
             adapter.setNewAppList(sortedApps);
         }
@@ -115,9 +120,21 @@ public abstract class LaunchPagesFragment extends Fragment implements PageForegr
     public void onDetach() {
         super.onDetach();
         Context context = getContext();
-//        if (context instanceof AppsChangeObservable) {
-//            ((AppsChangeObservable) context).removeAppsChangeObserver(this);
-//        }
+        if (context instanceof AppsChangeObservable) {
+            ((AppsChangeObservable) context).removeAppsChangeObserver(this);
+        }
+        if (context instanceof AppsStartedFromMDCObservable) {
+            ((AppsStartedFromMDCObservable) context).removeAppsStartedFromMDCObserver(this);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (isNeedRefreshing){
+            Context context=getContext();
+            refreshAppsToAdapter(sortType, getSortedApps(getListApplications(context), sortType, context));
+        }
     }
 
     @Override
@@ -132,16 +149,29 @@ public abstract class LaunchPagesFragment extends Fragment implements PageForegr
         }
     }
 
-    private void checkSortType() {//TODO maybe it is needed move to Activity(Observer-Observable)
+    private void checkRefreshAdapterNecessity() {//TODO maybe it is needed move to Activity(Observer-Observable)
         Context context = getContext();
         if (context == null) {
             return;
         }
         Utils.SortType newSortType = Utils.getTypeSort(context);
-        if (!sortType.equals(newSortType)) {
+        if ((!sortType.equals(newSortType)) || isNeedRefreshing) {
             refreshAppsToAdapter(newSortType, getSortedApps(getListApplications(context), newSortType, context));//TODO move to asynctask
         }
     }
 
+    @NonNull
     abstract LauncherApplicationsAdapter createAdapter();
+
+    @Override
+    public void onAppsStarting(ComponentName componentName) {
+        if (sortType.equals(Utils.SortType.SORT_START_COUNT)) {
+//            Context context = getContext();
+//            if (context != null) {
+//                refreshAppsToAdapter(sortType, getSortedApps(getListApplications(context), sortType, context));//TODO move to asynctask
+//            } else {
+                isNeedRefreshing = true;
+//            }
+        }
+    }
 }
