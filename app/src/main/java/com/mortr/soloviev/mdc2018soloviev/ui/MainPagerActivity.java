@@ -50,6 +50,7 @@ import com.mortr.soloviev.mdc2018soloviev.ui.desktop.DesktopAppMovable;
 import com.mortr.soloviev.mdc2018soloviev.ui.desktop.DesktopFragment;
 import com.mortr.soloviev.mdc2018soloviev.ui.desktop.WorkspaceDeskAppManagerable;
 import com.mortr.soloviev.mdc2018soloviev.ui.launcher.AppsChangeObservable;
+import com.mortr.soloviev.mdc2018soloviev.ui.launcher.AppsStartedFromMDCObservable;
 import com.mortr.soloviev.mdc2018soloviev.ui.launcher.LauncherApplicationsAdapter;
 import com.mortr.soloviev.mdc2018soloviev.ui.launcher.LauncherFragment;
 import com.mortr.soloviev.mdc2018soloviev.ui.launcher.LauncherListFragment;
@@ -67,7 +68,7 @@ import static com.mortr.soloviev.mdc2018soloviev.utils.Utils.getProcessedBitmap;
 //todo change to LC components
 public class MainPagerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        AppsChangeObservable, AppChooseActivityLauncher,
+        AppsChangeObservable, AppChooseActivityLauncher,AppsStartedFromMDCObservable,
         LauncherApplicationsAdapter.AppItemClickListener, WorkspaceDeskAppManagerable,
         SettingsFragment.PeriodTimeObserver, SettingsFragment.ImageSourceChangeObserver {
 
@@ -83,6 +84,7 @@ public class MainPagerActivity extends AppCompatActivity
 
     private DrawerLayout drawer;
     private List<AppsChangeObserver> observerList = new ArrayList<>();
+    private ArrayList<AppsStartedFromMDCObserver> appsStartedFromMDCObserverList=new ArrayList<>();
     private BroadcastReceiver broadcastReceiver;
     private ViewPager viewPager;
     @Nullable
@@ -255,28 +257,6 @@ public class MainPagerActivity extends AppCompatActivity
     }
 
 
-    @Override
-    public void addAppsChangeObserver(AppsChangeObserver observer) {
-        observerList.add(observer);
-    }
-
-    @Override
-    public void removeAppsChangeObserver(AppsChangeObserver observer) {
-        observerList.remove(observer);
-    }
-
-    @Override
-    public void notifyAppsChangeObservers() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                for (AppsChangeObserver observer : observerList) {
-                    observer.onListApplicationsWasChanged();
-                }
-
-            }
-        });
-    }
 
     @Override
     protected void onStart() {
@@ -346,6 +326,51 @@ public class MainPagerActivity extends AppCompatActivity
 
 
     @Override
+    public void addAppsChangeObserver(AppsChangeObserver observer) {
+        observerList.add(observer);
+    }
+
+    @Override
+    public void removeAppsChangeObserver(AppsChangeObserver observer) {
+        observerList.remove(observer);
+    }
+
+    @Override
+    public void notifyAppsChangeObservers() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                for (AppsChangeObserver observer : observerList) {
+                    observer.onListApplicationsWasChanged();
+                }
+
+            }
+        });
+    }
+
+
+    @Override
+    public void addAppsStartedFromMDCObserver(AppsStartedFromMDCObserver observer) {
+        appsStartedFromMDCObserverList.add(observer);
+    }
+
+    @Override
+    public void removeAppsStartedFromMDCObserver(AppsStartedFromMDCObserver observer) {
+        appsStartedFromMDCObserverList.remove(observer);
+    }
+
+    @Override
+    public void notifyAppsStartedFromMDCObserver(ComponentName componentName) {
+        for (AppsStartedFromMDCObserver observer : appsStartedFromMDCObserverList) {
+            observer.onAppsStarting(componentName);
+        }
+    }
+
+
+
+
+
+    @Override
     public void setChooseAppReceiverable(@Nullable ChooseAppReceiverable chooseAppReceiverable) {
         this.chooseAppReceiverable = chooseAppReceiverable;
     }
@@ -369,10 +394,15 @@ public class MainPagerActivity extends AppCompatActivity
 
     @Override
     public void onClickApplicationItem(ResolveInfo appInfo, View v) {
+        ComponentName componentName=new ComponentName(appInfo.activityInfo.packageName,appInfo.activityInfo.name);
+        launchApp(v, componentName);
+    }
+
+    private void launchApp(View v, ComponentName componentName) {
         final DBHelper dbHelper = new DBHelper(v.getContext());
-        DBUtils.onStartApp(appInfo, v.getContext(), dbHelper.getWritableDatabase());
+        DBUtils.onStartApp(componentName, v.getContext(), dbHelper.getWritableDatabase());
         dbHelper.close();
-        Utils.launchApp(appInfo, this);
+        startApp(componentName);
     }
 
     @Override
@@ -388,7 +418,6 @@ public class MainPagerActivity extends AppCompatActivity
         if (desktopAppMovable != null && componentName != null) {
             final PopupMenu popup = new PopupMenu(v.getContext(), v);
             popup.inflate(R.menu.desktop_app_context_menu);
-            final DBHelper dbHelper = new DBHelper(v.getContext());
             popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
@@ -409,8 +438,13 @@ public class MainPagerActivity extends AppCompatActivity
     @Override
     public void onDeskAppClick(@Nullable ComponentName componentName, View v) {
         if (componentName != null) {
-            Utils.launchApp(componentName, this);
+            launchApp(v, componentName);
         }
+    }
+
+    private void startApp(@Nullable ComponentName componentName) {
+        notifyAppsStartedFromMDCObserver(componentName);
+        Utils.launchApp(componentName, this);
     }
 
     @Override
